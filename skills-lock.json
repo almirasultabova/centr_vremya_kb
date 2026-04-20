@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "skills": {
+    "article-writing": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "computedHash": "c6b3dc9b8503229a33d4adb30f5a29986c13639479d789881aa3d24dc1bbff6d"
+    },
+    "content-engine": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "computedHash": "aaedb6025dc30648c67330139f2927b663855f075d32d8c7aa7379d3db06831a"
+    },
+    "using-superpowers": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "computedHash": "af9db85109491dbe11f36b13724835f0f03583a5e026bf496b3b257e27a3f753"
+    }
+  }
+}
