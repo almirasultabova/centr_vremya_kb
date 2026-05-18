@@ -1,0 +1,1442 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Визитка «Время» — 4 концепта</title>
+<style>
+  :root {
+    --purple: #740298;
+    --purple-deep: #4a015f;
+    --purple-soft: #f3e8f7;
+    --ink: #111827;
+    --muted: #6b7280;
+    --paper: #faf8f3;
+    --paper-deep: #ece6dc;
+    --bg: #dcd9d2;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    background: var(--bg);
+    font-family: 'Inter', 'Manrope', -apple-system, system-ui, sans-serif;
+    color: var(--ink);
+  }
+  .page { max-width: 1200px; margin: 0 auto; padding: 48px 32px 96px; }
+  h1 {
+    font-size: 24px; font-weight: 600; letter-spacing: -0.01em;
+    margin: 0 0 8px;
+  }
+  .lede {
+    color: var(--muted); font-size: 14px; max-width: 740px;
+    line-height: 1.6; margin: 0 0 56px;
+  }
+  .concept { margin-bottom: 88px; }
+  .concept-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 6px; }
+  .concept-num {
+    font-size: 13px; font-weight: 700;
+    color: var(--purple); letter-spacing: 0.08em;
+  }
+  .concept-title {
+    font-size: 22px; font-weight: 600; letter-spacing: -0.01em;
+  }
+  .concept-desc {
+    color: var(--muted); font-size: 13px; line-height: 1.6;
+    max-width: 720px; margin: 0 0 28px;
+  }
+  .cards-row {
+    display: flex; gap: 36px; align-items: flex-start; flex-wrap: wrap;
+  }
+  .card-wrap { display: flex; flex-direction: column; gap: 10px; }
+  .card-label {
+    font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.14em; color: var(--muted);
+  }
+  .scale {
+    font-size: 10px; color: var(--muted); margin-top: 2px;
+  }
+
+  /* Card base */
+  .card {
+    background: var(--paper);
+    border-radius: 6px;
+    position: relative;
+    box-shadow:
+      0 1px 0 rgba(0,0,0,0.04),
+      0 14px 32px -12px rgba(116, 2, 152, 0.22),
+      0 28px 60px -28px rgba(0,0,0,0.4);
+    overflow: hidden;
+  }
+  .card::after {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(140% 100% at 30% 0%, rgba(255,255,255,0.55), transparent 60%);
+    pointer-events: none;
+    z-index: 5;
+  }
+  .size-85x55 { width: 306px; height: 198px; }
+  .size-50x150 { width: 180px; height: 540px; }
+  .size-85x110 { width: 306px; height: 396px; }
+
+  /* Purple edge */
+  .edge-bottom { border-bottom: 4px solid var(--purple); }
+  .edge-right { border-right: 4px solid var(--purple); }
+
+  /* ============================================
+     CONCEPT 1 — МАК
+     ============================================ */
+  .mak-face {
+    height: 100%;
+    background: linear-gradient(160deg, #2a0035 0%, #4a015f 50%, #6b0288 100%);
+    position: relative;
+    padding: 22px;
+    color: #f5e6fa;
+    display: flex; flex-direction: column; justify-content: flex-end;
+  }
+  .mak-art {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .mak-question {
+    position: relative; z-index: 2;
+    font-size: 16px; line-height: 1.35;
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: -0.005em;
+    max-width: 75%;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.4);
+  }
+  .mak-mark {
+    position: absolute; top: 18px; right: 22px;
+    font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.55;
+    z-index: 2;
+  }
+  .mak-back {
+    height: 100%; padding: 22px;
+    display: flex; flex-direction: column;
+  }
+  .mak-back .infinity-small {
+    font-size: 38px; line-height: 1;
+    color: var(--purple);
+    font-weight: 300; letter-spacing: -0.04em;
+    margin-bottom: 4px;
+  }
+  .mak-back .brand-eyebrow {
+    font-size: 9px; text-transform: uppercase;
+    letter-spacing: 0.22em; color: var(--muted); margin-bottom: 4px;
+  }
+  .mak-back .brand-name {
+    font-size: 24px; font-weight: 600;
+    letter-spacing: -0.02em; line-height: 1;
+  }
+  .mak-back .slogan {
+    font-size: 10px; color: var(--purple);
+    margin-top: 6px; margin-bottom: 14px;
+  }
+  .mak-cta {
+    background: var(--purple);
+    color: #fff; border-radius: 4px;
+    padding: 8px 10px;
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 10px;
+  }
+  .mak-cta .txt { flex: 1; }
+  .mak-cta .eb { font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.75; }
+  .mak-cta .h { font-size: 11px; font-weight: 600; line-height: 1.2; }
+  .qr-mini {
+    width: 36px; height: 36px;
+    background:
+      radial-gradient(#fff 1px, transparent 1.2px) 0 0/5px 5px,
+      radial-gradient(#fff 1px, transparent 1.2px) 2.5px 2.5px/5px 5px,
+      #000;
+    border-radius: 3px; flex: 0 0 auto;
+  }
+  .mak-contacts {
+    margin-top: auto;
+    font-size: 9px; line-height: 1.5; color: var(--ink);
+    border-top: 1px solid #ece9e3; padding-top: 7px;
+    display: flex; justify-content: space-between; gap: 8px;
+  }
+  .mak-contacts strong { font-size: 10px; }
+  .mak-contacts .right { color: var(--muted); text-align: right; }
+
+  /* ============================================
+     CONCEPT 2 — практика
+     ============================================ */
+  .prac-face {
+    height: 100%; padding: 22px 24px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    background: var(--paper);
+  }
+  .prac-face .inf {
+    font-size: 50px; line-height: 1;
+    color: transparent;
+    text-shadow:
+      0 1px 0 rgba(255,255,255,0.9),
+      0 -1px 1px rgba(0,0,0,0.12),
+      0 2px 2px rgba(0,0,0,0.06);
+    font-weight: 300; letter-spacing: -0.04em;
+  }
+  .prac-face .brand-block { margin-top: auto; }
+  .prac-face .eb {
+    font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.22em; color: var(--muted);
+  }
+  .prac-face .nm {
+    font-size: 30px; font-weight: 600;
+    letter-spacing: -0.02em; line-height: 1; margin-top: 4px;
+  }
+  .prac-face .sl {
+    font-size: 10px; color: var(--purple); margin-top: 8px;
+  }
+  .prac-face .foot {
+    position: absolute; right: 22px; bottom: 14px;
+    font-size: 8px; color: var(--muted);
+    letter-spacing: 0.06em; text-align: right;
+  }
+
+  .prac-back {
+    height: 100%; padding: 18px 20px;
+    background: var(--paper);
+    display: flex; flex-direction: column;
+  }
+  .prac-back .label-top {
+    font-size: 9px; text-transform: uppercase;
+    letter-spacing: 0.18em; color: var(--purple);
+    margin-bottom: 4px; font-weight: 600;
+  }
+  .prac-back .h {
+    font-size: 13px; font-weight: 600; line-height: 1.25;
+    margin-bottom: 10px;
+  }
+  .breath {
+    display: flex; align-items: center; gap: 14px; margin-bottom: 10px;
+  }
+  .breath-circle {
+    width: 76px; height: 76px;
+    border-radius: 50%;
+    border: 2px solid var(--purple);
+    position: relative;
+    flex: 0 0 auto;
+    background:
+      radial-gradient(circle, var(--purple-soft) 30%, transparent 60%);
+  }
+  .breath-circle::before {
+    content: "4-7-8";
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 600; color: var(--purple);
+    letter-spacing: 0.05em;
+  }
+  .breath-steps {
+    font-size: 10px; line-height: 1.55; color: var(--ink);
+  }
+  .breath-steps b { color: var(--purple); }
+  .prac-foot {
+    margin-top: auto;
+    border-top: 1px solid #ece9e3; padding-top: 7px;
+    display: flex; justify-content: space-between; align-items: flex-end; gap: 10px;
+  }
+  .prac-foot .left { font-size: 9px; line-height: 1.5; }
+  .prac-foot .left strong { font-size: 10.5px; }
+  .prac-foot .right {
+    font-size: 8px; color: var(--muted); text-align: right;
+    line-height: 1.5; letter-spacing: 0.02em;
+  }
+  .prac-mini-cta {
+    font-size: 9px; color: var(--purple);
+    border-top: 1px dashed var(--purple);
+    padding-top: 6px; margin-top: 8px;
+    text-align: center;
+  }
+
+  /* ============================================
+     CONCEPT 3 — закладка
+     ============================================ */
+  .book-face {
+    height: 100%; padding: 24px 16px;
+    background: linear-gradient(180deg, var(--paper) 0%, var(--paper-deep) 100%);
+    display: flex; flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+  .book-face .top-eb {
+    font-size: 8px; text-transform: uppercase;
+    letter-spacing: 0.3em; color: var(--muted);
+    writing-mode: horizontal-tb;
+  }
+  .book-inf-big {
+    margin-top: 38px;
+    font-size: 90px; line-height: 1;
+    color: var(--purple);
+    font-weight: 200; letter-spacing: -0.05em;
+  }
+  .book-vert {
+    margin-top: 24px;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .book-slogan {
+    margin-top: auto;
+    font-size: 9px; color: var(--purple);
+    text-align: center; line-height: 1.4;
+    font-style: italic;
+  }
+  .book-tassel {
+    position: absolute; top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 4px; height: 18px;
+    background: var(--purple);
+    border-radius: 0 0 2px 2px;
+  }
+
+  .book-back {
+    height: 100%; padding: 22px 14px 20px;
+    background: var(--paper);
+    display: flex; flex-direction: column;
+  }
+  .book-back .label-top {
+    font-size: 8px; text-transform: uppercase;
+    letter-spacing: 0.2em; color: var(--muted);
+    text-align: center; margin-bottom: 12px;
+  }
+  .book-list {
+    list-style: none; padding: 0; margin: 0 0 14px;
+  }
+  .book-list li {
+    font-size: 10px; line-height: 1.9;
+    color: var(--ink);
+    padding-left: 10px; position: relative;
+    border-bottom: 1px solid #ece9e3;
+  }
+  .book-list li::before {
+    content: "·"; position: absolute; left: 0;
+    color: var(--purple); font-weight: 700;
+  }
+  .book-cta-wrap {
+    margin-top: auto;
+  }
+  .book-cta {
+    background: var(--purple);
+    color: #fff; padding: 10px 8px;
+    border-radius: 4px;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .book-cta .eb { font-size: 7px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.75; }
+  .book-cta .h { font-size: 11px; font-weight: 600; margin-top: 2px; line-height: 1.2; }
+  .book-qr-row {
+    display: flex; gap: 8px; align-items: center;
+    margin-bottom: 8px;
+  }
+  .book-qr-row .qr-mini { width: 30px; height: 30px; }
+  .book-qr-row span { font-size: 8px; color: var(--muted); line-height: 1.3; }
+  .book-foot {
+    border-top: 1px solid #ece9e3; padding-top: 6px;
+    font-size: 8px; line-height: 1.5; text-align: center;
+  }
+  .book-foot strong { font-size: 9px; display: block; }
+  .book-foot .meta { color: var(--muted); margin-top: 2px; font-size: 7.5px; letter-spacing: 0.04em; }
+
+  /* ============================================
+     CONCEPT 4 — отрывная
+     ============================================ */
+  .tear-card { position: relative; }
+  .tear-line {
+    position: absolute;
+    left: 0; right: 0;
+    top: 198px;
+    height: 0;
+    border-top: 2px dashed #c9c2b3;
+    z-index: 4;
+    pointer-events: none;
+  }
+  .tear-line::before,
+  .tear-line::after {
+    content: ""; position: absolute;
+    top: -7px; width: 12px; height: 12px;
+    background: var(--bg);
+    border-radius: 50%;
+  }
+  .tear-line::before { left: -6px; }
+  .tear-line::after { right: -6px; }
+
+  .tear-top {
+    height: 198px; padding: 22px 24px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    background: var(--paper);
+    position: relative;
+  }
+  .tear-top .inf {
+    font-size: 48px; line-height: 1;
+    color: transparent;
+    text-shadow:
+      0 1px 0 rgba(255,255,255,0.9),
+      0 -1px 1px rgba(0,0,0,0.12),
+      0 2px 2px rgba(0,0,0,0.06);
+    font-weight: 300; letter-spacing: -0.04em;
+  }
+  .tear-top .brand-block { margin-top: auto; }
+  .tear-top .eb {
+    font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.22em; color: var(--muted);
+  }
+  .tear-top .nm {
+    font-size: 28px; font-weight: 600;
+    letter-spacing: -0.02em; line-height: 1; margin-top: 4px;
+  }
+  .tear-top .sl { font-size: 10px; color: var(--purple); margin-top: 8px; }
+  .tear-top .ct {
+    font-size: 9px; color: var(--muted); margin-top: 10px;
+    line-height: 1.5;
+  }
+  .tear-top .ct strong { font-size: 10.5px; color: var(--ink); }
+
+  .tear-bottom {
+    height: 198px;
+    background:
+      repeating-linear-gradient(
+        45deg,
+        var(--purple) 0px,
+        var(--purple) 1px,
+        var(--purple-deep) 1px,
+        var(--purple-deep) 12px
+      );
+    background-color: var(--purple);
+    color: #fff;
+    padding: 22px 24px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    position: relative;
+  }
+  .tear-bottom::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: var(--purple);
+    opacity: 0.93;
+  }
+  .tear-bottom > * { position: relative; z-index: 2; }
+  .tear-bottom .eb {
+    font-size: 9px; text-transform: uppercase;
+    letter-spacing: 0.2em; opacity: 0.7;
+  }
+  .tear-bottom .gift {
+    font-size: 22px; font-weight: 600; line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin-top: 6px;
+  }
+  .tear-bottom .gift b { font-weight: 700; }
+  .tear-bottom .sub {
+    font-size: 11px; line-height: 1.45;
+    opacity: 0.92; margin-top: 8px;
+    max-width: 80%;
+  }
+  .tear-bottom .row-foot {
+    display: flex; justify-content: space-between;
+    align-items: flex-end; gap: 10px;
+  }
+  .tear-bottom .promo {
+    font-size: 9px; letter-spacing: 0.18em;
+    text-transform: uppercase;
+    border: 1px dashed rgba(255,255,255,0.5);
+    padding: 4px 8px; border-radius: 3px;
+  }
+  .tear-bottom .qr-mini {
+    width: 42px; height: 42px;
+    background:
+      radial-gradient(#fff 1.2px, transparent 1.4px) 0 0/5.5px 5.5px,
+      radial-gradient(#fff 1.2px, transparent 1.4px) 2.75px 2.75px/5.5px 5.5px,
+      #fff;
+    border: 2px solid #fff;
+    /* проще: белый QR на фиолетовом */
+    background: #fff;
+    position: relative;
+  }
+  .tear-bottom .qr-mini::before {
+    content: "";
+    position: absolute; inset: 4px;
+    background:
+      radial-gradient(#000 1px, transparent 1.2px) 0 0/4px 4px,
+      radial-gradient(#000 1px, transparent 1.2px) 2px 2px/4px 4px,
+      #fff;
+  }
+
+  /* ============================================
+     Notes
+     ============================================ */
+  .notes-col {
+    max-width: 320px;
+    font-size: 12px; line-height: 1.65; color: var(--muted);
+  }
+  .notes-col b { color: var(--ink); font-weight: 600; }
+  .notes-col .pro { color: #166534; font-weight: 600; }
+  .notes-col .con { color: #b45309; font-weight: 600; }
+  .swatch {
+    display: inline-block; width: 10px; height: 10px;
+    background: var(--purple); border-radius: 2px;
+    vertical-align: -1px; margin-right: 4px;
+  }
+
+  /* svg illustration for МАК */
+  .mak-svg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    opacity: 0.7;
+  }
+
+  hr.sep {
+    border: none;
+    border-top: 1px solid #c9c2b3;
+    margin: 56px 0 0;
+  }
+
+  /* ============================================
+     NEW: горизонтальный формат + бренд-лого (круг + ∞ + ВРЕМЯ)
+     ============================================ */
+  .size-90x50 { width: 324px; height: 180px; }
+  .size-90x100 { width: 324px; height: 360px; }
+  .size-180x50 { width: 648px; height: 180px; }
+
+  .h-card { background: var(--paper); }
+  .h-face {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    overflow: hidden;
+  }
+  .h-face-left {
+    padding: 18px 20px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .h-face-right {
+    background: linear-gradient(135deg, #f3e8f7 0%, #e9d3f0 50%, #d9b8e6 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .h-face-right svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .h-logo-row { display: flex; align-items: center; gap: 10px; }
+  .h-logo-circle {
+    width: 38px; height: 38px;
+    background: var(--purple);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex: 0 0 auto;
+  }
+  .h-logo-circle::before {
+    content: "∞";
+    color: #fff;
+    font-size: 22px;
+    font-weight: 300;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-top: -2px;
+  }
+  .h-logo-text .nm {
+    font-size: 22px; font-weight: 700;
+    letter-spacing: 0.04em; line-height: 1;
+    color: var(--ink);
+  }
+  .h-logo-text .eb {
+    font-size: 8px; text-transform: uppercase;
+    letter-spacing: 0.18em; color: var(--muted);
+    margin-top: 2px;
+  }
+  .h-slogan {
+    font-size: 9.5px; color: var(--purple);
+    margin-top: 4px; padding-left: 48px;
+  }
+  .h-contacts {
+    font-size: 9px; line-height: 1.7; color: var(--ink);
+  }
+  .h-contacts .ic { color: var(--purple); margin-right: 4px; }
+  .h-meta {
+    font-size: 8.5px; color: var(--muted);
+    border-top: 1px solid #ece9e3; padding-top: 5px;
+    margin-top: 4px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ============================================
+     CONCEPT 5 — горизонтальная МАК-сцена
+     ============================================ */
+  .mak2-scene {
+    background: linear-gradient(160deg, #1f0028 0%, #3c014e 60%, #5a0276 100%);
+  }
+  .mak2-quote {
+    position: absolute;
+    left: 14px; right: 14px; bottom: 14px;
+    color: #f5e6fa;
+    font-size: 10.5px; line-height: 1.35;
+    font-style: italic;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+    z-index: 3;
+  }
+  .mak2-mark {
+    position: absolute; top: 12px; right: 14px;
+    font-size: 8px; letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #f5e6fa; opacity: 0.6;
+    z-index: 3;
+  }
+
+  /* back for mak2 */
+  .mak2-back {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1.3fr 0.7fr;
+  }
+  .mak2-back-left {
+    padding: 18px 20px;
+    display: flex; flex-direction: column;
+  }
+  .mak2-eb {
+    font-size: 8px; text-transform: uppercase;
+    letter-spacing: 0.2em; color: var(--purple);
+    margin-bottom: 4px;
+  }
+  .mak2-h {
+    font-size: 18px; font-weight: 600;
+    letter-spacing: -0.01em; line-height: 1.15;
+    margin-bottom: 6px;
+  }
+  .mak2-offer {
+    font-size: 14px; font-weight: 600;
+    color: var(--purple); margin-bottom: 8px;
+  }
+  .mak2-sub {
+    font-size: 9.5px; color: var(--muted);
+    line-height: 1.45; margin-bottom: 8px;
+  }
+  .mak2-icons {
+    display: flex; gap: 12px;
+    margin-top: auto;
+  }
+  .mak2-icon {
+    flex: 1;
+    text-align: center;
+    font-size: 8px;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .mak2-icon .ico {
+    font-size: 16px;
+    color: var(--purple);
+    display: block;
+    margin-bottom: 3px;
+  }
+  .mak2-back-right {
+    background: var(--purple-soft);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 14px 10px;
+  }
+  .qr-big {
+    width: 78px; height: 78px;
+    background: #fff;
+    border-radius: 4px;
+    position: relative;
+    margin-bottom: 8px;
+  }
+  .qr-big::before {
+    content: "";
+    position: absolute; inset: 6px;
+    background:
+      radial-gradient(#000 1.2px, transparent 1.4px) 0 0/5px 5px,
+      radial-gradient(#000 1.2px, transparent 1.4px) 2.5px 2.5px/5px 5px,
+      #fff;
+  }
+  .qr-pill {
+    background: var(--purple);
+    color: #fff;
+    font-size: 9px;
+    padding: 5px 10px;
+    border-radius: 14px;
+    font-weight: 500;
+  }
+
+  /* ============================================
+     CONCEPT 6 — горизонтальная отрывная (90×100)
+     ============================================ */
+  .tear-h { position: relative; }
+  .tear-h-line {
+    position: absolute;
+    left: 0; right: 0; top: 180px;
+    border-top: 2px dashed #c9c2b3;
+    z-index: 4; pointer-events: none;
+  }
+  .tear-h-line::before, .tear-h-line::after {
+    content: ""; position: absolute;
+    top: -7px; width: 12px; height: 12px;
+    background: var(--bg); border-radius: 50%;
+  }
+  .tear-h-line::before { left: -6px; }
+  .tear-h-line::after { right: -6px; }
+
+  .tear-h-top {
+    height: 180px;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    background: var(--paper);
+  }
+  .tear-h-photo {
+    position: relative;
+    background:
+      radial-gradient(ellipse at 30% 30%, #f3e8f7 0%, transparent 60%),
+      linear-gradient(135deg, #ebd9bc 0%, #d4b896 100%);
+    overflow: hidden;
+  }
+  .tear-h-photo svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+  .tear-h-bottom {
+    height: 180px;
+    background: var(--purple);
+    color: #fff;
+    padding: 20px 24px;
+    display: grid;
+    grid-template-columns: 1fr 0.6fr;
+    gap: 14px;
+    position: relative;
+    overflow: hidden;
+  }
+  .tear-h-bottom::after {
+    content: "∞";
+    position: absolute;
+    right: -30px; bottom: -50px;
+    font-size: 200px; line-height: 1;
+    color: #fff;
+    opacity: 0.08;
+    font-weight: 200;
+  }
+  .tear-h-bottom .eb {
+    font-size: 9px; text-transform: uppercase;
+    letter-spacing: 0.22em; opacity: 0.7;
+  }
+  .tear-h-bottom .gift {
+    font-size: 24px; font-weight: 700;
+    letter-spacing: -0.01em; line-height: 1.05;
+    margin-top: 8px;
+  }
+  .tear-h-bottom .gift small {
+    font-size: 13px; font-weight: 400;
+    display: block; margin-top: 4px;
+    opacity: 0.9;
+  }
+  .tear-h-bottom .sub {
+    font-size: 9.5px; line-height: 1.45;
+    margin-top: 10px; opacity: 0.88;
+    max-width: 95%;
+  }
+  .tear-h-right {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    position: relative; z-index: 2;
+  }
+  .tear-h-right .qr-big { background: #fff; }
+  .tear-h-right .promo {
+    margin-top: 6px;
+    font-size: 8px; letter-spacing: 0.16em;
+    text-transform: uppercase;
+    border: 1px dashed rgba(255,255,255,0.55);
+    padding: 3px 6px; border-radius: 3px;
+  }
+
+  /* ============================================
+     CONCEPT 7 — складная евро-карточка (раскрыта 180×50)
+     ============================================ */
+  .euro-card {
+    background: var(--paper);
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    position: relative;
+  }
+  .euro-fold {
+    position: absolute;
+    top: 8px; bottom: 8px;
+    width: 0; border-left: 1px dashed #d4cdb8;
+  }
+  .euro-fold.f1 { left: 33.33%; }
+  .euro-fold.f2 { left: 66.66%; }
+  .euro-panel {
+    padding: 16px 18px;
+    display: flex; flex-direction: column;
+  }
+  .euro-panel.cover {
+    background: linear-gradient(160deg, var(--paper) 0%, var(--paper-deep) 100%);
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .euro-panel.cover .big-inf {
+    font-size: 64px; line-height: 1;
+    color: var(--purple);
+    font-weight: 200; letter-spacing: -0.05em;
+    margin-bottom: 8px;
+  }
+  .euro-panel.cover .nm {
+    font-size: 22px; font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .euro-panel.cover .eb {
+    font-size: 7.5px; text-transform: uppercase;
+    letter-spacing: 0.2em; color: var(--muted);
+    margin-top: 2px;
+  }
+  .euro-panel.cover .sl {
+    font-size: 8.5px; color: var(--purple);
+    margin-top: 10px;
+    font-style: italic;
+  }
+  .euro-panel.middle .h {
+    font-size: 11px; font-weight: 600;
+    color: var(--purple); margin-bottom: 8px;
+    letter-spacing: -0.005em;
+  }
+  .euro-list {
+    list-style: none; padding: 0; margin: 0;
+    font-size: 8.5px; line-height: 1.75;
+  }
+  .euro-list li {
+    padding-left: 10px; position: relative;
+  }
+  .euro-list li::before {
+    content: "·"; position: absolute; left: 0;
+    color: var(--purple); font-weight: 700;
+  }
+  .euro-panel.cta {
+    background: var(--purple);
+    color: #fff;
+    justify-content: space-between;
+  }
+  .euro-panel.cta .eb {
+    font-size: 7px; text-transform: uppercase;
+    letter-spacing: 0.18em; opacity: 0.75;
+  }
+  .euro-panel.cta .h {
+    font-size: 14px; font-weight: 600;
+    line-height: 1.2; margin-top: 4px;
+  }
+  .euro-panel.cta .price {
+    font-size: 13px; font-weight: 600;
+    margin-top: 8px;
+  }
+  .euro-panel.cta .qr-mini {
+    width: 42px; height: 42px;
+    background: #fff;
+    position: relative;
+    align-self: flex-end;
+    margin-top: 8px;
+  }
+  .euro-panel.cta .qr-mini::before {
+    content: "";
+    position: absolute; inset: 4px;
+    background:
+      radial-gradient(#000 1px, transparent 1.2px) 0 0/4px 4px,
+      radial-gradient(#000 1px, transparent 1.2px) 2px 2px/4px 4px,
+      #fff;
+  }
+  .euro-panel.cta .ct-foot {
+    font-size: 8px;
+    opacity: 0.85;
+    margin-top: 4px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <h1>Визитка «Время» — 4 направления</h1>
+  <p class="lede">
+    Все карточки нарисованы в реальном размере (1 мм ≈ 3.6 px на экране).
+    Иллюстрации, рельеф тиснения и текстуры — приблизительные, в типографии будет глубже.
+    Смотрите и говорите, что зашло.
+  </p>
+
+  <!-- =========================================================
+       КОНЦЕПТ 1 — МАК
+       ========================================================= -->
+  <div class="concept">
+    <div class="concept-head">
+      <span class="concept-num">01</span>
+      <div class="concept-title">Визитка-МАК</div>
+    </div>
+    <p class="concept-desc">
+      Лицо — метафорическая иллюстрация в фирменной фиолетовой палитре и один вопрос для саморефлексии.
+      Никакого логотипа. Только когда переворачиваешь — понимаешь, что это центр «Время».
+      Серия из 6–8 разных иллюстраций — клиенты коллекционируют.
+    </p>
+    <div class="cards-row">
+
+      <div class="card-wrap">
+        <div class="card-label">Лицо · иллюстрация</div>
+        <div class="card size-85x55 edge-bottom">
+          <div class="mak-face">
+            <svg class="mak-svg" viewBox="0 0 306 198" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <radialGradient id="glow" cx="50%" cy="40%" r="50%">
+                  <stop offset="0%" stop-color="#fff" stop-opacity="0.35"/>
+                  <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <circle cx="153" cy="80" r="100" fill="url(#glow)"/>
+              <!-- дверь приоткрытая -->
+              <g transform="translate(118 50)">
+                <rect x="0" y="0" width="50" height="100" rx="2" fill="none" stroke="#f5e6fa" stroke-width="1.2" opacity="0.5"/>
+                <path d="M 0 0 L 35 12 L 35 92 L 0 100 Z" fill="#2a0035" stroke="#f5e6fa" stroke-width="1.2" opacity="0.85"/>
+                <circle cx="6" cy="52" r="1.5" fill="#f5e6fa" opacity="0.7"/>
+                <!-- свет из-за двери -->
+                <path d="M 35 12 L 60 -8 L 60 112 L 35 92 Z" fill="#fff" opacity="0.12"/>
+              </g>
+            </svg>
+            <div class="mak-mark">∞ время</div>
+            <div class="mak-question">«Что вы сейчас откладываете на потом?»</div>
+          </div>
+        </div>
+        <div class="scale">85×55 мм · полноцветная печать + soft-touch</div>
+      </div>
+
+      <div class="card-wrap">
+        <div class="card-label">Оборот · бренд и запись</div>
+        <div class="card size-85x55 edge-bottom">
+          <div class="mak-back">
+            <div class="infinity-small">∞</div>
+            <div class="brand-eyebrow">Центр психологии</div>
+            <div class="brand-name">Время</div>
+            <div class="slogan">Раскрой свою бесконечность</div>
+
+            <div class="mak-cta">
+              <div class="txt">
+                <div class="eb">с чего начать</div>
+                <div class="h">Диагностика · 20 мин · 500 ₽</div>
+              </div>
+              <div class="qr-mini"></div>
+            </div>
+
+            <div class="mak-contacts">
+              <div><strong>8 929 589-99-05</strong><br>vremya-psy.ru</div>
+              <div class="right">Домодедово<br>11 лет · 4000+ клиентов</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="notes-col">
+        <b>Зачем так:</b><br>
+        Это не визитка — это маленькая МАК-карта.
+        Человек смотрит на изображение, считывает свой вопрос, кладёт на стол. Не выкидывает.<br><br>
+        <span class="pro">+</span> Аутентично вам — никто из конкурентов так не делает.<br>
+        <span class="pro">+</span> Серия → коллекционируют → ищут другие.<br>
+        <span class="pro">+</span> Сильный визуальный сигнал. Покажет «у нас глубоко».<br><br>
+        <span class="con">−</span> Не сразу понятно, что это центр. Нужно перевернуть.<br>
+        <span class="con">−</span> Полноцветная печать дороже (15–25 ₽/шт).
+      </div>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <!-- =========================================================
+       КОНЦЕПТ 2 — практика
+       ========================================================= -->
+  <div class="concept">
+    <div class="concept-head">
+      <span class="concept-num">02</span>
+      <div class="concept-title">Визитка-практика (скорая помощь)</div>
+    </div>
+    <p class="concept-desc">
+      Оборот — реально работающая техника на 60 секунд. Когда накрывает — человек достаёт визитку и пользуется.
+      Бренд закрепляется как «те, кто помог в плохой момент». Её не выкидывают никогда.
+    </p>
+    <div class="cards-row">
+
+      <div class="card-wrap">
+        <div class="card-label">Лицо · стандартное</div>
+        <div class="card size-85x55 edge-bottom">
+          <div class="prac-face">
+            <div class="inf">∞</div>
+            <div class="brand-block">
+              <div class="eb">Центр психологии</div>
+              <div class="nm">Время</div>
+              <div class="sl">Раскрой свою бесконечность</div>
+            </div>
+            <div class="foot">11 лет · Домодедово</div>
+          </div>
+        </div>
+        <div class="scale">85×55 мм · тиснение ∞ + soft-touch</div>
+      </div>
+
+      <div class="card-wrap">
+        <div class="card-label">Оборот · практика</div>
+        <div class="card size-85x55 edge-bottom">
+          <div class="prac-back">
+            <div class="label-top">когда накрывает</div>
+            <div class="h">Дыхание 4–7–8</div>
+            <div class="breath">
+              <div class="breath-circle"></div>
+              <div class="breath-steps">
+                <b>4 сек</b> — вдох носом<br>
+                <b>7 сек</b> — задержка<br>
+                <b>8 сек</b> — выдох ртом<br>
+                Повторить 4 раза.
+              </div>
+            </div>
+            <div class="prac-mini-cta">Не помогает? Напишите нам — 500 ₽, 20 мин</div>
+            <div class="prac-foot">
+              <div class="left">
+                <strong>8 929 589-99-05</strong><br>
+                @vremya_psy · vremya-psy.ru
+              </div>
+              <div class="right">Домодедово,<br>Дружбы 2к1</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="notes-col">
+        <b>Зачем так:</b><br>
+        Визитка с функцией. В кошельке у тревожной женщины — рядом с банковской картой.
+        В стрессе достаёт, дышит. Срабатывает — запоминает, кто помог.<br><br>
+        <span class="pro">+</span> Высочайшая «hold rate» — никто не выбрасывает.<br>
+        <span class="pro">+</span> Прямо попадает в боль ЦА №1 (тревога, выгорание).<br>
+        <span class="pro">+</span> Печать простая, удорожания почти нет.<br><br>
+        <span class="con">−</span> Не показывает разносторонность центра (есть только одна функция).<br>
+        <span class="con">−</span> Меньше работает на B2B-аудиторию.
+      </div>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <!-- =========================================================
+       КОНЦЕПТ 3 — закладка
+       ========================================================= -->
+  <div class="concept">
+    <div class="concept-head">
+      <span class="concept-num">03</span>
+      <div class="concept-title">Визитка-закладка</div>
+    </div>
+    <p class="concept-desc">
+      Узкая, 50×150 мм. Кладётся не в кошелёк, а в книгу. Месяцами торчит из неё на видном месте.
+      Совсем другой формат, другая жизнь.
+    </p>
+    <div class="cards-row">
+
+      <div class="card-wrap">
+        <div class="card-label">Лицо</div>
+        <div class="card size-50x150 edge-right">
+          <div class="book-face">
+            <div class="book-tassel"></div>
+            <div class="top-eb">Время</div>
+            <div class="book-inf-big">∞</div>
+            <div class="book-vert">Раскрой бесконечность</div>
+            <div class="book-slogan">
+              Это не клиника.<br>Это живое пространство.
+            </div>
+          </div>
+        </div>
+        <div class="scale">50×150 мм · картон 400 г/м²</div>
+      </div>
+
+      <div class="card-wrap">
+        <div class="card-label">Оборот</div>
+        <div class="card size-50x150 edge-right">
+          <div class="book-back">
+            <div class="label-top">мы работаем с</div>
+            <ul class="book-list">
+              <li>тревога</li>
+              <li>выгорание</li>
+              <li>отношения</li>
+              <li>подростки</li>
+              <li>дети</li>
+              <li>материнство</li>
+              <li>кризисы</li>
+              <li>расстановки</li>
+            </ul>
+
+            <div class="book-cta-wrap">
+              <div class="book-cta">
+                <div class="eb">с чего начать</div>
+                <div class="h">Диагностика<br>20 мин · 500 ₽</div>
+              </div>
+              <div class="book-qr-row">
+                <div class="qr-mini"></div>
+                <span>записаться<br>vremya-psy.ru</span>
+              </div>
+              <div class="book-foot">
+                <strong>8 929 589-99-05</strong>
+                <div class="meta">Домодедово · 11 лет · 4000+</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="notes-col">
+        <b>Зачем так:</b><br>
+        Обычная визитка живёт в кошельке час и забывается.
+        Закладка живёт в книге у тумбочки <b>год</b>.
+        Каждый раз, когда читает — видит ∞ и название.<br><br>
+        <span class="pro">+</span> Уникальный формат — выделит вас среди всех визиток.<br>
+        <span class="pro">+</span> Все 8 направлений умещаются вертикально — разносторонность видна сразу.<br>
+        <span class="pro">+</span> ЦА читает книги по саморазвитию — попадание прямое.<br><br>
+        <span class="con">−</span> Не лезет в стандартную визитницу — могут не взять «потому что некуда».<br>
+        <span class="con">−</span> Печать дороже на ~30% (нестандартный формат).
+      </div>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <!-- =========================================================
+       КОНЦЕПТ 4 — отрывная
+       ========================================================= -->
+  <div class="concept">
+    <div class="concept-head">
+      <span class="concept-num">04</span>
+      <div class="concept-title">Визитка-подарок (отрывная)</div>
+    </div>
+    <p class="concept-desc">
+      85×110 мм с перфорацией посередине. Верх — обычная визитка центра. Низ — отрывной купон-подарок:
+      «Передайте тому, кому нужнее, чем вам». Одна выданная визитка = два контакта.
+      Встроенный сарафан.
+    </p>
+    <div class="cards-row">
+
+      <div class="card-wrap">
+        <div class="card-label">Целая карточка (перед отрывом)</div>
+        <div class="card size-85x110 edge-bottom tear-card">
+          <div class="tear-top">
+            <div class="inf">∞</div>
+            <div class="brand-block">
+              <div class="eb">Центр психологии</div>
+              <div class="nm">Время</div>
+              <div class="sl">Раскрой свою бесконечность</div>
+              <div class="ct">
+                <strong>8 929 589-99-05</strong> · vremya-psy.ru<br>
+                Домодедово, Дружбы 2к1 · и онлайн<br>
+                11 лет · 4000+ клиентов
+              </div>
+            </div>
+          </div>
+          <div class="tear-line"></div>
+          <div class="tear-bottom">
+            <div>
+              <div class="eb">отдайте тому, кому нужнее</div>
+              <div class="gift">Диагностика<br><b>в подарок</b></div>
+              <div class="sub">20 минут разговора с психологом. Бесплатно по этому купону.</div>
+            </div>
+            <div class="row-foot">
+              <div class="promo">купон · ВРЕМЯ</div>
+              <div class="qr-mini"></div>
+            </div>
+          </div>
+        </div>
+        <div class="scale">85×110 мм · перфорация по центру · soft-touch</div>
+      </div>
+
+      <div class="notes-col" style="max-width:380px">
+        <b>Зачем так:</b><br>
+        Визитка превращает каждого получателя в распространителя.
+        Человек думает: «Это мне не нужно, но у Маши третий месяц паника — отдам ей».<br><br>
+        Купон — <b>не «−500 ₽», а «диагностика в подарок»</b>. Человек дарит, а не передаёт скидку. Эмоция меняется.<br><br>
+        Логика бизнеса: даже если диагностика бесплатно — она конвертит в полноценную сессию 2 500–7 500 ₽. Купон себя окупает с первого пришедшего из десяти.<br><br>
+        <span class="pro">+</span> Встроенный сарафан — главный канал у вас (см. контакты.md).<br>
+        <span class="pro">+</span> Эмоциональный акт «передать заботу» = ваш тон бренда.<br>
+        <span class="pro">+</span> Можно комбинировать с любым из других концептов как формат.<br><br>
+        <span class="con">−</span> Перфорация удорожает печать на 10–20%.<br>
+        <span class="con">−</span> Если купон работает плохо — половина тиража уйдёт в мусор. Нужен учёт промо-кодов.
+      </div>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <!-- =========================================================
+       КОНЦЕПТ 5 — горизонтальная МАК-сцена с новым лого
+       ========================================================= -->
+  <div class="concept">
+    <div class="concept-head">
+      <span class="concept-num">05</span>
+      <div class="concept-title">Горизонтальная МАК-сцена</div>
+    </div>
+    <p class="concept-desc">
+      Соединяю новый бренд-лого (фиолетовый круг + ∞ + ВРЕМЯ) с идеей МАК-карты.
+      Лицо: половина — обычная контактная панель, половина — тёмная МАК-сцена с цитатой-якорем.
+      Серия из 4–6 разных цитат — раздаёте по сегменту: для женщин, для родителей, для пар.
+    </p>
+    <div class="cards-row">
+
+      <div class="card-wrap">
+        <div class="card-label">Лицо · 90×50 мм</div>
+        <div class="card size-90x50 h-card">
+          <div class="h-face">
+            <div class="h-face-left">
+              <div>
+                <div class="h-logo-row">
+                  <div class="h-logo-circle"></div>
+                  <div class="h-logo-text">
+                    <div class="nm">ВРЕМЯ</div>
+                    <div class="eb">центр психологии</div>
+                  </div>
+                </div>
+                <div class="h-slogan">Раскрой свою бесконечность</div>
+              </div>
+              <div class="h-contacts">
+                <div><span class="ic">☎</span>+7 926 165-05-39</div>
+                <div><span class="ic">◐</span>psyau.ru</div>
+                <div class="h-meta">Домодедово, Дружбы 2к1 · и онлайн</div>
+              </div>
+            </div>
+            <div class="h-face-right mak2-scene">
+              <svg viewBox="0 0 145 180" preserveAspectRatio="xMidYMid slice">
+                <defs>
+                  <radialGradient id="g5" cx="50%" cy="35%" r="60%">
+                    <stop offset="0%" stop-color="#fff" stop-opacity="0.35"/>
+                    <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+                  </radialGradient>
+                </defs>
+                <circle cx="72" cy="65" r="80" fill="url(#g5)"/>
+                <!-- тропа уходящая вдаль -->
+                <path d="M 30 170 Q 72 100 72 30" stroke="#f5e6fa" stroke-width="0.8" fill="none" opacity="0.4" stroke-dasharray="3 4"/>
+                <path d="M 115 170 Q 90 110 72 30" stroke="#f5e6fa" stroke-width="0.8" fill="none" opacity="0.4" stroke-dasharray="3 4"/>
+                <!-- дерево/силуэт -->
+                <circle cx="72" cy="40" r="10" fill="#f5e6fa" opacity="0.25"/>
+                <rect x="71" y="40" width="2" height="20" fill="#f5e6fa" opacity="0.3"/>
+              </svg>
+              <div class="mak2-mark">∞ время</div>
+              <div class="mak2-quote">«Куда ведёт тропа,<br>на которую вы давно не сворачивали?»</div>
+            </div>
+          </div>
+        </div>
+        <div class="scale">Полноцвет + soft-touch · 11 лет · 13 специалистов</div>
+      </div>
+
+      <div class="card-wrap">
+        <div class="card-label">Оборот · 90×50 мм</div>
+        <div class="card size-90x50 h-card">
+          <div class="mak2-back">
+            <div class="mak2-back-left">
+              <div class="mak2-eb">с чего начать</div>
+              <div class="mak2-h">Не знаете,<br>с кем поговорить?</div>
+              <div class="mak2-offer">Первичная встреча · 20 мин · 500 ₽</div>
+              <div class="mak2-sub">Бережно разберём ситуацию и подскажем подходящего специалиста.</div>
+              <div class="mak2-icons">
+                <div class="mak2-icon"><span class="ico">♥</span>тревога и&nbsp;выгорание</div>
+                <div class="mak2-icon"><span class="ico">❋</span>отношения и&nbsp;семья</div>
+                <div class="mak2-icon"><span class="ico">✿</span>дети и&nbsp;подростки</div>
+              </div>
+            </div>
+            <div class="mak2-back-right">
+              <div class="qr-big"></div>
+              <div class="qr-pill">Записаться</div>
+            </div>
+          </div>
+        </div>
+        <div class="scale">QR ведёт в Telegram-диалог или YClients</div>
+      </div>
+
+      <div class="notes-col">
+        <b>Зачем так:</b><br>
+        Берём <b>ваш новый лого</b> (круг + ∞ + ВРЕМЯ) и добавляем эмоциональный «удар» в правую половину — МАК-сцену с вопросом.<br><br>
+        В отличие от концепта №1, лого <b>видно сразу</b> — не надо переворачивать. Решена главная слабость МАК-визитки.<br><br>
+        <span class="pro">+</span> Эмоция + сразу понятно, что центр.<br>
+        <span class="pro">+</span> Серия цитат под сегменты (родитель / пара / женщина).<br>
+        <span class="pro">+</span> Использует ваш утверждённый лого.<br><br>
+        <span class="con">−</span> Темная половина может выглядеть мрачно для тёплой ЦА. Можно сделать светлую версию.
+      </div>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <!-- =========================================================
+       КОНЦЕПТ 6 — горизонтальная отрывная с фото и купоном
+       ========================================================= -->
+  <div class="concept">
+    <div class="concept-head">
+      <span class="concept-num">06</span>
+      <div class="concept-title">Горизонтальная отрывная с купоном</div>
+    </div>
+    <p class="concept-desc">
+      Формат 90×100 мм. Верх — ваш новый стиль с фото-полосой справа.
+      Низ — отрывной купон «Диагностика в подарок» для передачи близкому. Встроенный сарафан + сегментная фотография.
+    </p>
+    <div class="cards-row">
+
+      <div class="card-wrap">
+        <div class="card-label">Целая карточка · 90×100 мм</div>
+        <div class="card size-90x100 tear-h">
+          <div class="tear-h-top">
+            <div class="h-face-left">
+              <div>
+                <div class="h-logo-row">
+                  <div class="h-logo-circle"></div>
+                  <div class="h-logo-text">
+                    <div class="nm">ВРЕМЯ</div>
+                    <div class="eb">центр психологии</div>
+                  </div>
+                </div>
+                <div class="h-slogan">Раскрой свою бесконечность</div>
+              </div>
+              <div class="h-contacts">
+                <div><span class="ic">☎</span>+7 926 165-05-39</div>
+                <div><span class="ic">◐</span>psyau.ru</div>
+                <div class="h-meta">11 лет · 13 специалистов</div>
+              </div>
+            </div>
+            <div class="tear-h-photo">
+              <svg viewBox="0 0 145 180" preserveAspectRatio="xMidYMid slice">
+                <!-- кресло-стилизация -->
+                <ellipse cx="72" cy="160" rx="55" ry="6" fill="#8b6f50" opacity="0.3"/>
+                <path d="M 35 130 Q 35 80 55 75 L 90 75 Q 110 80 110 130 L 110 158 L 35 158 Z"
+                      fill="#c8a47a" opacity="0.85"/>
+                <path d="M 50 130 L 50 80 Q 50 75 55 75 L 90 75 Q 95 75 95 80 L 95 130 Z"
+                      fill="#b88a5e" opacity="0.7"/>
+                <!-- веточка справа сверху -->
+                <path d="M 130 30 Q 120 50 115 80" stroke="#9b7050" stroke-width="0.8" fill="none" opacity="0.5"/>
+                <ellipse cx="125" cy="45" rx="6" ry="3" fill="#a08560" opacity="0.5" transform="rotate(20 125 45)"/>
+                <ellipse cx="120" cy="60" rx="6" ry="3" fill="#a08560" opacity="0.5" transform="rotate(30 120 60)"/>
+              </svg>
+            </div>
+          </div>
+          <div class="tear-h-line"></div>
+          <div class="tear-h-bottom">
+            <div>
+              <div class="eb">отдайте тому, кому нужнее</div>
+              <div class="gift">Диагностика<br><small>в подарок · 20 мин</small></div>
+              <div class="sub">Подарите близкому 20 минут разговора с психологом. По этому купону — бесплатно.</div>
+            </div>
+            <div class="tear-h-right">
+              <div class="qr-big"></div>
+              <div class="promo">купон · ВРЕМЯ</div>
+            </div>
+          </div>
+        </div>
+        <div class="scale">90×100 мм · перфорация по центру · soft-touch</div>
+      </div>
+
+      <div class="notes-col" style="max-width:380px">
+        <b>Зачем так:</b><br>
+        Соединяю ваш стиль с фото-полосой (хорошо работает на сегменты — кресло/мама-ребёнок/пара) и идею «купон-подарок».<br><br>
+        Получатель отрывает нижнюю половину и <b>дарит подруге, маме, коллеге</b>. У него остаётся верхняя — нормальная визитка центра.<br><br>
+        Логика бизнеса: даже если 50% купонов придут на бесплатные 20 минут — внутри встречи продаётся диагностика → сессия 2 500–7 500 ₽.<br><br>
+        <span class="pro">+</span> 1 розданная визитка = 2 контакта в центре.<br>
+        <span class="pro">+</span> Фото-полоса — точечно под сегмент (5 версий, как у вас).<br>
+        <span class="pro">+</span> Эмоция «передать заботу» = ваш тон.<br><br>
+        <span class="con">−</span> Перфорация +10–20% к цене печати.<br>
+        <span class="con">−</span> Нужен учёт промо-кодов для отслеживания эффективности.
+      </div>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <!-- =========================================================
+       КОНЦЕПТ 7 — складная евро-карточка (мини-буклет)
+       ========================================================= -->
+  <div class="concept">
+    <div class="concept-head">
+      <span class="concept-num">07</span>
+      <div class="concept-title">Складная мини-карточка (евро-формат)</div>
+    </div>
+    <p class="concept-desc">
+      Раскрыта — 180×50 мм. Складывается втрое до обычной визитки 60×50 мм, лезет в кошелёк.
+      Закрытая = логотип. Раскрытая = три панели: обложка, направления, оффер с QR. Это уже почти мини-буклет, но всё ещё «визитка».
+    </p>
+    <div class="cards-row" style="flex-direction:column; align-items:flex-start;">
+
+      <div class="card-wrap">
+        <div class="card-label">Раскрытый вид · 180×50 мм (складывается втрое)</div>
+        <div class="card size-180x50 h-card">
+          <div class="euro-card">
+            <div class="euro-fold f1"></div>
+            <div class="euro-fold f2"></div>
+
+            <!-- Панель 1: обложка -->
+            <div class="euro-panel cover">
+              <div class="big-inf">∞</div>
+              <div class="nm">ВРЕМЯ</div>
+              <div class="eb">центр психологии</div>
+              <div class="sl">Раскрой свою бесконечность</div>
+            </div>
+
+            <!-- Панель 2: направления -->
+            <div class="euro-panel middle">
+              <div class="h">Мы работаем с:</div>
+              <ul class="euro-list">
+                <li>тревога и выгорание</li>
+                <li>отношения в паре</li>
+                <li>дети и подростки</li>
+                <li>беременность и материнство</li>
+                <li>кризисы и потери</li>
+                <li>расстановки и практики</li>
+                <li>обучение психологов</li>
+              </ul>
+            </div>
+
+            <!-- Панель 3: оффер + QR -->
+            <div class="euro-panel cta">
+              <div>
+                <div class="eb">с чего начать</div>
+                <div class="h">Первичная<br>встреча</div>
+                <div class="price">20 мин · 500 ₽</div>
+              </div>
+              <div style="display:flex; gap:10px; align-items:flex-end;">
+                <div class="ct-foot">
+                  +7 926 165-05-39<br>
+                  psyau.ru<br>
+                  Дружбы 2к1
+                </div>
+                <div class="qr-mini"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="scale">В сложенном виде = 60×50 мм. Бигование (фальц) + soft-touch.</div>
+      </div>
+
+      <div class="notes-col" style="max-width:720px">
+        <b>Зачем так:</b><br>
+        Главное возражение клиента — <i>«у вас 13 специалистов, к кому идти?»</i>. На обычной визитке невозможно показать всё центр: либо общий тон без услуг, либо перегруз. <b>Складная карточка решает это:</b> закрытая — короткая и красивая, раскрытая — полный спектр + оффер.<br><br>
+        Это <b>не буклет</b> — это всё ещё визитка. Лезет в кошелёк. Но содержит в 3 раза больше информации.<br><br>
+        <span class="pro">+</span> Снимает перегруз выбора правильным способом — структурой, не списком.<br>
+        <span class="pro">+</span> Идеальна для офлайн-точек: ресепшен партнёров, кофейни, ВНЖ-центры, школы.<br>
+        <span class="pro">+</span> Раскладывание — это <b>микро-ритуал</b>: человек физически вовлекается в чтение.<br>
+        <span class="pro">+</span> Не нужно делать 5 версий — одна универсальная закрывает все сегменты через панель «направления».<br><br>
+        <span class="con">−</span> Печать дороже на 30–50% (бигование, увеличенный формат).<br>
+        <span class="con">−</span> Менее уместна для быстрого нетворкинга (на конференции/встрече удобнее обычная).
+      </div>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <!-- =========================================================
+       SUMMARY
+       ========================================================= -->
+  <div style="margin-top:48px">
+    <h1>Мои ставки</h1>
+    <p class="notes-col" style="max-width:720px; color: var(--muted);">
+      <b style="color:var(--ink)">№5 (горизонтальная МАК с лого)</b> — лучший вариант для основного тиража: ваш утверждённый лого + эмоциональная МАК-сцена + чёткий оборот с QR. Аутентично и работает.<br><br>
+      <b style="color:var(--ink)">№6 (отрывной купон с фото-полосой)</b> — для сарафана и подарков. Каждая визитка = два контакта. Печатайте под сегменты (мама-ребёнок, пара, кресло).<br><br>
+      <b style="color:var(--ink)">№7 (складная евро)</b> — для офлайн-точек: ресепшен партнёров, школы, кофейни. Решает «у вас 13 специалистов, к кому идти» через структуру.<br><br>
+      <b style="color:var(--ink)">№1 (МАК вертикальная)</b> — оставила бы как лимитированную серию для VIP / на конференциях. Премиум, но не для масс.<br><br>
+      <b style="color:var(--ink)">№2 (практика)</b> — отдельный продукт: «карточка скорой помощи» в подарок на первой консультации. Не основной тираж.<br><br>
+      <b style="color:var(--ink)">№3 (закладка)</b> и <b style="color:var(--ink)">№4 (вертикальная отрывная)</b> — пропустила бы. Лучшие идеи перенесены в №6 и №7.
+    </p>
+    <div class="notes-col" style="max-width:720px; margin-top:24px; padding:16px 18px; background:var(--paper); border-left:3px solid var(--purple);">
+      <b style="color:var(--ink)">Рекомендую печатать комбинацию:</b><br><br>
+      <b>№5</b> в 4–5 версиях (универсальная + взрослые + родители + пары + специалисты) — основной тираж 70%.<br>
+      <b>№6</b> в 2 версиях (универсальная + для родителей) — для сарафана, 20%.<br>
+      <b>№7</b> 1 универсальная версия — для партнёрских точек, 10%.
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,1817 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Центр психологии «Время» — Домодедово</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --purple: #7c3aed;
+  --purple-light: #ede9fe;
+  --purple-mid: #a78bfa;
+  --bg: #ffffff;
+  --bg-soft: #f9f7ff;
+  --text: #111827;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --shadow: 0 2px 16px rgba(0,0,0,0.06);
+  --radius: 16px;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+  overflow-x: hidden;
+}
+
+/* ─── HEADER ─────────────────────────────────── */
+header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  height: 64px;
+}
+.header-inner {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+.logo {
+  cursor: pointer;
+  text-decoration: none;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo-icon {
+  font-size: 26px;
+  color: var(--purple);
+  line-height: 1;
+  font-weight: 400;
+}
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--text);
+}
+.logo-sub {
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+}
+.nav-link {
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 15px;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s;
+  white-space: nowrap;
+  position: relative;
+}
+.nav-link:hover { color: var(--text); background: var(--bg-soft); }
+.nav-link.active { color: var(--purple); font-weight: 500; }
+
+/* dropdown */
+.dropdown { position: relative; }
+.dropdown-toggle { display: flex; align-items: center; gap: 4px; }
+.dropdown-toggle svg { transition: transform 0.2s; }
+.dropdown:hover .dropdown-toggle svg { transform: rotate(180deg); }
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  border: 1px solid var(--border);
+  min-width: 220px;
+  padding: 8px;
+  z-index: 200;
+}
+.dropdown:hover .dropdown-menu { display: block; }
+.dropdown-item {
+  display: block;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.dropdown-item:hover { background: var(--bg-soft); color: var(--purple); }
+
+.header-cta {
+  margin-left: auto;
+  background: var(--purple);
+  color: #fff;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.header-cta:hover { background: #6d28d9; transform: translateY(-1px); }
+
+/* burger */
+.burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+  margin-left: auto;
+}
+.burger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: 0.3s;
+}
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 64px; left: 0; right: 0;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  padding: 16px 24px;
+  z-index: 99;
+  flex-direction: column;
+  gap: 4px;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu .nav-link { font-size: 16px; }
+
+/* ─── PAGES ─────────────────────────────────── */
+.page { display: none; padding-top: 64px; }
+.page.active { display: block; }
+
+/* ─── BUTTONS ────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+  text-decoration: none;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn-primary { background: var(--purple); color: #fff; }
+.btn-primary:hover { background: #6d28d9; box-shadow: 0 4px 20px rgba(124,58,237,0.3); }
+.btn-outline { background: transparent; color: var(--purple); border: 2px solid var(--purple); }
+.btn-outline:hover { background: var(--purple-light); }
+.btn-sm { padding: 10px 20px; font-size: 14px; }
+
+/* ─── SECTIONS ───────────────────────────────── */
+section { padding: 80px 0; }
+section.soft { background: var(--bg-soft); }
+.container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+
+.section-label {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 12px;
+}
+.section-title {
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+.section-subtitle {
+  font-size: 18px;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 600px;
+}
+
+/* ─── HERO ───────────────────────────────────── */
+.hero {
+  padding: 80px 0 96px;
+  background: linear-gradient(135deg, #faf5ff 0%, #f0f9ff 100%);
+}
+.hero-inner {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+.hero h1 {
+  font-size: clamp(32px, 4.5vw, 52px);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 20px;
+}
+.hero h1 em { color: var(--purple); font-style: normal; }
+.hero-sub {
+  font-size: 18px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+.hero-btns { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 40px; }
+.hero-stats { display: flex; gap: 32px; flex-wrap: wrap; }
+.hero-stat-num {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--purple);
+  line-height: 1;
+}
+.hero-stat-label {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.hero-visual {
+  border-radius: 24px;
+  background: linear-gradient(145deg, var(--purple-light), #ddd6fe);
+  min-height: 440px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero-visual-placeholder {
+  text-align: center;
+  color: var(--purple);
+}
+.hero-visual-placeholder svg { opacity: 0.4; }
+.hero-visual-placeholder p { font-size: 13px; color: var(--purple-mid); margin-top: 8px; }
+.hero-badge {
+  position: absolute;
+  bottom: 24px; left: 24px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.hero-badge-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; flex-shrink: 0; }
+
+/* ─── DIRECTIONS ─────────────────────────────── */
+.directions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 48px;
+}
+.direction-card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+.direction-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(124,58,237,0.12);
+  border-color: var(--purple-mid);
+}
+.direction-icon { font-size: 28px; margin-bottom: 12px; }
+.direction-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+.direction-desc { font-size: 14px; color: var(--muted); line-height: 1.5; }
+
+/* ─── WHY ────────────────────────────────────── */
+.why-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+  margin-top: 48px;
+}
+.why-features { display: flex; flex-direction: column; gap: 28px; }
+.why-feature { display: flex; gap: 16px; align-items: flex-start; }
+.why-icon {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  background: var(--purple-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--purple);
+  font-size: 20px;
+}
+.why-feature-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+.why-feature-text { font-size: 15px; color: var(--muted); line-height: 1.6; }
+.why-quote {
+  background: linear-gradient(135deg, var(--purple-light), #e0f2fe);
+  border-radius: 24px;
+  padding: 40px;
+  position: relative;
+}
+.why-quote::before {
+  content: '"';
+  font-size: 120px;
+  color: var(--purple);
+  opacity: 0.12;
+  line-height: 1;
+  position: absolute;
+  top: 16px;
+  left: 24px;
+  font-family: Georgia, serif;
+}
+.why-quote-text {
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--text);
+  position: relative;
+  z-index: 1;
+}
+.why-quote-author {
+  margin-top: 20px;
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* ─── TRUST ──────────────────────────────────── */
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+}
+.trust-card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  box-shadow: var(--shadow);
+}
+.trust-icon { font-size: 32px; margin-bottom: 16px; }
+.trust-title { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+.trust-text { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+/* ─── TEAM PREVIEW ───────────────────────────── */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 48px;
+}
+.team-card {
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+.team-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+.team-photo {
+  aspect-ratio: 3/4;
+  background: linear-gradient(145deg, var(--purple-light), #ddd6fe);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--purple);
+}
+.team-photo-inner { text-align: center; opacity: 0.5; }
+.team-info { padding: 16px; }
+.team-name { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+.team-role { font-size: 13px; color: var(--muted); line-height: 1.4; }
+.team-cta { text-align: center; margin-top: 40px; }
+
+/* ─── EVENTS PREVIEW ─────────────────────────── */
+.events-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 48px;
+}
+.event-preview-card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 24px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  transition: transform 0.2s;
+}
+.event-preview-card:hover { transform: translateY(-3px); }
+.event-preview-date {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.event-date-num { font-size: 32px; font-weight: 700; color: var(--purple); line-height: 1; }
+.event-date-info { font-size: 13px; color: var(--muted); }
+.event-preview-title { font-size: 15px; font-weight: 600; margin-bottom: 8px; line-height: 1.4; }
+.event-preview-meta { display: flex; gap: 12px; flex-wrap: wrap; font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+.event-tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.tag-offline { background: #dcfce7; color: #15803d; }
+.tag-online { background: #dbeafe; color: #1d4ed8; }
+.event-preview-price { font-size: 14px; font-weight: 600; color: var(--purple); }
+.events-cta { text-align: center; margin-top: 40px; }
+
+/* ─── REVIEWS ────────────────────────────────── */
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 48px;
+}
+.review-card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 28px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+.review-stars { display: flex; gap: 2px; color: #f59e0b; margin-bottom: 14px; font-size: 14px; }
+.review-text { font-size: 15px; color: var(--text); line-height: 1.7; margin-bottom: 20px; }
+.review-author { display: flex; align-items: center; gap: 12px; }
+.review-avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--purple-light);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--purple);
+  flex-shrink: 0;
+}
+.review-name { font-size: 14px; font-weight: 600; }
+.review-about { font-size: 12px; color: var(--muted); }
+
+/* ─── FORM SECTION ───────────────────────────── */
+.form-section {
+  background: linear-gradient(135deg, var(--purple), #6d28d9);
+  color: #fff;
+}
+.form-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+.form-text .section-label { color: #c4b5fd; }
+.form-text .section-title { color: #fff; }
+.form-text .section-subtitle { color: rgba(255,255,255,0.75); }
+.form-alts { margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap; }
+.form-alt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.form-alt:hover { background: rgba(255,255,255,0.25); }
+.form-box {
+  background: #fff;
+  border-radius: 20px;
+  padding: 36px;
+}
+.form-box h3 { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 24px; }
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--text);
+  transition: border-color 0.2s;
+  outline: none;
+  background: #fff;
+}
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus { border-color: var(--purple); box-shadow: 0 0 0 3px rgba(124,58,237,0.1); }
+.form-group textarea { resize: vertical; min-height: 90px; }
+.form-submit { width: 100%; }
+.form-success {
+  display: none;
+  text-align: center;
+  padding: 24px;
+  color: var(--text);
+}
+.form-success-icon { font-size: 40px; margin-bottom: 12px; }
+.form-success h4 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+.form-success p { color: var(--muted); font-size: 15px; }
+
+/* ─── FOOTER ─────────────────────────────────── */
+footer {
+  background: #111827;
+  color: #fff;
+  padding: 56px 0 0;
+}
+.footer-grid {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 24px 48px;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+}
+.footer-brand-name { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 12px; }
+.footer-brand p { font-size: 14px; color: #9ca3af; line-height: 1.7; }
+.footer-col h3 { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 16px; }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.footer-col ul li { font-size: 14px; color: #9ca3af; cursor: pointer; transition: color 0.2s; }
+.footer-col ul li:hover { color: #fff; }
+.footer-col ul li a { color: inherit; text-decoration: none; }
+.footer-bottom {
+  border-top: 1px solid #1f2937;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 20px 24px;
+  font-size: 13px;
+  color: #6b7280;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ─── SPECIALISTS PAGE ───────────────────────── */
+.page-hero {
+  background: var(--bg-soft);
+  padding: 56px 0;
+}
+.page-hero h1 { font-size: clamp(28px, 4vw, 44px); font-weight: 700; margin-bottom: 12px; }
+.page-hero p { font-size: 18px; color: var(--muted); }
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+.breadcrumb span { cursor: pointer; }
+.breadcrumb span:hover { color: var(--purple); }
+.breadcrumb-sep { color: var(--border); }
+
+.filter-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+.filter-btn {
+  padding: 8px 18px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+  color: var(--text);
+}
+.filter-btn:hover { border-color: var(--purple); color: var(--purple); }
+.filter-btn.active { background: var(--purple); color: #fff; border-color: var(--purple); }
+
+.specialists-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.specialist-card {
+  background: #fff;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.specialist-card:hover { transform: translateY(-4px); box-shadow: 0 8px 28px rgba(0,0,0,0.08); }
+.specialist-photo {
+  aspect-ratio: 4/3;
+  background: linear-gradient(145deg, var(--purple-light), #c7d2fe);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  color: var(--purple);
+  opacity: 0.5;
+}
+.specialist-body { padding: 20px; }
+.specialist-name { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+.specialist-spec { font-size: 14px; color: var(--muted); margin-bottom: 10px; line-height: 1.5; }
+.specialist-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+.spec-tag {
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: var(--purple-light);
+  color: var(--purple);
+  font-weight: 500;
+}
+.specialist-since { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+.specialist-btn { width: 100%; }
+
+/* ─── TEENS PAGE ─────────────────────────────── */
+.signs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 32px;
+}
+.sign-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 20px;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+.sign-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--purple); margin-top: 8px; flex-shrink: 0; }
+.sign-text { font-size: 15px; line-height: 1.5; }
+.course-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px; }
+.course-card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 28px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+.course-age {
+  display: inline-block;
+  background: var(--purple);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+.course-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+.course-details { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+.course-detail { display: flex; gap: 10px; font-size: 14px; }
+.course-detail-label { color: var(--muted); min-width: 90px; }
+.course-detail-val { font-weight: 500; }
+.course-price { font-size: 20px; font-weight: 700; color: var(--purple); margin-top: 16px; }
+.results-list { display: flex; flex-direction: column; gap: 12px; margin-top: 28px; }
+.result-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 20px;
+  background: var(--bg-soft);
+  border-radius: 10px;
+  border-left: 3px solid var(--purple);
+}
+.result-icon { color: var(--purple); font-size: 18px; flex-shrink: 0; margin-top: 2px; }
+.result-text { font-size: 15px; }
+
+/* ─── CONSULTATIONS PAGE ─────────────────────── */
+.problems-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 32px;
+}
+.problem-chip {
+  padding: 14px 18px;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: center;
+  transition: border-color 0.2s, color 0.2s;
+}
+.problem-chip:hover { border-color: var(--purple); color: var(--purple); }
+.steps-grid { display: flex; flex-direction: column; gap: 0; margin-top: 40px; }
+.step {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border);
+}
+.step:last-child { border-bottom: none; }
+.step-num {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: var(--purple);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.step-title { font-size: 17px; font-weight: 600; margin-bottom: 4px; }
+.step-text { font-size: 15px; color: var(--muted); }
+.prices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 32px; }
+.price-card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 28px;
+  border: 2px solid var(--border);
+  transition: border-color 0.2s;
+}
+.price-card:hover { border-color: var(--purple); }
+.price-card.featured { border-color: var(--purple); background: var(--bg-soft); }
+.price-label { font-size: 14px; color: var(--muted); margin-bottom: 8px; }
+.price-amount { font-size: 28px; font-weight: 700; color: var(--purple); margin-bottom: 8px; }
+.price-note { font-size: 13px; color: var(--muted); }
+.faq-list { display: flex; flex-direction: column; gap: 12px; margin-top: 40px; }
+.faq-item {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.faq-q {
+  padding: 18px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.faq-q svg { flex-shrink: 0; transition: transform 0.2s; }
+.faq-item.open .faq-q svg { transform: rotate(180deg); }
+.faq-a {
+  display: none;
+  padding: 0 20px 18px;
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+.faq-item.open .faq-a { display: block; }
+
+/* ─── SCROLL ANIMATIONS ──────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ─── RESPONSIVE ─────────────────────────────── */
+@media (max-width: 960px) {
+  .directions-grid { grid-template-columns: repeat(2, 1fr); }
+  .trust-grid { grid-template-columns: 1fr 1fr; }
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+  .events-preview-grid { grid-template-columns: 1fr 1fr; }
+  .reviews-grid { grid-template-columns: 1fr 1fr; }
+  .form-inner { grid-template-columns: 1fr; gap: 40px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero-visual { min-height: 280px; }
+  .why-grid { grid-template-columns: 1fr; }
+  .specialists-grid { grid-template-columns: 1fr 1fr; }
+  .problems-grid { grid-template-columns: repeat(2, 1fr); }
+  .prices-grid { grid-template-columns: 1fr; }
+  .signs-grid { grid-template-columns: 1fr; }
+  .course-cards { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  section { padding: 56px 0; }
+  nav { display: none; }
+  .header-cta { display: none; }
+  .burger { display: flex; }
+  .directions-grid { grid-template-columns: 1fr; }
+  .trust-grid { grid-template-columns: 1fr; }
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+  .events-preview-grid { grid-template-columns: 1fr; }
+  .reviews-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  .hero-btns { flex-direction: column; }
+  .hero-stats { gap: 20px; }
+  .specialists-grid { grid-template-columns: 1fr; }
+  .problems-grid { grid-template-columns: 1fr 1fr; }
+  .form-box { padding: 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ════════════════════════════════ -->
+<header>
+  <div class="header-inner">
+    <a class="logo" onclick="showPage('main')"><img src="логотипы/logo_black.png" alt="Центр психологии Время" height="36" style="display:block;"></a>
+    <nav>
+      <span class="nav-link" onclick="showPage('main')">Главная</span>
+      <div class="dropdown">
+        <span class="nav-link dropdown-toggle">
+          Направления
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </span>
+        <div class="dropdown-menu">
+          <span class="dropdown-item" onclick="showPage('consultations')">Индивидуальные консультации</span>
+          <span class="dropdown-item" onclick="showPage('teens')">Для подростков</span>
+          <span class="dropdown-item" onclick="showPage('main')">Для женщин</span>
+          <span class="dropdown-item" onclick="showPage('main')">Для родителей</span>
+          <span class="dropdown-item" onclick="showPage('main')">Расстановки</span>
+          <span class="dropdown-item" onclick="showPage('main')">Психосоматика</span>
+          <span class="dropdown-item" onclick="showPage('main')">Для бизнеса</span>
+        </div>
+      </div>
+      <span class="nav-link" onclick="showPage('specialists')">Специалисты</span>
+      <span class="nav-link" onclick="window.location.href='afisha.html'">Афиша</span>
+      <span class="nav-link" onclick="showPage('main')">О нас</span>
+      <span class="nav-link" onclick="scrollToForm()">Контакты</span>
+    </nav>
+    <button class="header-cta btn btn-primary btn-sm" onclick="scrollToForm()">Записаться</button>
+    <div class="burger" onclick="toggleMobile()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</header>
+
+<!-- mobile nav -->
+<div class="mobile-menu" id="mobile-menu">
+  <span class="nav-link" onclick="showPage('main'); closeMobile()">Главная</span>
+  <span class="nav-link" onclick="showPage('consultations'); closeMobile()">Консультации</span>
+  <span class="nav-link" onclick="showPage('teens'); closeMobile()">Для подростков</span>
+  <span class="nav-link" onclick="showPage('specialists'); closeMobile()">Специалисты</span>
+  <span class="nav-link" onclick="window.location.href='afisha.html'">Афиша</span>
+  <span class="nav-link" onclick="scrollToForm(); closeMobile()">Контакты</span>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- PAGE: MAIN                                  -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="page-main" class="page active">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="section-label">Домодедово · Онлайн</div>
+        <h1>Психологическая помощь<br>для <em>всей семьи</em></h1>
+        <p class="hero-sub">Центр «Время» — 11 лет рядом с теми,<br>кто ищет внутреннюю опору.<br>13 специалистов · очно и онлайн</p>
+        <div class="hero-btns">
+          <button class="btn btn-primary" onclick="showPage('specialists')">Выбрать специалиста</button>
+          <button class="btn btn-outline" onclick="scrollToForm()">Записаться на консультацию</button>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <div class="hero-stat-num">11</div>
+            <div class="hero-stat-label">лет работы</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">13</div>
+            <div class="hero-stat-label">специалистов</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">3 450+</div>
+            <div class="hero-stat-label">клиентов</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-visual-placeholder">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14"/>
+            <rect x="2" y="4" width="20" height="16" rx="3"/>
+            <circle cx="8.5" cy="10.5" r="1.5"/>
+          </svg>
+          <p>Фото команды<br>или кабинета</p>
+        </div>
+        <div class="hero-badge">
+          <div class="hero-badge-dot"></div>
+          <div>
+            <div style="font-weight:600;font-size:13px;">Принимаем запись</div>
+            <div style="color:var(--muted);font-size:12px;">Пн–Сб 9:00–20:00</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIRECTIONS -->
+  <section>
+    <div class="container">
+      <div class="section-label">Направления</div>
+      <h2 class="section-title">Найдите своё направление</h2>
+      <p class="section-subtitle">Мы работаем с разными запросами — выберите то, что подходит вам.</p>
+      <div class="directions-grid">
+        <div class="direction-card reveal" onclick="showPage('consultations')">
+          <div class="direction-icon">🧠</div>
+          <div class="direction-title">Индивидуальные консультации</div>
+          <div class="direction-desc">Личная работа с психологом — онлайн или очно. 60 минут · полная конфиденциальность</div>
+        </div>
+        <div class="direction-card reveal" onclick="showPage('teens')">
+          <div class="direction-icon">👦</div>
+          <div class="direction-title">Для подростков</div>
+          <div class="direction-desc">Самооценка, эмоции, отношения. Групповые курсы для детей 10–17 лет</div>
+        </div>
+        <div class="direction-card reveal">
+          <div class="direction-icon">👩</div>
+          <div class="direction-title">Для женщин</div>
+          <div class="direction-desc">Уверенность, принятие, женственность. Еженедельные встречи очно и онлайн</div>
+        </div>
+        <div class="direction-card reveal">
+          <div class="direction-icon">👨‍👩‍👧</div>
+          <div class="direction-title">Для родителей</div>
+          <div class="direction-desc">Понять своего ребёнка. Стать ближе, а не строже</div>
+        </div>
+        <div class="direction-card reveal">
+          <div class="direction-icon">✨</div>
+          <div class="direction-title">Курс «Счастье»</div>
+          <div class="direction-desc">Трёхмесячная программа личностного роста для тех, кто хочет жить полнее</div>
+        </div>
+        <div class="direction-card reveal">
+          <div class="direction-icon">🫀</div>
+          <div class="direction-title">Психосоматика</div>
+          <div class="direction-desc">Когда тело говорит то, что слова не могут. Онлайн-программа 1 месяц</div>
+        </div>
+        <div class="direction-card reveal">
+          <div class="direction-icon">🔗</div>
+          <div class="direction-title">Расстановки</div>
+          <div class="direction-desc">Системная работа с семьёй, родом, отношениями. Очные сессии</div>
+        </div>
+        <div class="direction-card reveal">
+          <div class="direction-icon">🎴</div>
+          <div class="direction-title">МАК и игры</div>
+          <div class="direction-desc">Трансформационные игры, МАК-встречи, девичники. Творческий путь к себе</div>
+        </div>
+        <div class="direction-card reveal">
+          <div class="direction-icon">💼</div>
+          <div class="direction-title">Для бизнеса</div>
+          <div class="direction-desc">Корпоративные тренинги, командная работа, бизнес-расстановки</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section class="soft">
+    <div class="container">
+      <div class="section-label">О центре</div>
+      <h2 class="section-title">Это не клиника.<br>Это живое пространство</h2>
+      <div class="why-grid">
+        <div class="why-features">
+          <div class="why-feature reveal">
+            <div class="why-icon">🎓</div>
+            <div>
+              <div class="why-feature-title">Профессионализм без дистанции</div>
+              <div class="why-feature-text">Все специалисты имеют профильное образование и проходят супервизию. Но здесь вас не «лечат» — здесь сопровождают.</div>
+            </div>
+          </div>
+          <div class="why-feature reveal">
+            <div class="why-icon">🔬</div>
+            <div>
+              <div class="why-feature-title">Доказательные методы</div>
+              <div class="why-feature-text">КПТ, ЭОТ, арт-терапия, телесные практики — работающие инструменты без обещаний «быстрого исцеления».</div>
+            </div>
+          </div>
+          <div class="why-feature reveal">
+            <div class="why-icon">🔒</div>
+            <div>
+              <div class="why-feature-title">Конфиденциальность — основа работы</div>
+              <div class="why-feature-text">Всё, что происходит на сессии, остаётся только между вами и специалистом.</div>
+            </div>
+          </div>
+        </div>
+        <div class="why-quote reveal">
+          <p class="why-quote-text">«Мы хотели, чтобы психология была живой — не сухой теорией, а реальной помощью человеку, чтобы он мог вернуть к себе внимание и силу.»</p>
+          <div class="why-quote-author">— Наталья Тиунова, руководитель центра</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST -->
+  <section>
+    <div class="container">
+      <div class="section-label">Признание</div>
+      <h2 class="section-title">Нам доверяют. Вот почему</h2>
+      <div class="trust-grid">
+        <div class="trust-card reveal">
+          <div class="trust-icon">🏆</div>
+          <div class="trust-title">Премия Губернатора МО 2015</div>
+          <div class="trust-text">За программу антикризисной психологической помощи населению Московской области.</div>
+        </div>
+        <div class="trust-card reveal">
+          <div class="trust-icon">📜</div>
+          <div class="trust-title">Государственный грант 2021</div>
+          <div class="trust-text">Проект «Родные люди» получил грант Министерства инвестиций и инноваций МО.</div>
+        </div>
+        <div class="trust-card reveal">
+          <div class="trust-icon">🎓</div>
+          <div class="trust-title">Академия психологии</div>
+          <div class="trust-text">С 2023 года — государственная лицензия на образовательную деятельность.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM PREVIEW -->
+  <section class="soft">
+    <div class="container">
+      <div class="section-label">Команда</div>
+      <h2 class="section-title">Наши специалисты</h2>
+      <p class="section-subtitle">13 психологов, телесных терапевтов и расстановщиков. Каждый ведёт своё направление.</p>
+      <div class="team-grid">
+        <div class="team-card reveal" onclick="showPage('specialists')">
+          <div class="team-photo"><div class="team-photo-inner">👤</div></div>
+          <div class="team-info">
+            <div class="team-name">Наталья Тиунова</div>
+            <div class="team-role">Руководитель, психолог, супервизор. С 2014 года</div>
+          </div>
+        </div>
+        <div class="team-card reveal" onclick="showPage('specialists')">
+          <div class="team-photo"><div class="team-photo-inner">👤</div></div>
+          <div class="team-info">
+            <div class="team-name">Галина Кучеренко</div>
+            <div class="team-role">Телесно-ориентированная терапия, гипноз. С 2017 года</div>
+          </div>
+        </div>
+        <div class="team-card reveal" onclick="showPage('specialists')">
+          <div class="team-photo"><div class="team-photo-inner">👤</div></div>
+          <div class="team-info">
+            <div class="team-name">Анастасия Полыгалова</div>
+            <div class="team-role">Клинический психолог, РПП, подростки. С 2023 года</div>
+          </div>
+        </div>
+        <div class="team-card reveal" onclick="showPage('specialists')">
+          <div class="team-photo"><div class="team-photo-inner">👤</div></div>
+          <div class="team-info">
+            <div class="team-name">Анастасия Хорошавцева</div>
+            <div class="team-role">Психосоматика, КПТ. С 2024 года</div>
+          </div>
+        </div>
+      </div>
+      <div class="team-cta">
+        <button class="btn btn-outline" onclick="showPage('specialists')">Познакомиться со всей командой</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- EVENTS PREVIEW -->
+  <section>
+    <div class="container">
+      <div class="section-label">Афиша</div>
+      <h2 class="section-title">Ближайшие мероприятия</h2>
+      <div class="events-preview-grid" id="events-preview"></div>
+      <div class="events-cta">
+        <button class="btn btn-outline" onclick="window.location.href='afisha.html'">Все мероприятия →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="soft">
+    <div class="container">
+      <div class="section-label">Отзывы</div>
+      <h2 class="section-title">Что говорят участники</h2>
+      <div class="reviews-grid">
+        <div class="review-card reveal">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">«Пришла в сложный период — после развода. Здесь мне помогли не просто "пережить", а по-новому посмотреть на себя. Галина невероятно тонко чувствует. Спасибо.»</p>
+          <div class="review-author">
+            <div class="review-avatar">М</div>
+            <div>
+              <div class="review-name">Марина К.</div>
+              <div class="review-about">Телесно-ориентированная терапия</div>
+            </div>
+          </div>
+        </div>
+        <div class="review-card reveal">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">«Записала сына на курс для подростков. Через месяц он сам начал говорить о своих чувствах — раньше такого не было никогда. Рекомендую каждому родителю.»</p>
+          <div class="review-author">
+            <div class="review-avatar">О</div>
+            <div>
+              <div class="review-name">Ольга Д.</div>
+              <div class="review-about">Курс для подростков</div>
+            </div>
+          </div>
+        </div>
+        <div class="review-card reveal">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">«Индивидуальные консультации с Натальей изменили мой взгляд на тревогу. Научился с ней работать, а не бежать. Атмосфера в центре очень тёплая и безопасная.»</p>
+          <div class="review-author">
+            <div class="review-avatar">А</div>
+            <div>
+              <div class="review-name">Алексей В.</div>
+              <div class="review-about">Индивидуальные консультации</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORM -->
+  <section class="form-section" id="contact-section">
+    <div class="container">
+      <div class="form-inner">
+        <div class="form-text">
+          <div class="section-label">Запись</div>
+          <h2 class="section-title" style="color:#fff">Не знаете, с чего начать?</h2>
+          <p class="section-subtitle">Напишите нам — поможем выбрать подходящего специалиста или формат.</p>
+          <div class="form-alts" style="margin-top:32px">
+            <a href="https://t.me/vremia_psy" class="form-alt">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.04 9.607c-.148.666-.543.828-1.1.515l-3.044-2.243-1.47 1.414c-.162.162-.298.298-.611.298l.218-3.083 5.614-5.068c.244-.217-.053-.337-.379-.12l-6.937 4.365-2.988-.932c-.649-.203-.662-.649.135-.96l11.667-4.496c.541-.194 1.014.133.935.703z"/></svg>
+              Telegram
+            </a>
+            <a href="https://wa.me/79295899905" class="form-alt">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              WhatsApp
+            </a>
+            <a href="tel:+79295899905" class="form-alt">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.01 1.18a2 2 0 012-2.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 6.57a16 16 0 006.29 6.29l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7a2 2 0 011.72 2.03z"/></svg>
+              8 (929) 589-99-05
+            </a>
+          </div>
+        </div>
+        <div class="form-box">
+          <form id="main-form" onsubmit="submitMainForm(event)">
+            <h3>Написать нам</h3>
+            <div class="form-group">
+              <label>Ваше имя</label>
+              <input type="text" placeholder="Как вас зовут?" required>
+            </div>
+            <div class="form-group">
+              <label>Телефон или Telegram</label>
+              <input type="text" placeholder="+7 (___) ___-__-__" required>
+            </div>
+            <div class="form-group">
+              <label>С чем хотите разобраться? <span style="color:var(--muted);font-weight:400">(необязательно)</span></label>
+              <textarea placeholder="Опишите кратко — поможем выбрать подходящий формат"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary form-submit">Написать нам</button>
+          </form>
+          <div class="form-success" id="main-success">
+            <div class="form-success-icon">✅</div>
+            <h4>Заявка отправлена!</h4>
+            <p>Свяжемся с вами в течение нескольких часов.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- PAGE: SPECIALISTS                           -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="page-specialists" class="page">
+  <div class="page-hero">
+    <div class="container">
+      <div class="breadcrumb">
+        <span onclick="showPage('main')">Главная</span>
+        <span class="breadcrumb-sep">›</span>
+        <span>Специалисты</span>
+      </div>
+      <h1>Наши специалисты</h1>
+      <p>13 психологов, телесных терапевтов и расстановщиков.<br>Каждый ведёт своё направление и работает в зоне своей компетенции.</p>
+    </div>
+  </div>
+  <section>
+    <div class="container">
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterSpecialists('all', this)">Все</button>
+        <button class="filter-btn" onclick="filterSpecialists('consult', this)">Консультации</button>
+        <button class="filter-btn" onclick="filterSpecialists('teens', this)">Подростки</button>
+        <button class="filter-btn" onclick="filterSpecialists('women', this)">Женские практики</button>
+        <button class="filter-btn" onclick="filterSpecialists('body', this)">Телесные практики</button>
+        <button class="filter-btn" onclick="filterSpecialists('constellation', this)">Расстановки</button>
+      </div>
+      <div class="specialists-grid" id="specialists-grid"></div>
+      <div style="margin-top:56px; padding:28px; background:var(--bg-soft); border-radius:var(--radius); text-align:center;">
+        <p style="font-size:17px; margin-bottom:16px;">Не знаете кого выбрать? Напишите нам — поможем</p>
+        <button class="btn btn-primary" onclick="scrollToForm()">Написать нам</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- PAGE: TEENS                                 -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="page-teens" class="page">
+  <div class="page-hero">
+    <div class="container">
+      <div class="breadcrumb">
+        <span onclick="showPage('main')">Главная</span>
+        <span class="breadcrumb-sep">›</span>
+        <span onclick="showPage('main')">Направления</span>
+        <span class="breadcrumb-sep">›</span>
+        <span>Для подростков</span>
+      </div>
+      <h1>Психология для подростков<br>в Домодедово</h1>
+      <p>Групповые курсы для детей 10–17 лет.<br>Самооценка, эмоции, границы, отношения — в безопасном пространстве.</p>
+    </div>
+  </div>
+
+  <section>
+    <div class="container">
+      <div class="section-label">Признаки</div>
+      <h2 class="section-title">Вашему ребёнку это нужно, если...</h2>
+      <div class="signs-grid">
+        <div class="sign-item reveal">
+          <div class="sign-dot"></div>
+          <div class="sign-text">Замкнулся, перестал делиться тем, что происходит</div>
+        </div>
+        <div class="sign-item reveal">
+          <div class="sign-dot"></div>
+          <div class="sign-text">Конфликты дома участились, напряжение стало постоянным</div>
+        </div>
+        <div class="sign-item reveal">
+          <div class="sign-dot"></div>
+          <div class="sign-text">Проблемы в школе или сложности с друзьями</div>
+        </div>
+        <div class="sign-item reveal">
+          <div class="sign-dot"></div>
+          <div class="sign-text">Тревога, страхи, непонятная агрессия или апатия</div>
+        </div>
+        <div class="sign-item reveal">
+          <div class="sign-dot"></div>
+          <div class="sign-text">Говорит «меня никто не понимает» или замолкает совсем</div>
+        </div>
+        <div class="sign-item reveal">
+          <div class="sign-dot"></div>
+          <div class="sign-text">Низкая самооценка, сравнение себя с другими</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="soft">
+    <div class="container">
+      <div class="section-label">Курсы</div>
+      <h2 class="section-title">Что происходит на занятиях</h2>
+      <p class="section-subtitle" style="margin-bottom:0">Длительность курса — 4 месяца (4 модуля по 4 занятия). После курса — поддерживающие встречи раз в 2 недели.</p>
+      <div class="course-cards">
+        <div class="course-card reveal">
+          <span class="course-age">10–13 лет</span>
+          <div class="course-title">Группа для детей 10–13 лет</div>
+          <p style="color:var(--muted);font-size:14px;line-height:1.6">Самопознание, работа с эмоциями, навыки общения, уверенность в себе. В игровой форме, безопасно и интересно.</p>
+          <div class="course-details">
+            <div class="course-detail">
+              <span class="course-detail-label">Темы:</span>
+              <span class="course-detail-val">эмоции, границы, самооценка, стресс</span>
+            </div>
+            <div class="course-detail">
+              <span class="course-detail-label">Формат:</span>
+              <span class="course-detail-val">очно, суббота 12:00–13:30</span>
+            </div>
+            <div class="course-detail">
+              <span class="course-detail-label">Ведущие:</span>
+              <span class="course-detail-val">Мовчан Екатерина, Зайчикова Олеся</span>
+            </div>
+          </div>
+          <div class="course-price">4 500 ₽ / мес</div>
+          <div style="font-size:13px;color:var(--muted);margin-top:4px">или 1 600 ₽ за одно занятие</div>
+          <button class="btn btn-primary btn-sm" style="margin-top:20px;width:100%" onclick="showPage('specialists')">Записать ребёнка</button>
+        </div>
+        <div class="course-card reveal">
+          <span class="course-age">13–17 лет</span>
+          <div class="course-title">Группа для подростков 13–17 лет</div>
+          <p style="color:var(--muted);font-size:14px;line-height:1.6">Отношения, идентичность, давление среды. Пространство, где можно говорить честно без осуждения.</p>
+          <div class="course-details">
+            <div class="course-detail">
+              <span class="course-detail-label">Темы:</span>
+              <span class="course-detail-val">отношения, границы, стресс, будущее</span>
+            </div>
+            <div class="course-detail">
+              <span class="course-detail-label">Формат:</span>
+              <span class="course-detail-val">очно, суббота 14:00–15:30</span>
+            </div>
+            <div class="course-detail">
+              <span class="course-detail-label">Ведущие:</span>
+              <span class="course-detail-val">Полыгалова Анастасия, Кучеренко Галина</span>
+            </div>
+          </div>
+          <div class="course-price">4 500 ₽ / мес</div>
+          <div style="font-size:13px;color:var(--muted);margin-top:4px">абонемент на 4 занятия</div>
+          <button class="btn btn-primary btn-sm" style="margin-top:20px;width:100%" onclick="showPage('specialists')">Записать ребёнка</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container" style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start">
+      <div>
+        <div class="section-label">Результаты</div>
+        <h2 class="section-title">Что замечают родители</h2>
+        <div class="results-list">
+          <div class="result-item reveal">
+            <div class="result-icon">→</div>
+            <div class="result-text">Ребёнок лучше понимает свои чувства и называет их</div>
+          </div>
+          <div class="result-item reveal">
+            <div class="result-icon">→</div>
+            <div class="result-text">Стал спокойнее реагировать на конфликты, меньше срывов</div>
+          </div>
+          <div class="result-item reveal">
+            <div class="result-icon">→</div>
+            <div class="result-text">Появился язык для разговора с родителями</div>
+          </div>
+          <div class="result-item reveal">
+            <div class="result-icon">→</div>
+            <div class="result-text">Увереннее держится в школе, стал инициативнее</div>
+          </div>
+          <div class="result-item reveal">
+            <div class="result-icon">→</div>
+            <div class="result-text">Атмосфера дома стала теплее — напряжение снизилось</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="section-label">Команда</div>
+        <h2 class="section-title">Кто ведёт</h2>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;gap:14px;align-items:center;padding:16px;background:#fff;border-radius:12px;border:1px solid var(--border)">
+            <div style="width:48px;height:48px;border-radius:50%;background:var(--purple-light);display:flex;align-items:center;justify-content:center;color:var(--purple);font-weight:700;flex-shrink:0">А</div>
+            <div>
+              <div style="font-weight:600;font-size:15px">Анастасия Полыгалова</div>
+              <div style="color:var(--muted);font-size:13px">Клинический психолог, руководитель направления</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:14px;align-items:center;padding:16px;background:#fff;border-radius:12px;border:1px solid var(--border)">
+            <div style="width:48px;height:48px;border-radius:50%;background:var(--purple-light);display:flex;align-items:center;justify-content:center;color:var(--purple);font-weight:700;flex-shrink:0">Е</div>
+            <div>
+              <div style="font-weight:600;font-size:15px">Екатерина Мовчан</div>
+              <div style="color:var(--muted);font-size:13px">Психолог, группа 10–13 лет</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:14px;align-items:center;padding:16px;background:#fff;border-radius:12px;border:1px solid var(--border)">
+            <div style="width:48px;height:48px;border-radius:50%;background:var(--purple-light);display:flex;align-items:center;justify-content:center;color:var(--purple);font-weight:700;flex-shrink:0">О</div>
+            <div>
+              <div style="font-weight:600;font-size:15px">Олеся Зайчикова</div>
+              <div style="color:var(--muted);font-size:13px">Психолог, группа 10–13 лет</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:14px;align-items:center;padding:16px;background:#fff;border-radius:12px;border:1px solid var(--border)">
+            <div style="width:48px;height:48px;border-radius:50%;background:var(--purple-light);display:flex;align-items:center;justify-content:center;color:var(--purple);font-weight:700;flex-shrink:0">Г</div>
+            <div>
+              <div style="font-weight:600;font-size:15px">Галина Кучеренко</div>
+              <div style="color:var(--muted);font-size:13px">Телесно-ориентированная терапия, группа 13–17 лет</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE -->
+  <section class="soft">
+    <div class="container" style="max-width:720px">
+      <div class="why-quote reveal">
+        <p class="why-quote-text">«Подростки — это уникальное направление. Они остаются, не уходят, и родители счастливы. За несколько месяцев в группе дети буквально раскрываются.»</p>
+        <div class="why-quote-author">— Наталья Тиунова, руководитель центра</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEENS FORM -->
+  <section class="form-section">
+    <div class="container">
+      <div class="form-inner">
+        <div class="form-text">
+          <div class="section-label">Запись</div>
+          <h2 class="section-title" style="color:#fff">Записать ребёнка на курс</h2>
+          <p class="section-subtitle">Ближайший набор — уточните дату у администратора. Места ограничены.</p>
+        </div>
+        <div class="form-box">
+          <form id="teens-form" onsubmit="submitForm(event,'teens')">
+            <h3>Заявка на курс</h3>
+            <div class="form-group">
+              <label>Имя родителя</label>
+              <input type="text" placeholder="Ваше имя" required>
+            </div>
+            <div class="form-group">
+              <label>Телефон</label>
+              <input type="tel" placeholder="+7 (___) ___-__-__" required>
+            </div>
+            <div class="form-group">
+              <label>Возраст ребёнка</label>
+              <select>
+                <option value="">Выберите возраст</option>
+                <option>10–13 лет</option>
+                <option>13–17 лет</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary form-submit">Записать ребёнка на курс</button>
+          </form>
+          <div class="form-success" id="success-teens">
+            <div class="form-success-icon">✅</div>
+            <h4>Заявка отправлена!</h4>
+            <p>Свяжемся с вами в течение нескольких часов для подтверждения.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- PAGE: CONSULTATIONS                         -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="page-consultations" class="page">
+  <div class="page-hero">
+    <div class="container">
+      <div class="breadcrumb">
+        <span onclick="showPage('main')">Главная</span>
+        <span class="breadcrumb-sep">›</span>
+        <span onclick="showPage('main')">Направления</span>
+        <span class="breadcrumb-sep">›</span>
+        <span>Консультации</span>
+      </div>
+      <h1>Индивидуальные консультации<br>с психологом</h1>
+      <p>Очно в Домодедово или онлайн — в любой точке мира.<br>60 минут · один на один · полная конфиденциальность</p>
+    </div>
+  </div>
+
+  <section>
+    <div class="container">
+      <div class="section-label">Запросы</div>
+      <h2 class="section-title">С чем приходят</h2>
+      <div class="problems-grid">
+        <div class="problem-chip reveal">Тревога и панические атаки</div>
+        <div class="problem-chip reveal">Отношения и конфликты</div>
+        <div class="problem-chip reveal">Выгорание и усталость</div>
+        <div class="problem-chip reveal">Семья и развод</div>
+        <div class="problem-chip reveal">Депрессивные состояния</div>
+        <div class="problem-chip reveal">Самооценка и неуверенность</div>
+        <div class="problem-chip reveal">Психосоматика</div>
+        <div class="problem-chip reveal">Потеря смысла и кризис</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="soft">
+    <div class="container">
+      <div class="section-label">Процесс</div>
+      <h2 class="section-title">Как проходит консультация</h2>
+      <div class="steps-grid">
+        <div class="step reveal">
+          <div class="step-num">1</div>
+          <div>
+            <div class="step-title">Запись</div>
+            <div class="step-text">Выбираете специалиста или просите помочь с выбором. Заполняете форму — мы напишем в течение нескольких часов.</div>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">2</div>
+          <div>
+            <div class="step-title">Встреча</div>
+            <div class="step-text">60 минут, очно в Домодедово или онлайн. Первая встреча — знакомство и прояснение запроса.</div>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">3</div>
+          <div>
+            <div class="step-title">Следующий шаг</div>
+            <div class="step-text">Специалист предложит формат дальнейшей работы — если нужно. Без давления и навязывания.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-label">Стоимость</div>
+      <h2 class="section-title">Цены</h2>
+      <div class="prices-grid">
+        <div class="price-card reveal">
+          <div class="price-label">Одна консультация</div>
+          <div class="price-amount">4 500–5 000 ₽</div>
+          <div class="price-note">Стоимость может отличаться у разных специалистов</div>
+        </div>
+        <div class="price-card featured reveal">
+          <div class="price-label">Абонемент 5 встреч</div>
+          <div class="price-amount">Скидка 10%</div>
+          <div class="price-note">Срок действия — 1,5 месяца от первой встречи</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="soft">
+    <div class="container">
+      <div class="section-label">Вопросы</div>
+      <h2 class="section-title">Часто спрашивают</h2>
+      <div class="faq-list">
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">
+            Как выбрать специалиста, если я не знаю кого?
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+          <div class="faq-a">Напишите нам — расскажите коротко, с чем хотите разобраться, и мы подберём подходящего специалиста. Это бесплатно и ни к чему не обязывает.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">
+            Что происходит на первой встрече?
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+          <div class="faq-a">Первая встреча — это знакомство. Вы рассказываете о себе и своём запросе, специалист задаёт вопросы. Никакого давления и «домашних заданий» с первого раза нет.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">
+            Всё, что я скажу — останется конфиденциальным?
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+          <div class="faq-a">Да. Конфиденциальность — это профессиональный и этический стандарт. Всё, что происходит на сессии, остаётся между вами и специалистом.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-q">
+            Как проходят онлайн-консультации?
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+          <div class="faq-a">По видеосвязи через удобный для вас мессенджер — Zoom, Telegram, WhatsApp или другой. Всё то же самое, что очная встреча, только из любого места.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONSULT FORM -->
+  <section class="form-section">
+    <div class="container">
+      <div class="form-inner">
+        <div class="form-text">
+          <div class="section-label">Запись</div>
+          <h2 class="section-title" style="color:#fff">Записаться на консультацию</h2>
+          <p class="section-subtitle">Или выберите специалиста сами — познакомьтесь с командой.</p>
+          <div style="margin-top:24px">
+            <button class="btn btn-outline" style="border-color:rgba(255,255,255,0.5);color:#fff" onclick="showPage('specialists')">Посмотреть специалистов</button>
+          </div>
+        </div>
+        <div class="form-box">
+          <form id="consult-form" onsubmit="submitForm(event,'consult')">
+            <h3>Заявка на консультацию</h3>
+            <div class="form-group">
+              <label>Ваше имя</label>
+              <input type="text" placeholder="Как вас зовут?" required>
+            </div>
+            <div class="form-group">
+              <label>Телефон или Telegram</label>
+              <input type="text" placeholder="+7 (___) ___-__-__" required>
+            </div>
+            <div class="form-group">
+              <label>Формат <span style="color:var(--muted);font-weight:400">(необязательно)</span></label>
+              <select>
+                <option value="">Не важно</option>
+                <option>Очно (Домодедово)</option>
+                <option>Онлайн</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary form-submit">Записаться</button>
+          </form>
+          <div class="form-success" id="success-consult">
+            <div class="form-success-icon">✅</div>
+            <h4>Заявка отправлена!</h4>
+            <p>Свяжемся с вами в течение нескольких часов.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══ FOOTER ════════════════════════════════ -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-brand-name">Центр психологии «Время»</div>
+      <p>Работаем с 2014 года. Онлайн и очные мероприятия для осознанной жизни.<br><br>г. Домодедово, ул. Дружбы, 2к1<br>Пн–Сб 9:00–20:00, Вс по записи</p>
+    </div>
+    <div class="footer-col">
+      <h3>Навигация</h3>
+      <ul>
+        <li onclick="showPage('main')"><a>Главная</a></li>
+        <li onclick="showPage('specialists')"><a>Специалисты</a></li>
+        <li><a href="afisha.html">Афиша</a></li>
+        <li onclick="scrollToForm()"><a>Контакты</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Направления</h3>
+      <ul>
+        <li onclick="showPage('consultations')"><a>Консультации</a></li>
+        <li onclick="showPage('teens')"><a>Для подростков</a></li>
+        <li><a>Для женщин</a></li>
+        <li><a>Для родителей</a></li>
+        <li><a>Расстановки</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Контакты</h3>
+      <ul>
+        <li><a href="tel:+79295899905">8 (929) 589-99-05</a></li>
+        <li><a href="https://t.me/vremia_psy">Telegram</a></li>
+        <li><a href="https://wa.me/79295899905">WhatsApp</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom" style="max-width:none;padding:20px 32px">
+    <div style="max-width:1140px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+      <span>© 2026 Центр психологии «Время». Все права защищены.</span>
+      <span>∞ Раскрой свою бесконечность</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ─── DATA ──────────────────────────────────────
+const SPECIALISTS = [
+  { name: 'Наталья Тиунова',      role: 'Руководитель, психолог, супервизор',          tags: ['consult'], tagLabels: ['Консультации'],                        methods: 'Психоанализ, КПТ, супервизия', since: '2014', formats: 'Очно, онлайн' },
+  { name: 'Галина Кучеренко',     role: 'Телесно-ориентированная терапия, гипноз',      tags: ['body','women','constellation'], tagLabels: ['Телесные','Женские','Расстановки'], methods: 'Телесная терапия, гипноз, МАК', since: '2017', formats: 'Очно' },
+  { name: 'Татьяна Даниленко',    role: 'Психолог, ведущая женских групп',              tags: ['consult','women'], tagLabels: ['Консультации','Женские'],       methods: 'Арт-терапия, гештальт', since: '2017', formats: 'Очно, онлайн' },
+  { name: 'Максим Меркун',        role: 'Психолог, работа с мужской аудиторией',        tags: ['consult'], tagLabels: ['Консультации'],                        methods: 'КПТ, экзистенциальная терапия', since: '2016', formats: 'Очно, онлайн' },
+  { name: 'Александр Бабенко',    role: 'Психолог, семейный консультант',               tags: ['consult','constellation'], tagLabels: ['Консультации','Расстановки'], methods: 'Системные расстановки, семейная терапия', since: '2017', formats: 'Очно' },
+  { name: 'Анастасия Полыгалова', role: 'Клинический психолог, РПП, подростки',         tags: ['consult','teens'], tagLabels: ['Консультации','Подростки'],     methods: 'КПТ, работа с РПП, групповая', since: '2023', formats: 'Очно, онлайн' },
+  { name: 'Екатерина Мовчан',     role: 'Психолог, работа с детьми и подростками',      tags: ['teens'], tagLabels: ['Подростки'],                             methods: 'Игровая терапия, арт-терапия', since: '2023', formats: 'Очно' },
+  { name: 'Анастасия Хорошавцева',role: 'Психосоматика, тревога, панические атаки',     tags: ['consult'], tagLabels: ['Консультации'],                        methods: 'КПТ, психосоматика', since: '2024', formats: 'Онлайн' },
+  { name: 'Олеся Зайчикова',      role: 'Психолог, подростки, работа с травмой',        tags: ['teens','consult'], tagLabels: ['Подростки','Консультации'],     methods: 'Trauma-informed, арт-терапия', since: '2025', formats: 'Очно' },
+  { name: 'Ирина Косьяненко',     role: 'Психолог, курс «Счастье начинается с меня»',   tags: ['women','consult'], tagLabels: ['Женские','Консультации'],       methods: 'Позитивная психология, КПТ', since: '2025', formats: 'Онлайн' },
+  { name: 'Оксана Катаева',       role: 'Звуковые практики, чаши, медитации',           tags: ['body','women'], tagLabels: ['Телесные','Женские'],              methods: 'Звукотерапия, телесные практики', since: '2025', formats: 'Очно' },
+];
+
+const EVENTS_DATA = [
+  { day:7,  dow:'СБ', title:'Курс для подростков 10–13 лет',       format:'offline', price:'4 500 ₽ / мес' },
+  { day:14, dow:'СБ', title:'Игра «Лила»',                          format:'offline', price:'4 500 ₽' },
+  { day:15, dow:'ВС', title:'Время для родителей',                  format:'online',  price:'500 ₽' },
+  { day:21, dow:'СБ', title:'Курс «Счастье начинается с меня»',    format:'offline', price:'8 000 ₽ / мес' },
+  { day:22, dow:'ВС', title:'Расстановки. Семейные сценарии',       format:'offline', price:'3 500 ₽' },
+  { day:28, dow:'СБ', title:'Время для женщин. Весенний поток',     format:'online',  price:'2 000 ₽' },
+];
+
+// ─── NAVIGATION ────────────────────────────────
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  closeMobile();
+  initReveal();
+}
+
+function scrollToForm() {
+  showPage('main');
+  setTimeout(() => {
+    document.getElementById('contact-section').scrollIntoView({ behavior: 'smooth' });
+  }, 100);
+}
+
+// ─── MOBILE NAV ─────────────────────────────────
+function toggleMobile() {
+  document.getElementById('mobile-menu').classList.toggle('open');
+}
+function closeMobile() {
+  document.getElementById('mobile-menu').classList.remove('open');
+}
+
+// ─── SPECIALISTS ────────────────────────────────
+let activeFilter = 'all';
+function renderSpecialists() {
+  const grid = document.getElementById('specialists-grid');
+  const filtered = activeFilter === 'all'
+    ? SPECIALISTS
+    : SPECIALISTS.filter(s => s.tags.includes(activeFilter));
+  grid.innerHTML = filtered.map(s => `
+    <div class="specialist-card">
+      <div class="specialist-photo">👤</div>
+      <div class="specialist-body">
+        <div class="specialist-name">${s.name}</div>
+        <div class="specialist-spec">${s.role}</div>
+        <div class="specialist-tags">
+          ${s.tagLabels.map(t => `<span class="spec-tag">${t}</span>`).join('')}
+        </div>
+        <div class="specialist-since">В центре с ${s.since} · ${s.formats}</div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:16px">Методы: ${s.methods}</div>
+        <button class="btn btn-primary btn-sm specialist-btn" onclick="scrollToForm()">Записаться</button>
+      </div>
+    </div>
+  `).join('');
+  initReveal();
+}
+
+function filterSpecialists(filter, btn) {
+  activeFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderSpecialists();
+}
+
+// ─── EVENTS PREVIEW ─────────────────────────────
+function renderEventsPreview() {
+  const el = document.getElementById('events-preview');
+  el.innerHTML = EVENTS_DATA.slice(0, 3).map(e => `
+    <div class="event-preview-card">
+      <div class="event-preview-date">
+        <span class="event-date-num">${e.day}</span>
+        <span class="event-date-info">МАР · ${e.dow}</span>
+      </div>
+      <div class="event-preview-title">${e.title}</div>
+      <div class="event-preview-meta">
+        <span class="event-tag ${e.format === 'offline' ? 'tag-offline' : 'tag-online'}">${e.format === 'offline' ? 'Очно' : 'Онлайн'}</span>
+      </div>
+      <div class="event-preview-price">${e.price}</div>
+    </div>
+  `).join('');
+}
+
+// ─── FAQ ────────────────────────────────────────
+function toggleFaq(el) {
+  el.classList.toggle('open');
+}
+
+// ─── FORMS ──────────────────────────────────────
+function submitMainForm(e) {
+  e.preventDefault();
+  document.getElementById('main-form').style.display = 'none';
+  document.getElementById('main-success').style.display = 'block';
+}
+function submitForm(e, id) {
+  e.preventDefault();
+  document.getElementById(id + '-form').style.display = 'none';
+  document.getElementById('success-' + id).style.display = 'block';
+}
+
+// ─── SCROLL REVEAL ───────────────────────────────
+function initReveal() {
+  const els = document.querySelectorAll('.page.active .reveal:not(.visible)');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  els.forEach(el => observer.observe(el));
+}
+
+// ─── INIT ────────────────────────────────────────
+renderEventsPreview();
+renderSpecialists();
+initReveal();
+</script>
+</body>
+</html>
