@@ -11,15 +11,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .topbar h1{font-size:17px;font-weight:700}
 .topbar p{font-size:12px;opacity:.8;margin-top:4px}
 .stats{display:flex;gap:8px;margin-bottom:10px;font-size:13px}
-.stat{flex:1;background:#fff;border-radius:10px;padding:8px 10px;text-align:center}
+.stat{flex:1;background:#fff;border-radius:10px;padding:8px 10px;text-align:center;cursor:pointer;transition:box-shadow .15s;user-select:none}
+.stat:hover{box-shadow:0 0 0 2px #740298}
 .stat b{display:block;font-size:22px;font-weight:700}
 .stat.s-ok b{color:#2d7a2d}
 .stat.s-fix b{color:#c0610a}
 .stat.s-left b{color:#740298}
+.stat.active-filter{box-shadow:0 0 0 2.5px currentColor;background:#f8f0ff}
+.stat.s-ok.active-filter{box-shadow:0 0 0 2.5px #4caf50}
+.stat.s-fix.active-filter{box-shadow:0 0 0 2.5px #ff9800}
+.stat.s-left.active-filter{box-shadow:0 0 0 2.5px #740298}
+.filters{display:flex;gap:6px;margin-bottom:12px}
+.f-btn{flex:1;padding:9px 4px;border:2px solid transparent;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;background:#fff;color:#555;transition:all .15s}
+.f-btn.active{border-color:#740298;color:#740298;background:#f8f0ff}
+.f-btn:hover{border-color:#c0a0e0}
 .copy-all-btn{display:none;width:100%;padding:12px;background:#e65c00;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:12px}
 .card{background:#fff;border-radius:14px;margin-bottom:14px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.07);border:2px solid transparent;transition:border-color .2s}
 .card.ok{border-color:#4caf50}
 .card.fix{border-color:#ff9800}
+.card.hidden{display:none}
 .card-head{padding:12px 14px 8px;border-bottom:1px solid #f0ebe3;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .status-badge{font-size:16px;min-width:20px}
 .date{font-size:12px;font-weight:700;color:#740298;background:#f3ecf8;padding:2px 9px;border-radius:20px;white-space:nowrap}
@@ -41,6 +51,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .comment-wrap textarea:focus{outline:none;border-color:#740298}
 .save-btn{display:block;width:100%;padding:8px;background:#740298;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:6px}
 .save-btn.saved{background:#4caf50}
+.empty-msg{text-align:center;color:#aaa;padding:32px;font-size:14px;display:none}
 </style>
 </head>
 <body>
@@ -49,15 +60,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <p id="topbar-sub">20 постов · отметь статус и оставь комментарий</p>
 </div>
 <div class="stats">
-  <div class="stat s-ok"><b id="cnt-ok">0</b>Ок</div>
-  <div class="stat s-fix"><b id="cnt-fix">0</b>Правки</div>
-  <div class="stat s-left"><b id="cnt-left">20</b>Не просмотрено</div>
+  <div class="stat s-ok" id="stat-ok" onclick="setFilter('ok')" title="Показать только одобренные"><b id="cnt-ok">0</b>Ок ✅</div>
+  <div class="stat s-fix" id="stat-fix" onclick="setFilter('fix')" title="Показать только с правками"><b id="cnt-fix">0</b>Правки ✏️</div>
+  <div class="stat s-left" id="stat-left" onclick="setFilter('none')" title="Показать только непросмотренные"><b id="cnt-left">20</b>Не просм.</div>
+</div>
+<div class="filters">
+  <button class="f-btn active" id="f-all" onclick="setFilter('all')">Все посты</button>
+  <button class="f-btn" id="f-ok" onclick="setFilter('ok')">✅ Ок</button>
+  <button class="f-btn" id="f-fix" onclick="setFilter('fix')">✏️ Правки</button>
+  <button class="f-btn" id="f-none" onclick="setFilter('none')">👁 Не просмотрено</button>
 </div>
 <button class="copy-all-btn" id="copy-all-btn" onclick="copyAllFixes()">📋 Скопировать все правки</button>
 <div id="posts">
-<div class="card" id="card0">
+<div class="card ok" id="card0" data-status="ok">
   <div class="card-head">
-    <span class="status-badge" id="badge0"></span>
+    <span class="status-badge" id="badge0">✅</span>
     <span class="date">21.05 чт</span>
     <span class="time">10:00</span>
     <span class="tag">Прогрев МАК-девичника (первое касание)</span>
@@ -73,9 +90,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="save-btn" id="savebtn0" onclick="saveComment(0)">💾 Сохранить</button>
   </div>
 </div>
-<div class="card" id="card1">
+<div class="card ok" id="card1" data-status="ok">
   <div class="card-head">
-    <span class="status-badge" id="badge1"></span>
+    <span class="status-badge" id="badge1">✅</span>
     <span class="date">21.05 чт</span>
     <span class="time">20:00</span>
     <span class="tag">«Почему одна сессия с психологом не помогает» ⭐ Счастье</span>
@@ -91,9 +108,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="save-btn" id="savebtn1" onclick="saveComment(1)">💾 Сохранить</button>
   </div>
 </div>
-<div class="card" id="card2">
+<div class="card ok" id="card2" data-status="ok">
   <div class="card-head">
-    <span class="status-badge" id="badge2"></span>
+    <span class="status-badge" id="badge2">✅</span>
     <span class="date">22.05 пт</span>
     <span class="time">10:00</span>
     <span class="tag">«4 фразы родителя перед экзаменом» 📚</span>
@@ -109,9 +126,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="save-btn" id="savebtn2" onclick="saveComment(2)">💾 Сохранить</button>
   </div>
 </div>
-<div class="card" id="card3">
+<div class="card ok" id="card3" data-status="ok">
   <div class="card-head">
-    <span class="status-badge" id="badge3"></span>
+    <span class="status-badge" id="badge3">✅</span>
     <span class="date">22.05 пт</span>
     <span class="time">18:00</span>
     <span class="tag">Финальный анонс ВДР 📣</span>
@@ -127,9 +144,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="save-btn" id="savebtn3" onclick="saveComment(3)">💾 Сохранить</button>
   </div>
 </div>
-<div class="card" id="card4">
+<div class="card ok" id="card4" data-status="ok">
   <div class="card-head">
-    <span class="status-badge" id="badge4"></span>
+    <span class="status-badge" id="badge4">✅</span>
     <span class="date">23.05 сб</span>
     <span class="time">12:00</span>
     <span class="tag">«Список признаков, который стоит сохранить» 📚</span>
@@ -145,9 +162,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="save-btn" id="savebtn4" onclick="saveComment(4)">💾 Сохранить</button>
   </div>
 </div>
-<div class="card" id="card5">
+<div class="card ok" id="card5" data-status="ok">
   <div class="card-head">
-    <span class="status-badge" id="badge5"></span>
+    <span class="status-badge" id="badge5">✅</span>
     <span class="date">24.05 вс</span>
     <span class="time">09:00</span>
     <span class="tag">Сегодня ВДР 🔔</span>
@@ -163,9 +180,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="save-btn" id="savebtn5" onclick="saveComment(5)">💾 Сохранить</button>
   </div>
 </div>
-<div class="card" id="card6">
+<div class="card ok" id="card6" data-status="ok">
   <div class="card-head">
-    <span class="status-badge" id="badge6"></span>
+    <span class="status-badge" id="badge6">✅</span>
     <span class="date">25.05 пн</span>
     <span class="time">11:00</span>
     <span class="tag">Отчёт ВДР 📸</span>
@@ -181,9 +198,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="save-btn" id="savebtn6" onclick="saveComment(6)">💾 Сохранить</button>
   </div>
 </div>
-<div class="card" id="card7">
+<div class="card ok" id="card7" data-status="ok">
   <div class="card-head">
-    <span class="status-badge" id="badge7"></span>
+    <span class="status-badge" id="badge7">✅</span>
     <span class="date">25.05 пн</span>
     <span class="time">20:00</span>
     <span class="tag">«Онлайн ≠ запись» ⭐ Счастье</span>
@@ -199,9 +216,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="save-btn" id="savebtn7" onclick="saveComment(7)">💾 Сохранить</button>
   </div>
 </div>
-<div class="card" id="card8">
+<div class="card ok" id="card8" data-status="ok">
   <div class="card-head">
-    <span class="status-badge" id="badge8"></span>
+    <span class="status-badge" id="badge8">✅</span>
     <span class="date">26.05 вт</span>
     <span class="time">10:00</span>
     <span class="tag">«Перестать быть удобной» 📚</span>
@@ -217,9 +234,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="save-btn" id="savebtn8" onclick="saveComment(8)">💾 Сохранить</button>
   </div>
 </div>
-<div class="card" id="card9">
+<div class="card ok" id="card9" data-status="ok">
   <div class="card-head">
-    <span class="status-badge" id="badge9"></span>
+    <span class="status-badge" id="badge9">✅</span>
     <span class="date">26.05 вт</span>
     <span class="time">18:00</span>
     <span class="tag">«Что-то повторяется» 🧠 Прогрев расстановок</span>
@@ -235,9 +252,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="save-btn" id="savebtn9" onclick="saveComment(9)">💾 Сохранить</button>
   </div>
 </div>
-<div class="card" id="card10">
+<div class="card ok" id="card10" data-status="ok">
   <div class="card-head">
-    <span class="status-badge" id="badge10"></span>
+    <span class="status-badge" id="badge10">✅</span>
     <span class="date">27.05 ср</span>
     <span class="time">11:00</span>
     <span class="tag">«Что такое МАК-девичник» 🧠 Прогрев</span>
@@ -253,9 +270,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="save-btn" id="savebtn10" onclick="saveComment(10)">💾 Сохранить</button>
   </div>
 </div>
-<div class="card" id="card11">
+<div class="card ok" id="card11" data-status="ok">
   <div class="card-head">
-    <span class="status-badge" id="badge11"></span>
+    <span class="status-badge" id="badge11">✅</span>
     <span class="date">27.05 ср</span>
     <span class="time">20:00</span>
     <span class="tag">«Декрет – не повод остаться без себя» ⭐ Счастье</span>
@@ -271,9 +288,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="save-btn" id="savebtn11" onclick="saveComment(11)">💾 Сохранить</button>
   </div>
 </div>
-<div class="card" id="card12">
+<div class="card ok" id="card12" data-status="ok">
   <div class="card-head">
-    <span class="status-badge" id="badge12"></span>
+    <span class="status-badge" id="badge12">✅</span>
     <span class="date">28.05 чт</span>
     <span class="time">12:00</span>
     <span class="tag">Финальный анонс МАК-девичника 📣</span>
@@ -289,9 +306,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="save-btn" id="savebtn12" onclick="saveComment(12)">💾 Сохранить</button>
   </div>
 </div>
-<div class="card" id="card13">
+<div class="card ok" id="card13" data-status="ok">
   <div class="card-head">
-    <span class="status-badge" id="badge13"></span>
+    <span class="status-badge" id="badge13">✅</span>
     <span class="date">28.05 чт</span>
     <span class="time">18:00</span>
     <span class="tag">Опрос 💬</span>
@@ -307,9 +324,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="save-btn" id="savebtn13" onclick="saveComment(13)">💾 Сохранить</button>
   </div>
 </div>
-<div class="card" id="card14">
+<div class="card ok" id="card14" data-status="ok">
   <div class="card-head">
-    <span class="status-badge" id="badge14"></span>
+    <span class="status-badge" id="badge14">✅</span>
     <span class="date">29.05 пт</span>
     <span class="time">09:00</span>
     <span class="tag">Сегодня МАК-девичник 🔔</span>
@@ -325,9 +342,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="save-btn" id="savebtn14" onclick="saveComment(14)">💾 Сохранить</button>
   </div>
 </div>
-<div class="card" id="card15">
+<div class="card ok" id="card15" data-status="ok">
   <div class="card-head">
-    <span class="status-badge" id="badge15"></span>
+    <span class="status-badge" id="badge15">✅</span>
     <span class="date">29.05 пт</span>
     <span class="time">18:00</span>
     <span class="tag">Обзор выходных 📅</span>
@@ -343,9 +360,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="save-btn" id="savebtn15" onclick="saveComment(15)">💾 Сохранить</button>
   </div>
 </div>
-<div class="card" id="card16">
+<div class="card ok" id="card16" data-status="ok">
   <div class="card-head">
-    <span class="status-badge" id="badge16"></span>
+    <span class="status-badge" id="badge16">✅</span>
     <span class="date">30.05 сб</span>
     <span class="time">10:00</span>
     <span class="tag">Сегодня расстановки 🔔</span>
@@ -361,7 +378,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="save-btn" id="savebtn16" onclick="saveComment(16)">💾 Сохранить</button>
   </div>
 </div>
-<div class="card" id="card17">
+<div class="card " id="card17" data-status="">
   <div class="card-head">
     <span class="status-badge" id="badge17"></span>
     <span class="date">30.05 сб</span>
@@ -379,9 +396,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="save-btn" id="savebtn17" onclick="saveComment(17)">💾 Сохранить</button>
   </div>
 </div>
-<div class="card" id="card18">
+<div class="card ok" id="card18" data-status="ok">
   <div class="card-head">
-    <span class="status-badge" id="badge18"></span>
+    <span class="status-badge" id="badge18">✅</span>
     <span class="date">31.05 вс</span>
     <span class="time">14:00</span>
     <span class="tag">Финал 7-го потока 🌿</span>
@@ -397,9 +414,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="save-btn" id="savebtn18" onclick="saveComment(18)">💾 Сохранить</button>
   </div>
 </div>
-<div class="card" id="card19">
+<div class="card ok" id="card19" data-status="ok">
   <div class="card-head">
-    <span class="status-badge" id="badge19"></span>
+    <span class="status-badge" id="badge19">✅</span>
     <span class="date">31.05 вс</span>
     <span class="time">20:00</span>
     <span class="tag">Анонс июня 📅</span>
@@ -415,10 +432,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="save-btn" id="savebtn19" onclick="saveComment(19)">💾 Сохранить</button>
   </div>
 </div></div>
+<div class="empty-msg" id="empty-msg">Нет постов с таким статусом</div>
 
 <script>
-var KEY = 'posts_may_v7';
+var KEY = 'posts_may_v8';
 var posts = [{"date": "21.05 чт", "time": "10:00", "tag": "Прогрев МАК-девичника (первое касание)", "body": "МАК-девичник – это не встреча с одним вопросом на всех.\n\nЗдесь у каждой – своё. Своя тема. Свой запрос. То, что давно внутри не даёт покоя, не отпускает, никак не обретает ясности.\n\nА помощниками в этой работе будут карты Чака Спецано – один из самых глубоких инструментов в психологии образов. **Три колоды: карты любви, карты успеха и карты сексуальности.**\n\nКатя Мовчан работает с этими картами давно – и очень их любит. Они не дают универсальных ответов. Они помогают увидеть твой.\n\n29 мая в 18:00 – «МАК-девичник: Встреча с собой». Очно, в центре «Время».\n\n📅 **29 мая, 18:00, очно**\n💰 **2 000 ₽ / 1 500 ₽ по абонементу**\n\nЗаписаться → **[ссылка](https://n95329.yclients.com)**", "status": "ok", "comment": ""}, {"date": "21.05 чт", "time": "20:00", "tag": "«Почему одна сессия с психологом не помогает» ⭐ Счастье", "body": "**«Я уже пробовала – не помогло».**\n\nЧасто это значит не «психология не работает». Это значит – формат был не тот, или не хватило времени.\n\n**Одна сессия с психологом – как один подход в зале.** Выйти и расстроиться, что ничего не изменилось.\n\n**Психика меняется медленнее, чем хочется.** Особенно если паттерн жил в нас 20–30 лет.\n\nЧто реально работает – **регулярность и группа**. Когда приходишь снова и снова. Когда рядом люди с похожими вопросами. Когда инсайт этой недели вырастает из встречи прошлой.\n\nИменно так устроен «Счастье начинается с меня» – **3 месяца, живая группа, раз в неделю по 3 часа**. Не марафон в телефоне. Не запись, которую «посмотрю потом». Живые люди, Наталья Лукьянова, конкретные практики и разбор твоих ситуаций.\n\n**6 июня – первый онлайн-поток.** Можно из любого города.\n\nЕсли думаешь «надо бы попробовать» – **напиши нам**, расскажем подробнее.", "status": "ok", "comment": ""}, {"date": "22.05 пт", "time": "10:00", "tag": "«4 фразы родителя перед экзаменом» 📚", "body": "Экзамены – это не только про подростка. Это и про вас.\n\n**Тревога родителя передаётся. Молча.** Через интонацию, через лишний вопрос «ну как, всё выучил?», через взгляд когда он выходит из комнаты.\n\n4 фразы, которые реально работают перед экзаменом:\n\n**«Я верю, что ты справишься»** – и замолчать. Без «но».\n\n**«Что тебе сейчас нужно?»** – вместо «давай повторим ещё раз». Он знает лучше тебя.\n\n**«Что бы ни случилось – ты мой ребёнок»** – убирает страх катастрофы, который часто парализует сильнее неготовности.\n\n**«Я рядом, если что»** – и отойти. Дать пространство.\n\n**Подростку перед экзаменом нужно чувствовать себя в безопасности, а не под давлением**. Вы уже делаете важное – вы рядом.\n\n_P.S. Если тревога ребёнка выходит за рамки обычного – послезавтра, 24 мая в 12:00, у нас встреча «Как распознать подростковую депрессию». Анастасия Полыгалова, клинический психолог. 500 ₽, онлайн._", "status": "ok", "comment": ""}, {"date": "22.05 пт", "time": "18:00", "tag": "Финальный анонс ВДР 📣", "body": "Воскресенье, 24 мая, 12:00.\n\nВстреча «Как распознать подростковую депрессию?» – для родителей, которые чувствуют: **что-то не так, но не могут понять что именно**.\n\nВедёт Анастасия Полыгалова – клинический психолог, специалист по работе с подростками, тревогой и эмоциональными состояниями.\n\nНа встрече разберём:\n– как **депрессия у подростков выглядит на самом деле** (не так, как показывают в кино)\n– почему родители часто не замечают – и это не их вина\n– что делать, если кажется что ребёнок просто «ленится» или «не хочет общаться»\n– когда нужен специалист, а когда можно справиться своими силами\n\n📅 **24 мая, воскресенье, 12:00**\n💰 **500 ₽**\n📱 Онлайн, будет запись\n\nЗаписаться → **[ссылка](https://n95329.yclients.com)**", "status": "ok", "comment": ""}, {"date": "23.05 сб", "time": "12:00", "tag": "«Список признаков, который стоит сохранить» 📚", "body": "Сохраните этот пост.\n\nНе потому что «а вдруг». А потому что эти признаки легко перепутать с подростковым характером – и пропустить важное.\n\n**7 маркеров подростковой депрессии, которые часто не распознают:**\n\n1. Не плачет и не жалуется – просто перестал что-то хотеть\n2. Стал очень раздражительным (агрессия – частая маска депрессии у подростков)\n3. Много спит или совсем не спит\n4. Перестал общаться с друзьями – не поссорился, просто исчез\n5. Не получает удовольствия от того, что раньше нравилось\n6. Жалобы на головные боли, боли в животе – врачи ничего не находят\n7. Говорит фразы вроде «мне всё равно», «зачем», «я мешаю»\n\nЕсли три и больше пункта – это сигнал поговорить со специалистом.\n\nЗавтра, 24 мая в 12:00 – онлайн-встреча с Анастасией Полыгаловой, клиническим психологом. Разберём, как это выглядит изнутри и что делать родителю. 500 ₽.\n\nЗаписаться → **[ссылка](https://n95329.yclients.com)**", "status": "ok", "comment": ""}, {"date": "24.05 вс", "time": "09:00", "tag": "Сегодня ВДР 🔔", "body": "Сегодня в 12:00 – встреча «Как распознать подростковую депрессию».\n\nЕсли записались – ссылку пришлём за 15 минут до начала.\n\nЕсли ещё думаете – ещё можно. Записывайтесь → **[ссылка](https://n95329.yclients.com)**, успеем оформить.\n\nАнастасия Полыгалова, 500 ₽, онлайн.", "status": "ok", "comment": ""}, {"date": "25.05 пн", "time": "11:00", "tag": "Отчёт ВДР 📸", "body": "Вчера провели встречу «Как распознать подростковую депрессию».\n\n**Самый частый вопрос от родителей:** «Это уже повод идти к специалисту – или ещё нет?»\n\nАнастасия Полыгалова отвечала на него спокойно и без пугающих слов. Потому что **подростковая депрессия – это не приговор и не катастрофа**. Это состояние, с которым работают. Главное – заметить.\n\nЧто разобрали на встрече:\n– почему агрессия и безразличие – это тоже признаки, а не «характер»\n– как говорить с подростком, когда он закрывается\n– когда идти к специалисту, а когда можно справиться своими силами\n\n**Заметить – это уже много.** Родители, которые пришли на встречу, уже делают правильное.\n\nЕсли хотите продолжить работу с Анастасией индивидуально – она принимает очно и онлайн. Записаться → **[ссылка](https://n95329.yclients.com)**", "status": "ok", "comment": ""}, {"date": "25.05 пн", "time": "20:00", "tag": "«Онлайн ≠ запись» ⭐ Счастье", "body": "«**«Через экран не работает»**» – слышим это часто.\n\nИ понимаем откуда это. Онлайн ассоциируется с записью лекции, которую смотришь в наушниках, пока гладишь.\n\n«Счастье начинается с меня» – другое.\n\nЭто живая группа. Один раз в неделю, воскресенье, 3 часа. Наталья Лукьянова, 12 участников, видеосвязь – и это работает именно потому, что вы видите друг друга.\n\nЧто меняется в онлайн-формате:\n– можно из любого города и страны\n– **дома иногда легче открываться**\n– каждое занятие остаётся в записи – можно пересмотреть\n– куратор в чате между встречами\n\nТе же специалисты. Та же глубина. Просто без дороги.\n\n**Старт 8-го потока – 6 июня. 15 мест.**\n\nЕсли хочешь попасть – **напиши нам**, расскажем подробнее.", "status": "ok", "comment": ""}, {"date": "26.05 вт", "time": "10:00", "tag": "«Перестать быть удобной» 📚", "body": "Вы помните, когда последний раз сказали «нет» – и не объясняли почему?\n\nНе «не могу», не «у меня дела» – а просто «нет, не хочу».\n\nМногие из нас выросли с убеждением: чтобы тебя любили – нужно быть удобной. Не обременять. Не требовать. Подстраиваться.\n\nИ это работало. Какое-то время.\n\nА потом начинает накапливаться. Усталость без причины. Раздражение на тех, кому помогаешь. Ощущение, что ты есть везде – и нигде для себя.\n\n«Удобная» – это не черта характера. **Это стратегия выживания**, которая когда-то помогла. Просто сейчас она больше не нужна.\n\nРазбираться с этим можно по-разному. Один из форматов – МАК-карты Чака Спецано. **Каждая приходит со своим запросом** – и карта помогает увидеть то, что словами давно не формулировалось.\n\n29 мая – «МАК-девичник: Встреча с собой». Катя Мовчан. 18:00, очно (Домодедово).\n\n**2 000 ₽ / 1 500 ₽ по абонементу.** Записаться → **[ссылка](https://n95329.yclients.com)**", "status": "ok", "comment": ""}, {"date": "26.05 вт", "time": "18:00", "tag": "«Что-то повторяется» 🧠 Прогрев расстановок", "body": "Вы замечали, что **некоторые ситуации в жизни возвращаются?**\n\n**Другой человек – та же боль. Другая работа – тот же тупик.** Другие отношения – и снова.\n\nЭто не невезение и не характер. Это сценарий.\n\nОн складывается раньше, чем мы начинаем его замечать – в семье, в детстве, иногда ещё раньше. И работает автоматически, пока мы живём внутри него.\n\nСистемные расстановки – один из методов, который позволяет увидеть этот сценарий снаружи. Буквально – выйти за пределы и посмотреть: что здесь происходит? Откуда это?\n\n30 мая в 13:00 – расстановки с Александром Бабенко. Александр работает с системными сценариями уже 8 лет.\n\n7 900 ₽ / заместитель 1 500 ₽.\n\nЗаписывайтесь → **[ссылка](https://n95329.yclients.com)**", "status": "ok", "comment": ""}, {"date": "27.05 ср", "time": "11:00", "tag": "«Что такое МАК-девичник» 🧠 Прогрев", "body": "Три колоды. Одна встреча. И каждая – со своим вопросом.\n\nЭто не арт-терапия и не работа над одной общей темой. **МАК-девичник – это пространство, где ты разбираешься с тем, что волнует именно тебя.**\n\nКарты Чака Спецано – особенные. Их три вида: **любовь, успех и сексуальность**. Катя Мовчан использует их в своей работе и называет одним из самых точных инструментов для того, что «словами не формулируется».\n\nБерёшь карту – и что-то становится ясным. Где давно не было определённости. Где всё ходит по кругу. Где не знаешь, с чего начать.\n\nИ всё это – **в той самой женской атмосфере, которой так не хватает в обычной жизни.**\n\n📅 **29 мая, 18:00**\n💰 **2 000 ₽ / 1 500 ₽ по абонементу**\n\nЗаписаться → **[ссылка](https://n95329.yclients.com)** (можно сразу двоих)", "status": "ok", "comment": ""}, {"date": "27.05 ср", "time": "20:00", "tag": "«Декрет – не повод остаться без себя» ⭐ Счастье", "body": "Мама в декрете – это не профессия. Но иногда ощущается именно так.\n\n«Приложение к детям». «Биоробот». «Я забыла кто я вне детей и мужа».\n\nЭто реальные слова, которые пишут женщины в поддерживающих чатах. Не жалобы. Честность.\n\nДекрет – это огромная работа. Внутри которой очень легко потерять себя. Не заметить, как прошло полгода, год, три – а твои мысли, желания, вопросы про себя где-то отложились «на потом».\n\n«Счастье начинается с меня» – курс, который изначально создавался для мам. В том числе тех, кто дома, кто не может выходить на очные занятия, кто живёт далеко.\n\nС 6 июня – онлайн. Воскресенье, 10:00–13:00. Можно из любой комнаты. Есть запись каждого занятия.\n\nЕсли это про тебя – напиши нам. Расскажем как устроен курс.", "status": "ok", "comment": ""}, {"date": "28.05 чт", "time": "12:00", "tag": "Финальный анонс МАК-девичника 📣", "body": "Завтра – МАК-девичник. 29 мая, 18:00, очно в центре «Время».\n\nКатя Мовчан приглашает прийти **со своим запросом**. Не с общей темой – с тем, что именно тебя сейчас беспокоит. Где нет ясности. Где нет определённости. Где что-то давно тревожит.\n\nНа встрече работаем с тремя колодами карт Чака Спецано: **любовь, успех, сексуальность**. Каждая получит ответы на своё – в своём темпе, без давления.\n\n**Женская атмосфера. Живой разговор. Своё время с собой.**\n\nМожно прийти с подругой.\n\n💰 **2 000 ₽ / 1 500 ₽ по абонементу**\n\nЗаписаться → **[ссылка](https://n95329.yclients.com)**", "status": "ok", "comment": ""}, {"date": "28.05 чт", "time": "18:00", "tag": "Опрос 💬", "body": "Что для вас сейчас актуальнее всего?\n\n👇 Проголосуйте – один вариант:\n\n– Отношения (с партнёром, семьёй, детьми)\n– Деньги и работа (выгорание, смысл, доход)\n– Тело (вес, здоровье, ощущение себя)\n– Смысл (кто я, чего хочу, куда иду)\n\nЭто не опрос для галочки. Смотрим на результаты – планируем форматы на лето под то, что реально нужно.", "status": "ok", "comment": ""}, {"date": "29.05 пт", "time": "09:00", "tag": "Сегодня МАК-девичник 🔔", "body": "Сегодня в 18:00 – МАК-девичник. Очно, в центре «Время».\n\nКатя Мовчан ждёт. Ещё есть места.\n\nЕсли записались – приходите, ул. Дружбы, 2к1.\n\nЕсли ещё думаете – записывайтесь → **[ссылка](https://n95329.yclients.com)** прямо сейчас, успеем оформить.", "status": "ok", "comment": ""}, {"date": "29.05 пт", "time": "18:00", "tag": "Обзор выходных 📅", "body": "Большие выходные в центре «Время».\n\n**Завтра, 30 мая** – расстановки с Александром Бабенко. 13:00, очно.\n\nЕсли чувствуете, что какая-то ситуация в жизни ходит по кругу – расстановки про это. Александр работает деликатно, без лишних слов. **7 900 ₽**, есть место заместителя – **1 500 ₽**.\n\n**31 мая** – финал 7-го потока «Счастье начинается с меня».\n\nТри месяца. Воскресенье за воскресеньем. И вот – последняя встреча этого потока.\n\nХотите попасть на 8-й поток – он первый онлайн-формат, старт 6 июня. Подробности – завтра.\n\nЗаписаться на расстановки → **[ссылка](https://n95329.yclients.com)**", "status": "ok", "comment": ""}, {"date": "30.05 сб", "time": "10:00", "tag": "Сегодня расстановки 🔔", "body": "Сегодня в 13:00 – расстановки.\n\nАлександр Бабенко, очно.\n\nЕсли записались – ждём. Если ещё нет, но что-то отзывается – записывайтесь → **[ссылка](https://n95329.yclients.com)**, уточним есть ли место.", "status": "ok", "comment": ""}, {"date": "30.05 сб", "time": "18:00", "tag": "Цена, о которой молчали ⭐ Счастье", "body": "**6 июня – старт.** До него осталась неделя.\n\nИ мы наконец скажем про цену.\n\nЗа несколько недель разговора о 8-м потоке мы ни разу не назвали, сколько стоит участие онлайн. Нам хотелось сначала рассказать, что это такое – прежде чем говорить про цифры.\n\n«Счастье начинается с меня» – это **12 занятий по 3 часа** с командой центра «Время»: Наталья Лукьянова, Анастасия Полыгалова, Галина Кучеренко, Ирина Косьяненко, Екатерина Мовчан, Максим Меркун, Сергей Тиунов.\n\n12 тем – от стресса и эмоций до отношений с деньгами, мужчинами и родом. Каждое воскресенье, 10:00–13:00. Плюс куратор в чате и запись каждого занятия.\n\nЗа три года через курс прошли 60+ человек. Всегда очно. **Теперь впервые онлайн.**\n\nИ для первого онлайн-потока – специальная цена.\n\nСравните сами:\n\n📍 Очно: **8 000 ₽/мес**\n💻 Онлайн, 1-й поток: **6 000 ₽/мес**\n\nИли сразу за 3 месяца:\n📍 Очно: 21 000 ₽\n💻 Онлайн, 1-й поток: **16 000 ₽** – экономия 5 000 ₽\n\nЭто скидка 20% – только для тех, кто войдёт первым. Следующий онлайн-поток будет по полной цене.\n\n**15 мест.** Если думаешь «наверное, потом» – это и есть «потом».\n\nЗаписаться → **[ссылка](https://n95329.yclients.com)**", "status": "", "comment": ""}, {"date": "31.05 вс", "time": "14:00", "tag": "Финал 7-го потока 🌿", "body": "Сегодня заканчивается 7-й поток «Счастье начинается с меня».\n\nТри месяца назад эти люди пришли с разными вопросами. Кто-то – про отношения, кто-то – про усталость, кто-то просто чувствовал: «что-то не так, но не могу понять что».\n\nСемь потоков. Сотни участников за эти годы.\n\nМы не будем писать про результаты – они у каждого свои. Просто скажем: это работает. Медленно, не по-волшебному – но по-настоящему.\n\nНаталья Лукьянова ведёт этот курс с самого начала. И каждый раз говорит одно и то же: «Группа всегда удивляет».\n\n---\n\nЕсли вы следили за этим потоком или думали «может, в следующий раз» – следующий раз наступил.\n\n6 июня – 8-й поток. Первый онлайн.\n\nТе же специалисты, та же глубина – из любого города.\n\n**15 мест.** Если хочешь попасть – напиши нам сегодня.", "status": "ok", "comment": ""}, {"date": "31.05 вс", "time": "20:00", "tag": "Анонс июня 📅", "body": "Июнь в центре «Время».\n\nГлавное – **6 июня стартует «Счастье начинается с меня»** онлайн. Впервые. Для тех, кто давно хотел, но не мог очно.\n\nЧто ещё будет в июне:\n– МАК-обучение (старт 10 июня) – для тех, кто хочет работать с картами профессионально или для себя\n– «Время для женщин» – регулярные встречи\n– Курс подростков – продолжается каждую субботу\n\nКанал живёт всё лето. Расписание, анонсы, полезное – здесь.\n\nХорошего июня 🌿", "status": "ok", "comment": ""}];
+var currentFilter = 'all';
 
 function persist() {
   var sv = posts.map(function(p) { return {status: p.status, comment: p.comment}; });
@@ -428,9 +447,35 @@ function persist() {
 function applyUI(i) {
   var p = posts[i];
   var card = document.getElementById('card'+i);
-  card.className = 'card ' + (p.status || '');
+  card.className = 'card ' + (p.status || '') + (isHidden(i) ? ' hidden' : '');
+  card.setAttribute('data-status', p.status || '');
   document.getElementById('badge'+i).textContent = p.status==='ok' ? '✅' : p.status==='fix' ? '✏️' : '';
   document.getElementById('ta'+i).value = p.comment || '';
+}
+
+function isHidden(i) {
+  if (currentFilter === 'all') return false;
+  return posts[i].status !== currentFilter && !(currentFilter === 'none' && !posts[i].status);
+}
+
+function setFilter(f) {
+  currentFilter = f;
+  var btns = ['all','ok','fix','none'];
+  btns.forEach(function(b) {
+    document.getElementById('f-'+b).classList.toggle('active', b === f);
+  });
+  var stats = ['ok','fix','left'];
+  document.getElementById('stat-ok').classList.toggle('active-filter', f==='ok');
+  document.getElementById('stat-fix').classList.toggle('active-filter', f==='fix');
+  document.getElementById('stat-left').classList.toggle('active-filter', f==='none');
+  var visible = 0;
+  posts.forEach(function(p, i) {
+    var card = document.getElementById('card'+i);
+    var hide = isHidden(i);
+    card.classList.toggle('hidden', hide);
+    if (!hide) visible++;
+  });
+  document.getElementById('empty-msg').style.display = visible === 0 ? 'block' : 'none';
 }
 
 function updateStats() {
@@ -443,8 +488,7 @@ function updateStats() {
   document.getElementById('cnt-ok').textContent = ok;
   document.getElementById('cnt-fix').textContent = fix;
   document.getElementById('cnt-left').textContent = left;
-  var btn = document.getElementById('copy-all-btn');
-  btn.style.display = fix > 0 ? 'block' : 'none';
+  document.getElementById('copy-all-btn').style.display = fix > 0 ? 'block' : 'none';
 }
 
 window.addEventListener('DOMContentLoaded', function() {
@@ -462,6 +506,7 @@ window.addEventListener('DOMContentLoaded', function() {
     } catch(e) {}
   } else {
     persist();
+    posts.forEach(function(p, i) { applyUI(i); });
   }
   updateStats();
 });
@@ -517,10 +562,7 @@ async function copyAllFixes() {
       lines.push('');
     }
   });
-  var text = lines.join('\n');
-  try {
-    await navigator.clipboard.writeText(text);
-  } catch(e) {}
+  try { await navigator.clipboard.writeText(lines.join('\n')); } catch(e) {}
   var btn = document.getElementById('copy-all-btn');
   btn.textContent = '✅ Скопировано!';
   setTimeout(function() { btn.textContent = '📋 Скопировать все правки'; }, 2000);
