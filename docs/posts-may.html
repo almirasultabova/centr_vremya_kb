@@ -447,7 +447,7 @@ function persist() {
 function applyUI(i) {
   var p = posts[i];
   var card = document.getElementById('card'+i);
-  card.className = 'card ' + (p.status || '') + (isHidden(i) ? ' hidden' : '');
+  card.className = 'card ' + (p.status || '');
   card.setAttribute('data-status', p.status || '');
   document.getElementById('badge'+i).textContent = p.status==='ok' ? '✅' : p.status==='fix' ? '✏️' : '';
   document.getElementById('ta'+i).value = p.comment || '';
@@ -455,24 +455,23 @@ function applyUI(i) {
 
 function isHidden(i) {
   if (currentFilter === 'all') return false;
-  return posts[i].status !== currentFilter && !(currentFilter === 'none' && !posts[i].status);
+  var s = posts[i].status || '';
+  if (currentFilter === 'none') return s !== '';
+  return s !== currentFilter;
 }
 
 function setFilter(f) {
   currentFilter = f;
-  var btns = ['all','ok','fix','none'];
-  btns.forEach(function(b) {
+  ['all','ok','fix','none'].forEach(function(b) {
     document.getElementById('f-'+b).classList.toggle('active', b === f);
   });
-  var stats = ['ok','fix','left'];
   document.getElementById('stat-ok').classList.toggle('active-filter', f==='ok');
   document.getElementById('stat-fix').classList.toggle('active-filter', f==='fix');
   document.getElementById('stat-left').classList.toggle('active-filter', f==='none');
   var visible = 0;
   posts.forEach(function(p, i) {
-    var card = document.getElementById('card'+i);
     var hide = isHidden(i);
-    card.classList.toggle('hidden', hide);
+    document.getElementById('card'+i).classList.toggle('hidden', hide);
     if (!hide) visible++;
   });
   document.getElementById('empty-msg').style.display = visible === 0 ? 'block' : 'none';
@@ -512,10 +511,16 @@ window.addEventListener('DOMContentLoaded', function() {
 });
 
 function setStatus(i, status) {
-  posts[i].status = posts[i].status === status ? '' : status;
+  posts[i].status = status;
   applyUI(i);
   persist();
   updateStats();
+  var btn = document.querySelector('#card'+i+' .btn-'+status);
+  if (btn) {
+    var orig = btn.textContent;
+    btn.textContent = '✔ Сохранено';
+    setTimeout(function() { btn.textContent = orig; }, 1200);
+  }
 }
 
 function saveComment(i) {
