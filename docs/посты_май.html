@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Посты 21–31 мая · @vremya_psy</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f3ece0;color:#1f1d1a;padding:12px}
+.topbar{background:#740298;color:#fff;padding:16px;border-radius:14px;margin-bottom:14px;text-align:center}
+.topbar h1{font-size:17px;font-weight:700}
+.topbar p{font-size:12px;opacity:.8;margin-top:4px}
+.stats{display:flex;gap:8px;margin-bottom:14px;font-size:13px}
+.stat{flex:1;background:#fff;border-radius:10px;padding:8px 10px;text-align:center}
+.stat b{display:block;font-size:22px;font-weight:700}
+.stat.s-ok b{color:#2d7a2d}
+.stat.s-fix b{color:#c0610a}
+.stat.s-left b{color:#740298}
+.card{background:#fff;border-radius:14px;margin-bottom:14px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.07);border:2px solid transparent;transition:border .2s}
+.card.ok{border-color:#4caf50}
+.card.fix{border-color:#ff9800}
+.card-head{padding:12px 14px 8px;border-bottom:1px solid #f0ebe3;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.status-badge{font-size:16px;min-width:20px}
+.date{font-size:12px;font-weight:700;color:#740298;background:#f3ecf8;padding:2px 9px;border-radius:20px;white-space:nowrap}
+.time{font-size:12px;color:#8c857c}
+.tag{font-size:11px;color:#8c857c;margin-left:auto;text-align:right}
+.card-body{padding:12px 14px;font-size:14px;line-height:1.65}
+.card-body strong{font-weight:700}
+.card-body em{color:#555;font-style:italic}
+.card-actions{display:flex;gap:6px;padding:10px 14px;border-top:1px solid #f0ebe3;flex-wrap:wrap}
+.card-actions button{flex:1;padding:9px 4px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;min-width:80px}
+.btn-ok{background:#e8f5e9;color:#2d7a2d}
+.btn-fix{background:#fff3e0;color:#c0610a}
+.btn-copy{background:#f3ecf8;color:#740298}
+.card.ok .btn-ok{background:#4caf50;color:#fff}
+.card.fix .btn-fix{background:#ff9800;color:#fff}
+.comment-wrap{padding:0 14px 12px}
+.comment-wrap textarea{width:100%;border:1.5px solid #e0d8d0;border-radius:8px;padding:8px 10px;font-size:13px;font-family:inherit;resize:vertical;color:#1f1d1a;background:#faf8f4;min-height:60px}
+.save-btn{display:block;width:100%;padding:8px;background:#740298;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:6px}
+.save-btn.saved{background:#4caf50}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <h1>Посты 21–31 мая · @vremya_psy</h1>
+  <p>19 постов · статусы сохраняются в браузере</p>
+</div>
+<div class="stats">
+  <div class="stat s-ok"><b id="cnt-ok">0</b>Ок</div>
+  <div class="stat s-fix"><b id="cnt-fix">0</b>Правки</div>
+  <div class="stat s-left"><b id="cnt-left">19</b>Не просмотрено</div>
+</div>
+<div id="posts">
+<div class="card" id="card0">
+  <div class="card-head">
+    <span class="status-badge" id="badge0"></span>
+    <span class="date">21.05 чт</span>
+    <span class="time">10:00</span>
+    <span class="tag">Прогрев МАК-девичника (первое касание)</span>
+  </div>
+  <div class="card-body" id="body0">МАК-девичник – это не встреча с одним вопросом на всех.<br><br>Здесь у каждой – своё. Своя тема. Свой запрос. То, что давно внутри не даёт покоя, не отпускает, никак не обретает ясности.<br><br>А помощниками в этой работе будут карты Чака Спецано – один из самых глубоких инструментов в психологии образов. <strong>Три колоды: карты любви, карты успеха и карты сексуальности.</strong><br><br>Катя Мовчан работает с этими картами давно – и очень их любит. Они не дают универсальных ответов. Они помогают увидеть твой.<br><br>29 мая в 18:00 – «МАК-девичник: Встреча с собой». Очно, в центре «Время».<br><br>📅 <strong>29 мая, 18:00, очно</strong><br>💰 <strong>2 000 ₽ / 1 500 ₽ по абонементу</strong><br><br><strong>Запись – в личку</strong> 👇</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(0,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(0,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(0)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta0" placeholder="Комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn0" onclick="saveComment(0)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card" id="card1">
+  <div class="card-head">
+    <span class="status-badge" id="badge1"></span>
+    <span class="date">21.05 чт</span>
+    <span class="time">20:00</span>
+    <span class="tag">«Почему одна сессия с психологом не помогает» ⭐ Счастье</span>
+  </div>
+  <div class="card-body" id="body1"><strong>«Я уже пробовала – не помогло».</strong><br><br>Часто это значит не «психология не работает». Это значит – формат был не тот, или не хватило времени.<br><br><strong>Одна сессия с психологом – как один подход в зале.</strong> Выйти и расстроиться, что ничего не изменилось.<br><br><strong>Психика меняется медленнее, чем хочется.</strong> Особенно если паттерн жил в нас 20–30 лет.<br><br>Что реально работает – <strong>регулярность и группа</strong>. Когда приходишь снова и снова. Когда рядом люди с похожими вопросами. Когда инсайт этой недели вырастает из встречи прошлой.<br><br>Именно так устроен «Счастье начинается с меня» – <strong>3 месяца, живая группа, раз в неделю по 3 часа</strong>. Не марафон в телефоне. Не запись, которую «посмотрю потом». Живые люди, Наталья Лукьянова, конкретные практики и разбор твоих ситуаций.<br><br><strong>6 июня – первый онлайн-поток.</strong> Можно из любого города.<br><br>Если думаешь «надо бы попробовать» – <strong>напиши нам</strong>, расскажем подробнее.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(1,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(1,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(1)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta1" placeholder="Комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn1" onclick="saveComment(1)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card" id="card2">
+  <div class="card-head">
+    <span class="status-badge" id="badge2"></span>
+    <span class="date">22.05 пт</span>
+    <span class="time">10:00</span>
+    <span class="tag">«4 фразы родителя перед экзаменом» 📚</span>
+  </div>
+  <div class="card-body" id="body2">Экзамены – это не только про подростка. Это и про вас.<br><br><strong>Тревога родителя передаётся. Молча.</strong> Через интонацию, через лишний вопрос «ну как, всё выучил?», через взгляд когда он выходит из комнаты.<br><br>4 фразы, которые реально работают перед экзаменом:<br><br><strong>«Я верю, что ты справишься»</strong> – и замолчать. Без «но».<br><br><strong>«Что тебе сейчас нужно?»</strong> – вместо «давай повторим ещё раз». Он знает лучше тебя.<br><br><strong>«Что бы ни случилось – ты мой ребёнок»</strong> – убирает страх катастрофы, который часто парализует сильнее неготовности.<br><br><strong>«Я рядом, если что»</strong> – и отойти. Дать пространство.<br><br><strong>Подростку перед экзаменом нужно чувствовать себя в безопасности, а не под давлением</strong>. Вы уже делаете важное – вы рядом.<br><br><em>P.S. Если тревога ребёнка выходит за рамки обычного – послезавтра, 24 мая в 12:00, у нас встреча «Как распознать подростковую депрессию». Анастасия Полыгалова, клинический психолог. 500 ₽, онлайн.</em></div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(2,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(2,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(2)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta2" placeholder="Комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn2" onclick="saveComment(2)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card" id="card3">
+  <div class="card-head">
+    <span class="status-badge" id="badge3"></span>
+    <span class="date">22.05 пт</span>
+    <span class="time">18:00</span>
+    <span class="tag">Финальный анонс ВДР 📣</span>
+  </div>
+  <div class="card-body" id="body3">Воскресенье, 24 мая, 12:00.<br><br>Встреча «Как распознать подростковую депрессию?» – для родителей, которые чувствуют: <strong>что-то не так, но не могут понять что именно</strong>.<br><br>Ведёт Анастасия Полыгалова – клинический психолог, специалист по работе с подростками, тревогой и эмоциональными состояниями.<br><br>На встрече разберём:<br>– как <strong>депрессия у подростков выглядит на самом деле</strong> (не так, как показывают в кино)<br>– почему родители часто не замечают – и это не их вина<br>– что делать, если кажется что ребёнок просто «ленится» или «не хочет общаться»<br>– когда нужен специалист, а когда можно справиться своими силами<br><br>📅 <strong>24 мая, воскресенье, 12:00</strong><br>💰 <strong>500 ₽</strong><br>📱 Онлайн, будет запись<br><br><strong>Запись – в личку</strong> или по ссылке 👇</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(3,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(3,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(3)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta3" placeholder="Комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn3" onclick="saveComment(3)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card" id="card4">
+  <div class="card-head">
+    <span class="status-badge" id="badge4"></span>
+    <span class="date">23.05 сб</span>
+    <span class="time">12:00</span>
+    <span class="tag">«Список признаков, который стоит сохранить» 📚</span>
+  </div>
+  <div class="card-body" id="body4">Сохраните этот пост.<br><br>Не потому что «а вдруг». А потому что эти признаки легко перепутать с подростковым характером – и пропустить важное.<br><br><strong>7 маркеров подростковой депрессии, которые часто не распознают:</strong><br><br>1. Не плачет и не жалуется – просто перестал что-то хотеть<br>2. Стал очень раздражительным (агрессия – частая маска депрессии у подростков)<br>3. Много спит или совсем не спит<br>4. Перестал общаться с друзьями – не поссорился, просто исчез<br>5. Не получает удовольствия от того, что раньше нравилось<br>6. Жалобы на головные боли, боли в животе – врачи ничего не находят<br>7. Говорит фразы вроде «мне всё равно», «зачем», «я мешаю»<br><br>Если три и больше пункта – это сигнал поговорить со специалистом.<br><br>Завтра, 24 мая в 12:00 – онлайн-встреча с Анастасией Полыгаловой, клиническим психологом. Разберём, как это выглядит изнутри и что делать родителю. 500 ₽.<br><br><strong>Запись – в личку</strong> 👇</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(4,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(4,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(4)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta4" placeholder="Комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn4" onclick="saveComment(4)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card" id="card5">
+  <div class="card-head">
+    <span class="status-badge" id="badge5"></span>
+    <span class="date">24.05 вс</span>
+    <span class="time">09:00</span>
+    <span class="tag">Сегодня ВДР 🔔</span>
+  </div>
+  <div class="card-body" id="body5">Сегодня в 12:00 – встреча «Как распознать подростковую депрессию».<br><br>Если записались – ссылку пришлём за 15 минут до начала.<br><br>Если ещё думаете – ещё можно. <strong>Напишите в личку</strong>, успеем оформить.<br><br>Анастасия Полыгалова, 500 ₽, онлайн.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(5,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(5,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(5)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta5" placeholder="Комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn5" onclick="saveComment(5)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card" id="card6">
+  <div class="card-head">
+    <span class="status-badge" id="badge6"></span>
+    <span class="date">25.05 пн</span>
+    <span class="time">11:00</span>
+    <span class="tag">Отчёт ВДР 📸</span>
+  </div>
+  <div class="card-body" id="body6"><em>[Альмира, этот пост заполни после встречи 24.05 – добавь 1-2 живых наблюдения с самой встречи. Шаблон ниже:]</em><br><br>Вчера провели встречу «Как распознать подростковую депрессию».<br><br>Пришли мамы – с очень разными историями. Но один вопрос был у всех: «Это уже повод идти к специалисту – или ещё нет?»<br><br>Анастасия Полыгалова объясняла спокойно и без пугающих слов. Главный вывод встречи: <strong>заметить – это уже много</strong>. Большинство родителей, которые пришли на встречу, уже делают правильное – они обращают внимание.<br><br>Если хотите работать с Анастасией индивидуально – она ведёт приём очно и онлайн. Запись через личку или YClients.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(6,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(6,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(6)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta6" placeholder="Комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn6" onclick="saveComment(6)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card" id="card7">
+  <div class="card-head">
+    <span class="status-badge" id="badge7"></span>
+    <span class="date">25.05 пн</span>
+    <span class="time">20:00</span>
+    <span class="tag">«Онлайн ≠ запись» ⭐ Счастье</span>
+  </div>
+  <div class="card-body" id="body7">«<strong>«Через экран не работает»</strong>» – слышим это часто.<br><br>И понимаем откуда это. Онлайн ассоциируется с записью лекции, которую смотришь в наушниках, пока гладишь.<br><br>«Счастье начинается с меня» – другое.<br><br>Это живая группа. Один раз в неделю, воскресенье, 3 часа. Наталья Лукьянова, 12 участников, видеосвязь – и это работает именно потому, что вы видите друг друга.<br><br>Что меняется в онлайн-формате:<br>– можно из любого города и страны<br>– <strong>дома иногда легче открываться</strong><br>– каждое занятие остаётся в записи – можно пересмотреть<br>– куратор в чате между встречами<br><br>Те же специалисты. Та же глубина. Просто без дороги.<br><br><strong>Старт 8-го потока – 6 июня. 15 мест.</strong><br><br>Если хочешь попасть – <strong>напиши нам</strong>, расскажем подробнее.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(7,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(7,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(7)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta7" placeholder="Комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn7" onclick="saveComment(7)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card" id="card8">
+  <div class="card-head">
+    <span class="status-badge" id="badge8"></span>
+    <span class="date">26.05 вт</span>
+    <span class="time">10:00</span>
+    <span class="tag">«Перестать быть удобной» 📚</span>
+  </div>
+  <div class="card-body" id="body8">Вы помните, когда последний раз сказали «нет» – и не объясняли почему?<br><br>Не «не могу», не «у меня дела» – а просто «нет, не хочу».<br><br>Многие из нас выросли с убеждением: чтобы тебя любили – нужно быть удобной. Не обременять. Не требовать. Подстраиваться.<br><br>И это работало. Какое-то время.<br><br>А потом начинает накапливаться. Усталость без причины. Раздражение на тех, кому помогаешь. Ощущение, что ты есть везде – и нигде для себя.<br><br>«Удобная» – это не черта характера. <strong>Это стратегия выживания</strong>, которая когда-то помогла. Просто сейчас она больше не нужна.<br><br>Разбираться с этим можно по-разному. Один из форматов – МАК-карты Чака Спецано. <strong>Каждая приходит со своим запросом</strong> – и карта помогает увидеть то, что словами давно не формулировалось.<br><br>29 мая – «МАК-девичник: Встреча с собой». Катя Мовчан. 18:00, очно (Домодедово).<br><br><strong>2 000 ₽ / 1 500 ₽ по абонементу.</strong> <strong>Запись – в личку</strong> 👇</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(8,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(8,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(8)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta8" placeholder="Комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn8" onclick="saveComment(8)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card" id="card9">
+  <div class="card-head">
+    <span class="status-badge" id="badge9"></span>
+    <span class="date">26.05 вт</span>
+    <span class="time">18:00</span>
+    <span class="tag">«Что-то повторяется» 🧠 Прогрев расстановок</span>
+  </div>
+  <div class="card-body" id="body9">Вы замечали, что <strong>некоторые ситуации в жизни возвращаются?</strong><br><br><strong>Другой человек – та же боль. Другая работа – тот же тупик.</strong> Другие отношения – и снова.<br><br>Это не невезение и не характер. Это сценарий.<br><br>Он складывается раньше, чем мы начинаем его замечать – в семье, в детстве, иногда ещё раньше. И работает автоматически, пока мы живём внутри него.<br><br>Системные расстановки – один из методов, который позволяет увидеть этот сценарий снаружи. Буквально – выйти за пределы и посмотреть: что здесь происходит? Откуда это?<br><br>30 мая в 13:00 – расстановки с Александром Бабенко. Александр работает с системными сценариями уже 8 лет.<br><br>7 900 ₽ / заместитель 1 500 ₽.<br><br>Если откликается – напишите в личку 👇</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(9,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(9,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(9)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta9" placeholder="Комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn9" onclick="saveComment(9)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card" id="card10">
+  <div class="card-head">
+    <span class="status-badge" id="badge10"></span>
+    <span class="date">27.05 ср</span>
+    <span class="time">11:00</span>
+    <span class="tag">«Что такое МАК-девичник» 🧠 Прогрев</span>
+  </div>
+  <div class="card-body" id="body10">Три колоды. Одна встреча. И каждая – со своим вопросом.<br><br>Это не арт-терапия и не работа над одной общей темой. <strong>МАК-девичник – это пространство, где ты разбираешься с тем, что волнует именно тебя.</strong><br><br>Карты Чака Спецано – особенные. Их три вида: <strong>любовь, успех и сексуальность</strong>. Катя Мовчан использует их в своей работе и называет одним из самых точных инструментов для того, что «словами не формулируется».<br><br>Берёшь карту – и что-то становится ясным. Где давно не было определённости. Где всё ходит по кругу. Где не знаешь, с чего начать.<br><br>И всё это – <strong>в той самой женской атмосфере, которой так не хватает в обычной жизни.</strong><br><br>📅 <strong>29 мая, 18:00</strong><br>💰 <strong>2 000 ₽ / 1 500 ₽ по абонементу</strong><br><br>Запись – в личку, можно сразу двоих 👇</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(10,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(10,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(10)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta10" placeholder="Комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn10" onclick="saveComment(10)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card" id="card11">
+  <div class="card-head">
+    <span class="status-badge" id="badge11"></span>
+    <span class="date">27.05 ср</span>
+    <span class="time">20:00</span>
+    <span class="tag">«Декрет – не повод остаться без себя» ⭐ Счастье</span>
+  </div>
+  <div class="card-body" id="body11">Мама в декрете – это не профессия. Но иногда ощущается именно так.<br><br>«Приложение к детям». «Биоробот». «Я забыла кто я вне детей и мужа».<br><br>Это реальные слова, которые пишут женщины в поддерживающих чатах. Не жалобы. Честность.<br><br>Декрет – это огромная работа. Внутри которой очень легко потерять себя. Не заметить, как прошло полгода, год, три – а твои мысли, желания, вопросы про себя где-то отложились «на потом».<br><br>«Счастье начинается с меня» – курс, который изначально создавался для мам. В том числе тех, кто дома, кто не может выходить на очные занятия, кто живёт далеко.<br><br>С 6 июня – онлайн. Воскресенье, 10:00–13:00. Можно из любой комнаты. Есть запись каждого занятия.<br><br>Если это про тебя – напиши нам. Расскажем как устроен курс.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(11,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(11,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(11)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta11" placeholder="Комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn11" onclick="saveComment(11)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card" id="card12">
+  <div class="card-head">
+    <span class="status-badge" id="badge12"></span>
+    <span class="date">28.05 чт</span>
+    <span class="time">12:00</span>
+    <span class="tag">Финальный анонс МАК-девичника 📣</span>
+  </div>
+  <div class="card-body" id="body12">Завтра – МАК-девичник. 29 мая, 18:00, очно в центре «Время».<br><br>Катя Мовчан приглашает прийти <strong>со своим запросом</strong>. Не с общей темой – с тем, что именно тебя сейчас беспокоит. Где нет ясности. Где нет определённости. Где что-то давно тревожит.<br><br>На встрече работаем с тремя колодами карт Чака Спецано: <strong>любовь, успех, сексуальность</strong>. Каждая получит ответы на своё – в своём темпе, без давления.<br><br><strong>Женская атмосфера. Живой разговор. Своё время с собой.</strong><br><br>Можно прийти с подругой.<br><br>💰 <strong>2 000 ₽ / 1 500 ₽ по абонементу</strong><br><br>Записаться – в личку 👇</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(12,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(12,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(12)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta12" placeholder="Комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn12" onclick="saveComment(12)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card" id="card13">
+  <div class="card-head">
+    <span class="status-badge" id="badge13"></span>
+    <span class="date">28.05 чт</span>
+    <span class="time">18:00</span>
+    <span class="tag">Опрос 💬</span>
+  </div>
+  <div class="card-body" id="body13">Что для вас сейчас актуальнее всего?<br><br>👇 Проголосуйте – один вариант:<br><br>– Отношения (с партнёром, семьёй, детьми)<br>– Деньги и работа (выгорание, смысл, доход)<br>– Тело (вес, здоровье, ощущение себя)<br>– Смысл (кто я, чего хочу, куда иду)<br><br>Это не опрос для галочки. Смотрим на результаты – планируем форматы на лето под то, что реально нужно.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(13,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(13,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(13)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta13" placeholder="Комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn13" onclick="saveComment(13)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card" id="card14">
+  <div class="card-head">
+    <span class="status-badge" id="badge14"></span>
+    <span class="date">29.05 пт</span>
+    <span class="time">09:00</span>
+    <span class="tag">Сегодня МАК-девичник 🔔</span>
+  </div>
+  <div class="card-body" id="body14">Сегодня в 18:00 – МАК-девичник. Очно, в центре «Время».<br><br>Катя Мовчан ждёт. Ещё есть места.<br><br>Если записались – приходите, ул. Дружбы, 2к1.<br><br>Если ещё думаете – <strong>напишите в личку прямо сейчас</strong>, успеем оформить.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(14,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(14,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(14)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta14" placeholder="Комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn14" onclick="saveComment(14)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card" id="card15">
+  <div class="card-head">
+    <span class="status-badge" id="badge15"></span>
+    <span class="date">29.05 пт</span>
+    <span class="time">18:00</span>
+    <span class="tag">Обзор выходных 📅</span>
+  </div>
+  <div class="card-body" id="body15">Большие выходные в центре «Время».<br><br><strong>Завтра, 30 мая</strong> – расстановки с Александром Бабенко. 13:00, очно.<br><br>Если чувствуете, что какая-то ситуация в жизни ходит по кругу – расстановки про это. Александр работает деликатно, без лишних слов. <strong>7 900 ₽</strong>, есть место заместителя – <strong>1 500 ₽</strong>.<br><br><strong>31 мая</strong> – финал 7-го потока «Счастье начинается с меня».<br><br>Три месяца. Воскресенье за воскресеньем. И вот – последняя встреча этого потока.<br><br>Хотите попасть на 8-й поток – он первый онлайн-формат, старт 6 июня. Подробности – завтра.<br><br>Запись на расстановки – в личку или по ссылке 👇</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(15,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(15,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(15)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta15" placeholder="Комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn15" onclick="saveComment(15)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card" id="card16">
+  <div class="card-head">
+    <span class="status-badge" id="badge16"></span>
+    <span class="date">30.05 сб</span>
+    <span class="time">10:00</span>
+    <span class="tag">Сегодня расстановки 🔔</span>
+  </div>
+  <div class="card-body" id="body16">Сегодня в 13:00 – расстановки.<br><br>Александр Бабенко, очно.<br><br>Если записались – ждём. Если ещё нет, но что-то отзывается – напишите в личку, уточним есть ли место.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(16,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(16,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(16)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta16" placeholder="Комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn16" onclick="saveComment(16)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card" id="card17">
+  <div class="card-head">
+    <span class="status-badge" id="badge17"></span>
+    <span class="date">31.05 вс</span>
+    <span class="time">14:00</span>
+    <span class="tag">Финал 7-го потока 🌿</span>
+  </div>
+  <div class="card-body" id="body17">Сегодня заканчивается 7-й поток «Счастье начинается с меня».<br><br>Три месяца назад эти люди пришли с разными вопросами. Кто-то – про отношения, кто-то – про усталость, кто-то просто чувствовал: «что-то не так, но не могу понять что».<br><br>Семь потоков. Сотни участников за эти годы.<br><br>Мы не будем писать про результаты – они у каждого свои. Просто скажем: это работает. Медленно, не по-волшебному – но по-настоящему.<br><br>Наталья Лукьянова ведёт этот курс с самого начала. И каждый раз говорит одно и то же: «Группа всегда удивляет».<br><br>---<br><br>Если вы следили за этим потоком или думали «может, в следующий раз» – следующий раз наступил.<br><br>6 июня – 8-й поток. Первый онлайн.<br><br>Те же специалисты, та же глубина – из любого города.<br><br><strong>15 мест.</strong> Если хочешь попасть – напиши нам сегодня.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(17,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(17,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(17)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta17" placeholder="Комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn17" onclick="saveComment(17)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card" id="card18">
+  <div class="card-head">
+    <span class="status-badge" id="badge18"></span>
+    <span class="date">31.05 вс</span>
+    <span class="time">20:00</span>
+    <span class="tag">Анонс июня 📅</span>
+  </div>
+  <div class="card-body" id="body18">Июнь в центре «Время».<br><br>Главное – <strong>6 июня стартует «Счастье начинается с меня»</strong> онлайн. Впервые. Для тех, кто давно хотел, но не мог очно.<br><br>Что ещё будет в июне:<br>– МАК-обучение (старт 10 июня) – для тех, кто хочет работать с картами профессионально или для себя<br>– «Время для женщин» – регулярные встречи<br>– Курс подростков – продолжается каждую субботу<br><br>Канал живёт всё лето. Расписание, анонсы, полезное – здесь.<br><br>Хорошего июня 🌿</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(18,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(18,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(18)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta18" placeholder="Комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn18" onclick="saveComment(18)">💾 Сохранить</button>
+  </div>
+</div></div>
+<script>
+var STORE_KEY = 'posts_may2126';
+var posts = [{"date": "21.05 чт", "time": "10:00", "tag": "Прогрев МАК-девичника (первое касание)", "body": "МАК-девичник – это не встреча с одним вопросом на всех.\n\nЗдесь у каждой – своё. Своя тема. Свой запрос. То, что давно внутри не даёт покоя, не отпускает, никак не обретает ясности.\n\nА помощниками в этой работе будут карты Чака Спецано – один из самых глубоких инструментов в психологии образов. **Три колоды: карты любви, карты успеха и карты сексуальности.**\n\nКатя Мовчан работает с этими картами давно – и очень их любит. Они не дают универсальных ответов. Они помогают увидеть твой.\n\n29 мая в 18:00 – «МАК-девичник: Встреча с собой». Очно, в центре «Время».\n\n📅 **29 мая, 18:00, очно**\n💰 **2 000 ₽ / 1 500 ₽ по абонементу**\n\n**Запись – в личку** 👇"}, {"date": "21.05 чт", "time": "20:00", "tag": "«Почему одна сессия с психологом не помогает» ⭐ Счастье", "body": "**«Я уже пробовала – не помогло».**\n\nЧасто это значит не «психология не работает». Это значит – формат был не тот, или не хватило времени.\n\n**Одна сессия с психологом – как один подход в зале.** Выйти и расстроиться, что ничего не изменилось.\n\n**Психика меняется медленнее, чем хочется.** Особенно если паттерн жил в нас 20–30 лет.\n\nЧто реально работает – **регулярность и группа**. Когда приходишь снова и снова. Когда рядом люди с похожими вопросами. Когда инсайт этой недели вырастает из встречи прошлой.\n\nИменно так устроен «Счастье начинается с меня» – **3 месяца, живая группа, раз в неделю по 3 часа**. Не марафон в телефоне. Не запись, которую «посмотрю потом». Живые люди, Наталья Лукьянова, конкретные практики и разбор твоих ситуаций.\n\n**6 июня – первый онлайн-поток.** Можно из любого города.\n\nЕсли думаешь «надо бы попробовать» – **напиши нам**, расскажем подробнее."}, {"date": "22.05 пт", "time": "10:00", "tag": "«4 фразы родителя перед экзаменом» 📚", "body": "Экзамены – это не только про подростка. Это и про вас.\n\n**Тревога родителя передаётся. Молча.** Через интонацию, через лишний вопрос «ну как, всё выучил?», через взгляд когда он выходит из комнаты.\n\n4 фразы, которые реально работают перед экзаменом:\n\n**«Я верю, что ты справишься»** – и замолчать. Без «но».\n\n**«Что тебе сейчас нужно?»** – вместо «давай повторим ещё раз». Он знает лучше тебя.\n\n**«Что бы ни случилось – ты мой ребёнок»** – убирает страх катастрофы, который часто парализует сильнее неготовности.\n\n**«Я рядом, если что»** – и отойти. Дать пространство.\n\n**Подростку перед экзаменом нужно чувствовать себя в безопасности, а не под давлением**. Вы уже делаете важное – вы рядом.\n\n_P.S. Если тревога ребёнка выходит за рамки обычного – послезавтра, 24 мая в 12:00, у нас встреча «Как распознать подростковую депрессию». Анастасия Полыгалова, клинический психолог. 500 ₽, онлайн._"}, {"date": "22.05 пт", "time": "18:00", "tag": "Финальный анонс ВДР 📣", "body": "Воскресенье, 24 мая, 12:00.\n\nВстреча «Как распознать подростковую депрессию?» – для родителей, которые чувствуют: **что-то не так, но не могут понять что именно**.\n\nВедёт Анастасия Полыгалова – клинический психолог, специалист по работе с подростками, тревогой и эмоциональными состояниями.\n\nНа встрече разберём:\n– как **депрессия у подростков выглядит на самом деле** (не так, как показывают в кино)\n– почему родители часто не замечают – и это не их вина\n– что делать, если кажется что ребёнок просто «ленится» или «не хочет общаться»\n– когда нужен специалист, а когда можно справиться своими силами\n\n📅 **24 мая, воскресенье, 12:00**\n💰 **500 ₽**\n📱 Онлайн, будет запись\n\n**Запись – в личку** или по ссылке 👇"}, {"date": "23.05 сб", "time": "12:00", "tag": "«Список признаков, который стоит сохранить» 📚", "body": "Сохраните этот пост.\n\nНе потому что «а вдруг». А потому что эти признаки легко перепутать с подростковым характером – и пропустить важное.\n\n**7 маркеров подростковой депрессии, которые часто не распознают:**\n\n1. Не плачет и не жалуется – просто перестал что-то хотеть\n2. Стал очень раздражительным (агрессия – частая маска депрессии у подростков)\n3. Много спит или совсем не спит\n4. Перестал общаться с друзьями – не поссорился, просто исчез\n5. Не получает удовольствия от того, что раньше нравилось\n6. Жалобы на головные боли, боли в животе – врачи ничего не находят\n7. Говорит фразы вроде «мне всё равно», «зачем», «я мешаю»\n\nЕсли три и больше пункта – это сигнал поговорить со специалистом.\n\nЗавтра, 24 мая в 12:00 – онлайн-встреча с Анастасией Полыгаловой, клиническим психологом. Разберём, как это выглядит изнутри и что делать родителю. 500 ₽.\n\n**Запись – в личку** 👇"}, {"date": "24.05 вс", "time": "09:00", "tag": "Сегодня ВДР 🔔", "body": "Сегодня в 12:00 – встреча «Как распознать подростковую депрессию».\n\nЕсли записались – ссылку пришлём за 15 минут до начала.\n\nЕсли ещё думаете – ещё можно. **Напишите в личку**, успеем оформить.\n\nАнастасия Полыгалова, 500 ₽, онлайн."}, {"date": "25.05 пн", "time": "11:00", "tag": "Отчёт ВДР 📸", "body": "_[Альмира, этот пост заполни после встречи 24.05 – добавь 1-2 живых наблюдения с самой встречи. Шаблон ниже:]_\n\nВчера провели встречу «Как распознать подростковую депрессию».\n\nПришли мамы – с очень разными историями. Но один вопрос был у всех: «Это уже повод идти к специалисту – или ещё нет?»\n\nАнастасия Полыгалова объясняла спокойно и без пугающих слов. Главный вывод встречи: **заметить – это уже много**. Большинство родителей, которые пришли на встречу, уже делают правильное – они обращают внимание.\n\nЕсли хотите работать с Анастасией индивидуально – она ведёт приём очно и онлайн. Запись через личку или YClients."}, {"date": "25.05 пн", "time": "20:00", "tag": "«Онлайн ≠ запись» ⭐ Счастье", "body": "«**«Через экран не работает»**» – слышим это часто.\n\nИ понимаем откуда это. Онлайн ассоциируется с записью лекции, которую смотришь в наушниках, пока гладишь.\n\n«Счастье начинается с меня» – другое.\n\nЭто живая группа. Один раз в неделю, воскресенье, 3 часа. Наталья Лукьянова, 12 участников, видеосвязь – и это работает именно потому, что вы видите друг друга.\n\nЧто меняется в онлайн-формате:\n– можно из любого города и страны\n– **дома иногда легче открываться**\n– каждое занятие остаётся в записи – можно пересмотреть\n– куратор в чате между встречами\n\nТе же специалисты. Та же глубина. Просто без дороги.\n\n**Старт 8-го потока – 6 июня. 15 мест.**\n\nЕсли хочешь попасть – **напиши нам**, расскажем подробнее."}, {"date": "26.05 вт", "time": "10:00", "tag": "«Перестать быть удобной» 📚", "body": "Вы помните, когда последний раз сказали «нет» – и не объясняли почему?\n\nНе «не могу», не «у меня дела» – а просто «нет, не хочу».\n\nМногие из нас выросли с убеждением: чтобы тебя любили – нужно быть удобной. Не обременять. Не требовать. Подстраиваться.\n\nИ это работало. Какое-то время.\n\nА потом начинает накапливаться. Усталость без причины. Раздражение на тех, кому помогаешь. Ощущение, что ты есть везде – и нигде для себя.\n\n«Удобная» – это не черта характера. **Это стратегия выживания**, которая когда-то помогла. Просто сейчас она больше не нужна.\n\nРазбираться с этим можно по-разному. Один из форматов – МАК-карты Чака Спецано. **Каждая приходит со своим запросом** – и карта помогает увидеть то, что словами давно не формулировалось.\n\n29 мая – «МАК-девичник: Встреча с собой». Катя Мовчан. 18:00, очно (Домодедово).\n\n**2 000 ₽ / 1 500 ₽ по абонементу.** **Запись – в личку** 👇"}, {"date": "26.05 вт", "time": "18:00", "tag": "«Что-то повторяется» 🧠 Прогрев расстановок", "body": "Вы замечали, что **некоторые ситуации в жизни возвращаются?**\n\n**Другой человек – та же боль. Другая работа – тот же тупик.** Другие отношения – и снова.\n\nЭто не невезение и не характер. Это сценарий.\n\nОн складывается раньше, чем мы начинаем его замечать – в семье, в детстве, иногда ещё раньше. И работает автоматически, пока мы живём внутри него.\n\nСистемные расстановки – один из методов, который позволяет увидеть этот сценарий снаружи. Буквально – выйти за пределы и посмотреть: что здесь происходит? Откуда это?\n\n30 мая в 13:00 – расстановки с Александром Бабенко. Александр работает с системными сценариями уже 8 лет.\n\n7 900 ₽ / заместитель 1 500 ₽.\n\nЕсли откликается – напишите в личку 👇"}, {"date": "27.05 ср", "time": "11:00", "tag": "«Что такое МАК-девичник» 🧠 Прогрев", "body": "Три колоды. Одна встреча. И каждая – со своим вопросом.\n\nЭто не арт-терапия и не работа над одной общей темой. **МАК-девичник – это пространство, где ты разбираешься с тем, что волнует именно тебя.**\n\nКарты Чака Спецано – особенные. Их три вида: **любовь, успех и сексуальность**. Катя Мовчан использует их в своей работе и называет одним из самых точных инструментов для того, что «словами не формулируется».\n\nБерёшь карту – и что-то становится ясным. Где давно не было определённости. Где всё ходит по кругу. Где не знаешь, с чего начать.\n\nИ всё это – **в той самой женской атмосфере, которой так не хватает в обычной жизни.**\n\n📅 **29 мая, 18:00**\n💰 **2 000 ₽ / 1 500 ₽ по абонементу**\n\nЗапись – в личку, можно сразу двоих 👇"}, {"date": "27.05 ср", "time": "20:00", "tag": "«Декрет – не повод остаться без себя» ⭐ Счастье", "body": "Мама в декрете – это не профессия. Но иногда ощущается именно так.\n\n«Приложение к детям». «Биоробот». «Я забыла кто я вне детей и мужа».\n\nЭто реальные слова, которые пишут женщины в поддерживающих чатах. Не жалобы. Честность.\n\nДекрет – это огромная работа. Внутри которой очень легко потерять себя. Не заметить, как прошло полгода, год, три – а твои мысли, желания, вопросы про себя где-то отложились «на потом».\n\n«Счастье начинается с меня» – курс, который изначально создавался для мам. В том числе тех, кто дома, кто не может выходить на очные занятия, кто живёт далеко.\n\nС 6 июня – онлайн. Воскресенье, 10:00–13:00. Можно из любой комнаты. Есть запись каждого занятия.\n\nЕсли это про тебя – напиши нам. Расскажем как устроен курс."}, {"date": "28.05 чт", "time": "12:00", "tag": "Финальный анонс МАК-девичника 📣", "body": "Завтра – МАК-девичник. 29 мая, 18:00, очно в центре «Время».\n\nКатя Мовчан приглашает прийти **со своим запросом**. Не с общей темой – с тем, что именно тебя сейчас беспокоит. Где нет ясности. Где нет определённости. Где что-то давно тревожит.\n\nНа встрече работаем с тремя колодами карт Чака Спецано: **любовь, успех, сексуальность**. Каждая получит ответы на своё – в своём темпе, без давления.\n\n**Женская атмосфера. Живой разговор. Своё время с собой.**\n\nМожно прийти с подругой.\n\n💰 **2 000 ₽ / 1 500 ₽ по абонементу**\n\nЗаписаться – в личку 👇"}, {"date": "28.05 чт", "time": "18:00", "tag": "Опрос 💬", "body": "Что для вас сейчас актуальнее всего?\n\n👇 Проголосуйте – один вариант:\n\n– Отношения (с партнёром, семьёй, детьми)\n– Деньги и работа (выгорание, смысл, доход)\n– Тело (вес, здоровье, ощущение себя)\n– Смысл (кто я, чего хочу, куда иду)\n\nЭто не опрос для галочки. Смотрим на результаты – планируем форматы на лето под то, что реально нужно."}, {"date": "29.05 пт", "time": "09:00", "tag": "Сегодня МАК-девичник 🔔", "body": "Сегодня в 18:00 – МАК-девичник. Очно, в центре «Время».\n\nКатя Мовчан ждёт. Ещё есть места.\n\nЕсли записались – приходите, ул. Дружбы, 2к1.\n\nЕсли ещё думаете – **напишите в личку прямо сейчас**, успеем оформить."}, {"date": "29.05 пт", "time": "18:00", "tag": "Обзор выходных 📅", "body": "Большие выходные в центре «Время».\n\n**Завтра, 30 мая** – расстановки с Александром Бабенко. 13:00, очно.\n\nЕсли чувствуете, что какая-то ситуация в жизни ходит по кругу – расстановки про это. Александр работает деликатно, без лишних слов. **7 900 ₽**, есть место заместителя – **1 500 ₽**.\n\n**31 мая** – финал 7-го потока «Счастье начинается с меня».\n\nТри месяца. Воскресенье за воскресеньем. И вот – последняя встреча этого потока.\n\nХотите попасть на 8-й поток – он первый онлайн-формат, старт 6 июня. Подробности – завтра.\n\nЗапись на расстановки – в личку или по ссылке 👇"}, {"date": "30.05 сб", "time": "10:00", "tag": "Сегодня расстановки 🔔", "body": "Сегодня в 13:00 – расстановки.\n\nАлександр Бабенко, очно.\n\nЕсли записались – ждём. Если ещё нет, но что-то отзывается – напишите в личку, уточним есть ли место."}, {"date": "31.05 вс", "time": "14:00", "tag": "Финал 7-го потока 🌿", "body": "Сегодня заканчивается 7-й поток «Счастье начинается с меня».\n\nТри месяца назад эти люди пришли с разными вопросами. Кто-то – про отношения, кто-то – про усталость, кто-то просто чувствовал: «что-то не так, но не могу понять что».\n\nСемь потоков. Сотни участников за эти годы.\n\nМы не будем писать про результаты – они у каждого свои. Просто скажем: это работает. Медленно, не по-волшебному – но по-настоящему.\n\nНаталья Лукьянова ведёт этот курс с самого начала. И каждый раз говорит одно и то же: «Группа всегда удивляет».\n\n---\n\nЕсли вы следили за этим потоком или думали «может, в следующий раз» – следующий раз наступил.\n\n6 июня – 8-й поток. Первый онлайн.\n\nТе же специалисты, та же глубина – из любого города.\n\n**15 мест.** Если хочешь попасть – напиши нам сегодня."}, {"date": "31.05 вс", "time": "20:00", "tag": "Анонс июня 📅", "body": "Июнь в центре «Время».\n\nГлавное – **6 июня стартует «Счастье начинается с меня»** онлайн. Впервые. Для тех, кто давно хотел, но не мог очно.\n\nЧто ещё будет в июне:\n– МАК-обучение (старт 10 июня) – для тех, кто хочет работать с картами профессионально или для себя\n– «Время для женщин» – регулярные встречи\n– Курс подростков – продолжается каждую субботу\n\nКанал живёт всё лето. Расписание, анонсы, полезное – здесь.\n\nХорошего июня 🌿"}];
+
+function load() {
+  var saved = JSON.parse(localStorage.getItem(STORE_KEY)||'{}');
+  posts.forEach(function(p,i) {
+    var s = saved[i]||{};
+    p.status = s.status||'';
+    p.comment = s.comment||'';
+    var card = document.getElementById('card'+i);
+    card.className = 'card '+(p.status||'');
+    document.getElementById('badge'+i).textContent = p.status==='ok'?'✅':p.status==='fix'?'✏️':'';
+    if(p.comment) document.getElementById('ta'+i).value = p.comment;
+  });
+  updateStats();
+}
+
+function save(i) {
+  var saved = JSON.parse(localStorage.getItem(STORE_KEY)||'{}');
+  saved[i] = {status: posts[i].status, comment: posts[i].comment};
+  localStorage.setItem(STORE_KEY, JSON.stringify(saved));
+}
+
+function setStatus(i, status) {
+  posts[i].status = posts[i].status===status ? '' : status;
+  var card = document.getElementById('card'+i);
+  card.className = 'card '+(posts[i].status||'');
+  document.getElementById('badge'+i).textContent = posts[i].status==='ok'?'✅':posts[i].status==='fix'?'✏️':'';
+  save(i);
+  updateStats();
+}
+
+function saveComment(i) {
+  posts[i].comment = document.getElementById('ta'+i).value;
+  save(i);
+  var btn = document.getElementById('savebtn'+i);
+  btn.textContent='✅ Сохранено';
+  btn.classList.add('saved');
+  setTimeout(function(){btn.textContent='💾 Сохранить';btn.classList.remove('saved');},2000);
+}
+
+function updateStats() {
+  var ok=0,fix=0,left=0;
+  posts.forEach(function(p){
+    if(p.status==='ok')ok++;
+    else if(p.status==='fix')fix++;
+    else left++;
+  });
+  document.getElementById('cnt-ok').textContent=ok;
+  document.getElementById('cnt-fix').textContent=fix;
+  document.getElementById('cnt-left').textContent=left;
+}
+
+async function copyPost(i) {
+  var p = posts[i];
+  var header = [p.date,p.time,p.tag].filter(Boolean).join('  |  ');
+  var bodyEl = document.getElementById('body'+i);
+  var plainText = header+'\n\n'+bodyEl.innerText;
+  var bodyHtml = bodyEl.innerHTML;
+  var htmlContent = '<b>'+header+'</b><br><br>'+bodyHtml;
+  try {
+    await navigator.clipboard.write([new ClipboardItem({
+      'text/plain':new Blob([plainText],{type:'text/plain'}),
+      'text/html':new Blob([htmlContent],{type:'text/html'})
+    })]);
+  } catch(e) {
+    await navigator.clipboard.writeText(plainText);
+  }
+  var btn = document.querySelectorAll('.btn-copy')[i];
+  btn.textContent='✅ Скопировано';
+  setTimeout(function(){btn.textContent='📋 Копировать';},2000);
+}
+
+load();
+</script>
+</body>
+</html>
