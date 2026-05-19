@@ -50,6 +50,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="stat s-fix"><b id="cnt-fix">0</b>Правки</div>
   <div class="stat s-left"><b id="cnt-left">13</b>Не просмотрено</div>
 </div>
+<button onclick="copyFix()" style="display:block;width:100%;padding:12px;background:#ff9800;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:14px" id="copyfix-btn">✏️ Скопировать все правки для ВРЕМЯ</button>
 <div id="posts">
 <div class="card ok" id="card0">
   <div class="card-head">
@@ -431,6 +432,27 @@ function updateStats() {
   document.getElementById('cnt-ok').textContent = ok;
   document.getElementById('cnt-fix').textContent = fix;
   document.getElementById('cnt-left').textContent = left;
+}
+
+async function copyFix() {
+  var lines = [];
+  posts.forEach(function(p, i) {
+    if(p.status === 'fix') {
+      var header = [p.date, p.time, p.tag].filter(Boolean).join(' | ');
+      lines.push('✏️ ' + header);
+      if(p.comment) lines.push('Комментарий: ' + p.comment);
+      lines.push('');
+    }
+  });
+  if(lines.length === 0) {
+    alert('Нет постов с правками');
+    return;
+  }
+  var text = lines.join('\n').trim();
+  await navigator.clipboard.writeText(text);
+  var btn = document.getElementById('copyfix-btn');
+  btn.textContent = '✅ Скопировано — вставь в Telegram ВРЕМЯ';
+  setTimeout(function(){ btn.textContent = '✏️ Скопировать все правки для ВРЕМЯ'; }, 3000);
 }
 
 async function copyPost(i) {
