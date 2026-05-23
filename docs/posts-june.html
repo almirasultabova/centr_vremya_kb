@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Посты июнь 2026 · @vremya_psy</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f3ece0;color:#1f1d1a;padding:12px}
+.topbar{background:#740298;color:#fff;padding:16px;border-radius:14px;margin-bottom:14px;text-align:center}
+.topbar h1{font-size:17px;font-weight:700}
+.topbar p{font-size:12px;opacity:.8;margin-top:4px}
+.stats{display:flex;gap:8px;margin-bottom:10px;font-size:13px}
+.stat{flex:1;background:#fff;border-radius:10px;padding:8px 10px;text-align:center;cursor:pointer;transition:box-shadow .15s;user-select:none}
+.stat:hover{box-shadow:0 0 0 2px #740298}
+.stat b{display:block;font-size:22px;font-weight:700}
+.stat.s-ok b{color:#2d7a2d}
+.stat.s-fix b{color:#c0610a}
+.stat.s-left b{color:#740298}
+.stat.active-filter{box-shadow:0 0 0 2.5px currentColor;background:#f8f0ff}
+.stat.s-ok.active-filter{box-shadow:0 0 0 2.5px #4caf50}
+.stat.s-fix.active-filter{box-shadow:0 0 0 2.5px #ff9800}
+.stat.s-left.active-filter{box-shadow:0 0 0 2.5px #740298}
+.filters{display:flex;gap:6px;margin-bottom:12px}
+.f-btn{flex:1;padding:9px 4px;border:2px solid transparent;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;background:#fff;color:#555;transition:all .15s}
+.f-btn.active{border-color:#740298;color:#740298;background:#f8f0ff}
+.f-btn:hover{border-color:#c0a0e0}
+.copy-all-btn{display:none;width:100%;padding:12px;background:#e65c00;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:12px}
+.card{background:#fff;border-radius:14px;margin-bottom:14px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.07);border:2px solid transparent;transition:border-color .2s}
+.card.ok{border-color:#4caf50}
+.card.fix{border-color:#ff9800}
+.card.hidden{display:none}
+.card-head{padding:12px 14px 8px;border-bottom:1px solid #f0ebe3;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.status-badge{font-size:16px;min-width:20px}
+.date{font-size:12px;font-weight:700;color:#740298;background:#f3ecf8;padding:2px 9px;border-radius:20px;white-space:nowrap}
+.time{font-size:12px;color:#8c857c}
+.tag{font-size:11px;color:#8c857c;margin-left:auto;text-align:right}
+.card-body{padding:12px 14px;font-size:14px;line-height:1.65}
+.card-body strong{font-weight:700}
+.card-body em{color:#555;font-style:italic}
+.card-body a{color:#740298;text-decoration:underline}
+.card-actions{display:flex;gap:6px;padding:10px 14px;border-top:1px solid #f0ebe3;flex-wrap:wrap}
+.card-actions button{flex:1;padding:9px 4px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;min-width:80px}
+.btn-ok{background:#e8f5e9;color:#2d7a2d}
+.btn-fix{background:#fff3e0;color:#c0610a}
+.btn-copy{background:#f3ecf8;color:#740298}
+.card.ok .btn-ok{background:#4caf50;color:#fff}
+.card.fix .btn-fix{background:#ff9800;color:#fff}
+.comment-wrap{padding:0 14px 12px}
+.comment-wrap textarea{width:100%;border:1.5px solid #e0d8d0;border-radius:8px;padding:8px 10px;font-size:13px;font-family:inherit;resize:vertical;color:#1f1d1a;background:#faf8f4;min-height:60px}
+.comment-wrap textarea:focus{outline:none;border-color:#740298}
+.save-btn{display:block;width:100%;padding:8px;background:#740298;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:6px}
+.save-btn.saved{background:#4caf50}
+.empty-msg{text-align:center;color:#aaa;padding:32px;font-size:14px;display:none}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <h1>Посты июнь 2026 · @vremya_psy</h1>
+  <p id="topbar-sub">50 постов · отметь статус и оставь комментарий</p>
+</div>
+<div class="stats">
+  <div class="stat s-ok" id="stat-ok" onclick="setFilter('ok')" title="Показать только одобренные"><b id="cnt-ok">0</b>Ок ✅</div>
+  <div class="stat s-fix" id="stat-fix" onclick="setFilter('fix')" title="Показать только с правками"><b id="cnt-fix">0</b>Правки ✏️</div>
+  <div class="stat s-left" id="stat-left" onclick="setFilter('none')" title="Показать только непросмотренные"><b id="cnt-left">50</b>Не просм.</div>
+</div>
+<div class="filters">
+  <button class="f-btn active" id="f-all" onclick="setFilter('all')">Все посты</button>
+  <button class="f-btn" id="f-ok" onclick="setFilter('ok')">✅ Ок</button>
+  <button class="f-btn" id="f-fix" onclick="setFilter('fix')">✏️ Правки</button>
+  <button class="f-btn" id="f-none" onclick="setFilter('none')">👁 Не просмотрено</button>
+</div>
+<button class="copy-all-btn" id="copy-all-btn" onclick="copyAllFixes()">📋 Скопировать все правки</button>
+<div id="posts">
+<div class="card " id="card0" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge0"></span>
+    <span class="date">01.06 понедельник</span>
+    <span class="time">10:00</span>
+    <span class="tag">Акция</span>
+  </div>
+  <div class="card-body" id="body0">Июнь — хороший повод наконец начать.<br><br>В этом месяце у нас две акции, которые делают первый шаг чуть легче.<br><br><strong>Для родителей: промокод ДЕТИ26</strong><br>Скидка 10% на консультации для детей и подростков. Действует весь июнь — можно записаться сейчас на любое удобное время.<br><br><strong>Для взрослых: промокод ВЗРОСЛЫЕ26</strong><br>Скидка 10% по понедельникам. Каждый понедельник июня — ваш день для первого шага.<br><br>Как использовать: при записи через <a href="https://n95329.yclients.com" target="_blank">YClients</a> введите промокод в поле комментария. Или напишите в <a href="https://t.me/VREMYA_DMD" target="_blank">службу заботы</a> — там помогут применить скидку и подберут удобное время.<br><br>Форматы: очно в Домодедово и Москве, онлайн — для всей России и зарубежья.<br><br>Акции работают весь июнь. Потом — обычные цены.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(0,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(0,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(0)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta0" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn0" onclick="saveComment(0)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card1" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge1"></span>
+    <span class="date">01.06 понедельник</span>
+    <span class="time">18:00</span>
+    <span class="tag">МАК 1/5</span>
+  </div>
+  <div class="card-body" id="body1">Наталья пришла к МАК-картам не потому что «надо было попробовать».<br><br>Был клиент, который приходил уже восемь месяцев. Говорил много — умно, складно, структурно. И ничего не менялось.<br><br>Она предложила карту. Просто так: «Посмотри, что зацепит». Клиент взял, посмотрел — и впервые за восемь месяцев замолчал. А потом сказал что-то такое, чего не говорил ни разу.<br><br>Это был не ответ. Это был вход в совсем другой разговор.<br><br>После этого Наталья начала изучать метод серьёзно. Прошла обучение, потом ещё одно. Собрала собственную колоду. Сейчас — <strong>8 лет работы с МАК</strong> и подготовка специалистов по всей России.<br><br>Не потому что МАК — «волшебный инструмент». А потому что иногда слова защищают нас от самих себя. А образ — обходит.<br><br><strong>10 июня</strong> вместе с Татьяной Даниленко они начинают новый поток обучения.<br><br>Для психологов, педагогов, коучей — и для тех, кто хочет лучше понимать себя.<br><br>Подробности — в следующих постах. Если уже хотите записаться — напишите в <a href="https://t.me/VREMYA_DMD" target="_blank">службу заботы</a>.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(1,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(1,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(1)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta1" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn1" onclick="saveComment(1)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card2" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge2"></span>
+    <span class="date">02.06 вторник</span>
+    <span class="time">10:00</span>
+    <span class="tag">Полезный</span>
+  </div>
+  <div class="card-body" id="body2">«Ты меня не слышишь», «оставь меня в покое» — и дверь.<br><br>Если это звучит знакомо, вот что, возможно, происходит на самом деле.<br><br>Подросток, который хамит, замыкается, огрызается — чаще всего не злится именно на вас. Он <strong>отделяется</strong>. Это называется сепарация — и это нормальный этап развития. Без него вырастают взрослые, которые не умеют быть собой отдельно от мамы или папы.<br><br>Но для родителей это больно. Ещё вчера он рассказывал всё. А сегодня смотрит в телефон и отвечает односложно.<br><br>Что разрушает контакт в этот период:<br>— требование «рассказывай всё как раньше»<br>— сравнение с другими детьми<br>— вопросы подряд без паузы<br>— вход в комнату без стука<br>— фраза «пока ты живёшь в моём доме»<br><br>Что помогает сохранить связь:<br>— быть рядом, не требуя разговора<br>— реагировать на то, что он всё-таки говорит — без оценки<br>— спрашивать один вопрос, не серию<br>— признавать его право на настроение<br><br>Сепарация — не конец близости. Это её новая форма.<br><br>Хотите разобраться в ситуации с вашим подростком — <strong>диагностическая встреча 500 ₽</strong>, 20 минут с психологом. Записаться: <a href="https://n95329.yclients.com" target="_blank">YClients</a> или в <a href="https://t.me/VREMYA_DMD" target="_blank">службу заботы</a>.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(2,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(2,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(2)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta2" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn2" onclick="saveComment(2)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card3" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge3"></span>
+    <span class="date">03.06 среда</span>
+    <span class="time">10:00</span>
+    <span class="tag">МАК 2/5</span>
+  </div>
+  <div class="card-body" id="body3">«Это же как гадание на картах?»<br><br>Нет. Совсем не то. Давайте разберём три самых частых мифа о МАК — спокойно и честно.<br><br><strong>Миф 1: МАК — это гадание или эзотерика.</strong><br>МАК-карты работают через проективный механизм: человек смотрит на образ — и видит в нём то, что уже есть у него внутри. Это не предсказание. Это способ добраться до своего, обходя привычную защиту. Используется в психологии, коучинге, образовании.<br><br><strong>Миф 2: Нужна интуиция или художественный вкус.</strong><br>Нет. Карты работают не потому что вы «чувствительный» человек. Они работают потому что так устроено образное мышление — у всех нас. Никаких специальных способностей не нужно.<br><br><strong>Миф 3: МАК только для психологов.</strong><br>На обучении мы видим разных людей: педагоги, HR, нутрициологи, стилисты, просто те, кто хочет лучше понимать себя. Инструмент применим везде, где есть работа с людьми — или с собой.<br><br>Что правда: МАК — это навык, которому нужно учиться. Важно понимать, как задавать вопросы, как работать с реакцией, как не навредить.<br><br>Именно этому учит обучение, которое <strong>10 июня</strong> начинают Наталья Лукьянова и Татьяна Даниленко.<br><br>Запись открыта: <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a>.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(3,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(3,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(3)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta3" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn3" onclick="saveComment(3)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card4" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge4"></span>
+    <span class="date">03.06 среда</span>
+    <span class="time">18:00</span>
+    <span class="tag">Квиз</span>
+  </div>
+  <div class="card-body" id="body4">Хочу понять, с чем чаще всего приходят люди в июне.<br><br>Один вопрос — ответьте в комментариях:<br><br><strong>Что сейчас больше всего забирает энергию?</strong><br><br>А — работа и ответственность (всё держится на мне)<br>Б — отношения и близкие (устала от конфликтов, непонимания)<br>В — тревога и голова (мысли, которые не останавливаются)<br>Г — просто устала — и даже не знаю от чего<br><br>Напишите букву в комментарии. По самому частому ответу — напишу отдельный разбор.<br><br>И да, это не тест с «правильным ответом». Любой вариант — это про реальную жизнь, не про слабость.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(4,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(4,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(4)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta4" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn4" onclick="saveComment(4)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card5" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge5"></span>
+    <span class="date">04.06 четверг</span>
+    <span class="time">10:00</span>
+    <span class="tag">Полезный</span>
+  </div>
+  <div class="card-body" id="body5">Вы можете не чувствовать себя усталым — и при этом быть истощены.<br><br>Вот три признака, которые говорят: «устала сильнее, чем кажется».<br><br><strong>1. То, что раньше восстанавливало — больше не помогает.</strong><br>Любимый сериал раздражает. Прогулка не приносит облегчения. Встреча с подругой ощущается как обязанность. Это не скука — это сигнал, что ресурс на восстановление тоже исчерпан.<br><br><strong>2. Тело начинает говорить за вас.</strong><br>Участившиеся простуды, головные боли «ниоткуда», ощущение тяжести с утра. Тело не драматизирует. Оно просто включает сигнализацию.<br><br><strong>3. Вы перестали хотеть.</strong><br>Не грустно, не плохо — просто пусто. Планы не вдохновляют. Ничего особо не хочется. Это состояние часто принимают за лень или депрессию, но чаще это — истощение, которое слишком долго игнорировали.<br><br>Узнали себя хотя бы в одном?<br><br>Это не повод паниковать — но повод обратить внимание. Иногда достаточно одного разговора, чтобы понять что происходит.<br><br><strong>Диагностическая встреча — 500 ₽</strong>, 20 минут с психологом. Записаться: <a href="https://n95329.yclients.com" target="_blank">YClients</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a>.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(5,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(5,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(5)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta5" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn5" onclick="saveComment(5)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card6" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge6"></span>
+    <span class="date">04.06 четверг</span>
+    <span class="time">18:00</span>
+    <span class="tag">Эксперт</span>
+  </div>
+  <div class="card-body" id="body6">«Скорая говорит: всё в норме. А мне плохо».<br><br>Это не выдуманная проблема. Это паническая атака — и она случается с людьми, у которых «ничего не нашли».<br><br>Сергей Тиунов — психотерапевт, кандидат медицинских наук, <strong>30+ лет</strong> работы с тревожными расстройствами. Он объясняет так:<br><br>Тревога — это нормальная реакция нервной системы. Но иногда она «застревает» в режиме угрозы, даже когда угрозы нет. Тело готовится к опасности — сердце, дыхание, мышцы. Это и есть паническая атака. Не сумасшествие. Не слабость. Физиология.<br><br>Хорошая новость: это лечится. Не «само пройдёт», а именно лечится — с правильным специалистом.<br><br>Если у вас бывает:<br>— резкий страх или ужас без видимой причины<br>— сердцебиение, нехватка воздуха, головокружение<br>— ощущение «сейчас умру» или «теряю контроль»<br>— и всё это при нормальных анализах<br><br>Это повод прийти к Сергею Михайловичу.<br><br>Записаться: <a href="https://n95329.yclients.com" target="_blank">диагностика 500 ₽</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a>.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(6,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(6,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(6)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta6" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn6" onclick="saveComment(6)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card7" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge7"></span>
+    <span class="date">05.06 пятница</span>
+    <span class="time">12:00</span>
+    <span class="tag">МАК 3/5</span>
+  </div>
+  <div class="card-body" id="body7">Она выбрала карту — и засмеялась.<br><br>Мы все немного удивились: карта была тихая, пейзажная. Озеро. Туман. Лодка у берега.<br><br>«Это смешно? Расскажи».<br><br>«Нет, просто... я сразу поняла. Это я. Стою у лодки и не сажусь. Боюсь, что течение унесёт не туда».<br><br>Пауза. И потом — тихо, уже не смеясь:<br><br>«Я так уже три года».<br><br>Это произошло за пять минут. Не потому что карта «показала ответ». А потому что образ помог ей сказать то, что словами не шло.<br><br>Такие моменты случаются на обучении МАК регулярно. Не как цель — как побочный эффект того, что инструмент работает.<br><br>Если вы психолог, педагог, коуч или просто хотите лучше понимать себя — <strong>10 июня</strong> начинается обучение.<br><br>Ведут: <strong>Наталья Лукьянова</strong> (МАК-супервизор, 8 лет) и <strong>Татьяна Даниленко</strong> (МАК-супервизор, ЭОТ, преподаёт в Академии психологии). Онлайн, 4 занятия, сертификат, <strong>15 000 ₽</strong>.<br><br>Записаться: <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a>.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(7,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(7,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(7)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta7" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn7" onclick="saveComment(7)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card8" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge8"></span>
+    <span class="date">06.06 суббота</span>
+    <span class="time">11:00</span>
+    <span class="tag">Доверие</span>
+  </div>
+  <div class="card-body" id="body8">11 лет. 4 000+ клиентов. 12 специалистов.<br><br>Центр психологии «Время» открылся в 2014 году в Домодедово — и с тех пор никуда не переехал. Просто вырос.<br><br>Сейчас у нас:<br>— <strong>очный приём</strong> в Домодедово и Москве<br>— <strong>онлайн</strong> для тех, кто в других городах и странах<br>— <strong>12 специалистов</strong>: клиническая психология, семейная терапия, расстановки, телесная работа, детско-подростковое, МАК, женские темы, коучинг<br>— <strong>4 000+ клиентов</strong> прошли через центр за эти годы<br>— <strong>12 000+ консультаций</strong> проведено<br><br>Центр основан <strong>Натальей Лукьяновой</strong> — психологом-супервизором, автором программ «Время для счастья» и «Время для стройности». Рядом с ней — <strong>Сергей Тиунов</strong>, психотерапевт, к.м.н., ректор Академии психологии.<br><br>Мы не обещаем «изменений за сессию». Мы просто работаем — давно, честно, с людьми, которые решили что-то поменять.<br><br>Если вы давно думаете прийти — <strong>диагностическая встреча 500 ₽</strong> — хорошая точка входа. 20 минут, чтобы понять: ваш запрос, ваш специалист, ваш формат.<br><br>Записаться: <a href="https://n95329.yclients.com" target="_blank">YClients</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a>.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(8,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(8,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(8)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta8" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn8" onclick="saveComment(8)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card9" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge9"></span>
+    <span class="date">07.06 воскресенье</span>
+    <span class="time">10:00</span>
+    <span class="tag">Развлекательный</span>
+  </div>
+  <div class="card-body" id="body9">5 признаков человека с хорошими психологическими границами.<br><br>И нет — это не «умеет говорить нет с каменным лицом».<br><br><strong>1. Может попросить о помощи, не чувствуя себя должником.</strong><br>Попросил — значит доверяет. Не значит — теперь обязан отработать.<br><br><strong>2. Не объясняет, почему не хочет.</strong><br>«Нет, я не смогу» — и это полное предложение. Без истории болезни.<br><br><strong>3. Злится — и не считает это катастрофой.</strong><br>Злость есть у всех. Человек с границами её замечает, называет, иногда говорит об этом. Не взрывается, не копит — просто реагирует.<br><br><strong>4. Не берёт чужую проблему как свою.</strong><br>Выслушает. Поддержит. Но не ляжет спать с чужой тревогой.<br><br><strong>5. Не читает мысли — и не ожидает, что читают его.</strong><br>Говорит прямо. Уточняет, если непонятно. Не обижается молча.<br><br>Всему этому можно научиться. Это не характер, с которым рождаются. Это навыки — иногда самостоятельно, иногда в работе с психологом.<br><br>Сохраните, если что-то откликнулось. Или поделитесь с тем, кому нужно.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(9,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(9,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(9)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta9" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn9" onclick="saveComment(9)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card10" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge10"></span>
+    <span class="date">07.06 воскресенье</span>
+    <span class="time">18:00</span>
+    <span class="tag">Полезный</span>
+  </div>
+  <div class="card-body" id="body10">12 специалистов — и нужно выбрать одного. Как?<br><br>Это реальный вопрос, с которым приходят многие. Посмотрел профили — у всех написано хорошее. Непонятно.<br><br>Вот как думать об этом:<br><br><strong>По запросу.</strong> Что болит? Тревога, отношения, подростковый кризис, рабочее выгорание — у каждой темы есть специалист, который работает именно с ней.<br><br><strong>По методу.</strong> Системные расстановки, МАК, телесная работа, классическая психология — методы разные. Если что-то откликается или наоборот пугает — это тоже информация.<br><br><strong>По формату.</strong> Очно или онлайн? Раз в неделю или по запросу? Важно, чтобы это вписывалось в жизнь.<br><br>Если после первой встречи чувствуете «что-то не то» — это нормально. Совместимость важна.<br><br>У нас есть правило: если первый специалист не подошёл — <strong>скидка 50% на первую встречу со вторым</strong>. Чтобы вы нашли своего, а не ушли ни с чем.<br><br>Написать в <a href="https://t.me/VREMYA_DMD" target="_blank">службу заботы</a> — помогут сориентироваться и подберут подходящего.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(10,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(10,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(10)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta10" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn10" onclick="saveComment(10)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card11" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge11"></span>
+    <span class="date">08.06 понедельник</span>
+    <span class="time">10:00</span>
+    <span class="tag">Снятие барьера</span>
+  </div>
+  <div class="card-body" id="body11">«Ходила к психологу — не помогло. Значит, это не для меня».<br><br>Нет. Значит, тот специалист был не ваш.<br><br>Это бывает — и это не повод уходить из терапии навсегда. Психолог — это не врач, которого выбирают по специальности. Это человек, с которым должно быть безопасно. Совместимость имеет значение.<br><br>Иногда первый специалист помогает быстро. Иногда — нужно попробовать другого или третьего. Это не ваша вина и не провал. Так работает поиск.<br><br>Именно поэтому у нас есть правило: если после первой встречи не ваш — <strong>скидка 50% на первую сессию со вторым специалистом</strong>. Просто напишите в <a href="https://t.me/VREMYA_DMD" target="_blank">службу заботы</a> — расскажите что случилось, и там подберут другого.<br><br>Мы не хотим, чтобы один неудачный опыт закрыл вам путь к чему-то важному.<br><br>12 специалистов, разные методы и подходы. Кто-то из них — точно ваш.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(11,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(11,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(11)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta11" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn11" onclick="saveComment(11)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card12" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge12"></span>
+    <span class="date">08.06 понедельник</span>
+    <span class="time">18:00</span>
+    <span class="tag">МАК отзыв</span>
+  </div>
+  <div class="card-body" id="body12">&gt; [ВСТАВИТЬ ОТЗЫВ: участница предыдущего потока МАК-обучения. Желательно: была скептиком или не понимала зачем идёт. Что оказалось неожиданным на обучении. Как применяет МАК сейчас — в работе или для себя. Текст живой, от первого лица, 80–150 слов.]<br><br>Такие отзывы приходят после каждого потока. Не «всё понравилось», а что-то конкретное, что изменилось.<br><br>Если вы думаете об обучении — <strong>завтра последний день записи</strong> в этот поток. Старт <strong>10 июня</strong>.<br><br>Ведут: Наталья Лукьянова и Татьяна Даниленко. Онлайн, 4 занятия, сертификат, <strong>15 000 ₽</strong>.<br><br>Написать в <a href="https://t.me/VREMYA_DMD" target="_blank">службу заботы</a>.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(12,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(12,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(12)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta12" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn12" onclick="saveComment(12)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card13" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge13"></span>
+    <span class="date">09.06 вторник</span>
+    <span class="time">10:00</span>
+    <span class="tag">МАК 4/5</span>
+  </div>
+  <div class="card-body" id="body13">«У меня нет интуиции» — и три другие причины, по которым МАК якобы не для вас.<br><br><strong>«У меня нет интуиции, я не чувствующий человек»</strong><br>МАК работает не через интуицию. Он работает через образное мышление — а оно есть у всех. Вам не нужно «чувствовать карту». Достаточно посмотреть и заметить, что зацепило.<br><br><strong>«Я не художник, мне трудно с образами»</strong><br>На обучении не рисуют. Колода уже есть. Ваша задача — смотреть и говорить о том, что видите. Это доступно каждому.<br><br><strong>«Это несерьёзно — карточки какие-то»</strong><br>МАК применяют в образовании, HR, клинической психологии, коучинге. Это не детская игра. Это проективный метод с понятным механизмом работы.<br><br><strong>«Я не буду работать с клиентами, зачем мне это»</strong><br>Многие приходят не как специалисты, а для личной работы. МАК помогает разбираться в себе — в отношениях, в решениях, в состояниях.<br><br>Если хотя бы одно из этих возражений было вашим — теперь знаете ответ.<br><br>Старт <strong>завтра, 10 июня</strong>. Записаться: <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a>.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(13,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(13,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(13)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta13" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn13" onclick="saveComment(13)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card14" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge14"></span>
+    <span class="date">09.06 вторник</span>
+    <span class="time">18:00</span>
+    <span class="tag">МАК 5/5 FOMO</span>
+  </div>
+  <div class="card-body" id="body14">Завтра, 10 июня в 18:00 — первая встреча.<br><br>Если вы читаете эту неделю и всё ещё думаете — сегодня последний день записи.<br><br>Что входит:<br>— <strong>4 занятия</strong> по 3 часа, онлайн<br>— ведут <strong>Наталья Лукьянова</strong> (МАК-супервизор, 8 лет) и <strong>Татьяна Даниленко</strong> (МАК-супервизор, ЭОТ, преподаёт в Академии психологии)<br>— живая практика с картами на каждой встрече<br>— разбор как работать бережно и профессионально<br>— <strong>сертификат</strong><br>— стоимость: <strong>15 000 ₽</strong><br><br>Для кого: психологи, педагоги, коучи, HR — и все, кто хочет освоить инструмент глубже.<br><br>Мест осталось несколько.<br><br>Написать «МАК» → <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a>.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(14,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(14,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(14)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta14" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn14" onclick="saveComment(14)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card15" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge15"></span>
+    <span class="date">10.06 среда</span>
+    <span class="time">10:00</span>
+    <span class="tag">Старт МАК</span>
+  </div>
+  <div class="card-body" id="body15">Сегодня начинается.<br><br>Через несколько часов — первая встреча МАК-обучения. Немного волнуемся и немного радуемся. Наталья готовит материалы, Татьяна — первые практические упражнения.<br><br>Это хорошее чувство — когда начинается что-то, к чему долго шли.<br><br>Тем, кто записался — увидимся сегодня в 18:00. Если нужна ссылка — пишите в <a href="https://t.me/VREMYA_DMD" target="_blank">службу заботы</a>.<br><br>Если смотрели на это обучение и не успели — мы откроем следующий поток. Напишите «список» в службу заботы — внесём в лист ожидания.<br><br>А пока идёт МАК — следующая большая тема уже близко. <strong>20 июня</strong> — расстановки с Александром Бабенко. Расскажем подробнее на этой неделе.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(15,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(15,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(15)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta15" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn15" onclick="saveComment(15)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card16" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge16"></span>
+    <span class="date">10.06 среда</span>
+    <span class="time">18:00</span>
+    <span class="tag">Расстановки 1/4</span>
+  </div>
+  <div class="card-body" id="body16">Что такое системные расстановки — за пять строк, без эзотерики.<br><br>Расстановки — это метод работы с семейной и родовой системой. Идея в том, что мы несём в себе не только своё — но и паттерны, лояльности, незавершённые истории из семьи. Иногда это влияет на наши решения, отношения и состояния — даже если мы об этом не знаем.<br><br>На сессии специалист помогает увидеть эти связи. Не через долгий рассказ о прошлом, а через живой образ — с заместителями или фигурами. Это даёт другой уровень понимания, который словами часто не достигается.<br><br>Для кого: для тех, у кого повторяются одни и те же ситуации в отношениях или работе. Или есть ощущение, что «что-то идёт не так» — но слова не дают ответа.<br><br><strong>Александр Бабенко</strong> — специалист по расстановкам, 8 лет практики.<br><strong>20 июня, суббота, 13:00</strong>, очно. Стоимость: <strong>7 900 ₽</strong> / заместитель — <strong>1 500 ₽</strong>.<br><br>Записаться: <a href="https://n1686849.yclients.com" target="_blank">YClients</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a>.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(16,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(16,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(16)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta16" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn16" onclick="saveComment(16)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card17" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge17"></span>
+    <span class="date">11.06 четверг</span>
+    <span class="time">10:00</span>
+    <span class="tag">Полезный</span>
+  </div>
+  <div class="card-body" id="body17">«Ты просто устала — ляг отдохни».<br><br>Понятно. Только вот ложишься — и в голове список. Встаёшь — как не ложилась.<br><br>Мамы часто не умеют отдыхать — и это не потому что «не хотят». Это потому что отдых для многих из них стал запрещённым.<br><br>Где-то внутри сидит убеждение: если я лежу — значит ленюсь. Если трачу время на себя — значит, что-то не доделала. Правильная мама всегда занята. Всегда успевает. Всегда думает о детях.<br><br>Это не слабость характера. Это усвоенная установка — часто мамина, бабушкина, из поколения, где «себе» не было места.<br><br>Результат: хроническое выгорание, которое не проходит от отпуска. Потому что отпуск тоже превращается в задачи.<br><br>Первый шаг — заметить. Не осудить себя, а именно заметить: «вот оно». Это уже что-то меняет.<br><br>Если хотите разобраться с этим глубже — <strong>диагностическая встреча 500 ₽</strong>, 20 минут с психологом. Записаться: <a href="https://n95329.yclients.com" target="_blank">YClients</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a>.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(17,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(17,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(17)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta17" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn17" onclick="saveComment(17)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card18" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge18"></span>
+    <span class="date">11.06 четверг</span>
+    <span class="time">18:00</span>
+    <span class="tag">Интерактив</span>
+  </div>
+  <div class="card-body" id="body18">Поставьте <strong>+</strong> в комментариях, если узнаёте себя:<br><br>— просыпаешься уставшей ещё до того как что-то случилось<br>— раздражаешься на детей — и потом чувствуешь вину за само раздражение<br>— не можешь вспомнить, когда последний раз делала что-то только для себя<br>— когда все уснули — не отдыхаешь, а залипаешь в телефон, потому что больше нет сил ни на что<br>— на вопрос «как ты?» отвечаешь «нормально» — потому что объяснять долго<br><br>Это не нытьё. Это маркеры выгорания, которые часто игнорируют, потому что «у других хуже».<br><br>Если набрали три и больше — стоит поговорить. Не «взять себя в руки», а именно поговорить с кем-то, кто понимает.<br><br>Напишите в <a href="https://t.me/VREMYA_DMD" target="_blank">службу заботы</a> — там ответят и помогут разобраться что делать дальше.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(18,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(18,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(18)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta18" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn18" onclick="saveComment(18)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card19" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge19"></span>
+    <span class="date">12.06 пятница</span>
+    <span class="time">10:00</span>
+    <span class="tag">Расстановки 2/4</span>
+  </div>
+  <div class="card-body" id="body19">«Это же эзотерика» — три мифа о расстановках.<br><br><strong>Миф 1: Расстановки — это про духов и энергии.</strong><br>Нет. Метод основан на системной психологии — идее о том, что семья работает как система со своими законами. Ничего мистического. Просто другой угол зрения на то, почему мы делаем то, что делаем.<br><br><strong>Миф 2: Чтобы делать расстановку, нужно привести всю семью.</strong><br>Нет. На сессии работает один клиент. Заместители — это другие участники или фигуры, которые помогают создать образ системы. Реальное присутствие родственников не требуется.<br><br><strong>Миф 3: Результат непредсказуем — можно навредить.</strong><br>Расстановки проводит специалист с подготовкой. Александр Бабенко — <strong>8 лет практики</strong>. Процесс управляемый. Цель — не встряска, а понимание.<br><br>Расстановки помогают там, где разговорная психология «упирается в стену»: повторяющиеся паттерны, ощущение что «что-то передалось по роду», застрявшие отношения.<br><br><strong>20 июня, 13:00</strong>, очно. <strong>7 900 ₽</strong> / заместитель <strong>1 500 ₽</strong>.<br><br>Записаться: <a href="https://n1686849.yclients.com" target="_blank">YClients</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a>.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(19,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(19,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(19)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta19" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn19" onclick="saveComment(19)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card20" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge20"></span>
+    <span class="date">12.06 пятница</span>
+    <span class="time">18:00</span>
+    <span class="tag">Т-игра 1/3</span>
+  </div>
+  <div class="card-body" id="body20">«Ключи от кармы» — это не настолка про карму.<br><br>Хотя название интригующее — и это правда.<br><br>Т-игра (терапевтическая игра) — это формат, где вы играете в группе, отвечаете на вопросы, вытаскиваете карты — и вдруг понимаете что-то про свою жизнь, что словами и в лоб не давалось.<br><br>Не потому что это «магия карт». А потому что игровой формат снижает защиту. Вопросы задаются легко. И именно поэтому ответы получаются настоящими.<br><br>«Ключи от кармы» ведёт <strong>Ирина Косьяненко</strong> — психолог центра «Время», которая работает с подростками и взрослыми. Это не лекция и не тренинг. Это вечер с собой — в хорошей компании.<br><br>Для кого: для тех, кому скучно от обычных форматов. Для тех, кто хочет попробовать что-то живое.<br><br><strong>19 июня, пятница, 19:00.</strong> Стоимость: <strong>3 000 ₽</strong>.<br><br>Записаться: <a href="https://n1686849.yclients.com" target="_blank">YClients</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a>.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(20,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(20,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(20)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta20" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn20" onclick="saveComment(20)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card21" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge21"></span>
+    <span class="date">13.06 суббота</span>
+    <span class="time">10:00</span>
+    <span class="tag">Прогрев ВДР</span>
+  </div>
+  <div class="card-body" id="body21">Три месяца дома. С подростком.<br><br>Если вы прочитали это и уже немного напряглись — понимаем.<br><br>Лето — это время, когда дома становится больше всего: больше присутствия, больше столкновений, больше «почему ты снова за компьютером», больше хлопнутых дверей.<br><br>И больше тревоги: правильно ли мы общаемся? Не теряем ли контакт? Почему он такой отстранённый?<br><br>Завтра, <strong>14 июня в 12:00</strong> — онлайн-встреча для родителей подростков.<br><br>«Подросток дома всё лето» — встреча с <strong>Ириной Косьяненко</strong>, психологом, которая специализируется на подростковой теме.<br><br>Что будет: разбор реальных ситуаций, ответы на вопросы, конкретные подходы — не «потерпите», а что именно делать.<br><br>Стоимость: <strong>500 ₽</strong>. Онлайн.<br><br>Записаться: <a href="https://n1686849.yclients.com" target="_blank">YClients</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a>.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(21,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(21,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(21)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta21" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn21" onclick="saveComment(21)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card22" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge22"></span>
+    <span class="date">14.06 воскресенье</span>
+    <span class="time">10:00</span>
+    <span class="tag">Отзыв клиента</span>
+  </div>
+  <div class="card-body" id="body22">Она пришла с «я не понимаю, что со мной не так».<br><br>Всё вроде нормально: работа есть, семья есть, жаловаться не на что. Но — пусто. И тяжело. И каждое утро начинается с усилия.<br><br>&gt; [ВСТАВИТЬ ОТЗЫВ: клиент(ка), который пришёл с размытым запросом «не знаю что не так», прошёл несколько сессий и смог сформулировать, что изменилось. Желательно конкретно: что было до, что произошло в процессе, что изменилось после. Живой текст, от первого лица, 80–150 слов.]<br><br>Иногда самое трудное — первый шаг, когда непонятно даже, зачем идти.<br><br><strong>Диагностическая встреча 500 ₽</strong> — 20 минут, чтобы просто поговорить и понять, есть ли смысл идти глубже.<br><br>Записаться: <a href="https://n95329.yclients.com" target="_blank">YClients</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a>.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(22,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(22,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(22)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta22" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn22" onclick="saveComment(22)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card23" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge23"></span>
+    <span class="date">15.06 понедельник</span>
+    <span class="time">10:00</span>
+    <span class="tag">Полезный</span>
+  </div>
+  <div class="card-body" id="body23">«Всё нормально» — говорит голова. А тело — совсем другое.<br><br>Тревога может жить в теле даже тогда, когда разум убеждён, что всё под контролем.<br><br>Напряжение в плечах, которое не проходит. Дыхание, которое стало поверхностным — и вы этого не замечаете. Сложно уснуть, хотя устали. Раздражение — непонятно на что.<br><br>Это не слабость и не «надо взять себя в руки». Это нервная система, которая давно работает в режиме «готовность к угрозе» — даже если никакой угрозы нет.<br><br>Тревожные расстройства, панические атаки, фоновая тревога — это медицинские состояния. Они поддаются лечению. Не силой воли, а работой со специалистом.<br><br><strong>Сергей Тиунов</strong> — психотерапевт, к.м.н., <strong>30+ лет</strong> работы с тревогой, ПА, депрессией, ПТСР.<br><br>Если это про вас — не ждите пока «само пройдёт».<br><br>Записаться: <a href="https://n95329.yclients.com" target="_blank">диагностика 500 ₽</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a>.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(23,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(23,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(23)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta23" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn23" onclick="saveComment(23)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card24" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge24"></span>
+    <span class="date">16.06 вторник</span>
+    <span class="time">10:00</span>
+    <span class="tag">Расстановки 3/4</span>
+  </div>
+  <div class="card-body" id="body24">Почему вы снова делаете то, чего не хотите?<br><br>Выбираете похожих людей. Попадаете в одни и те же ситуации. Говорите себе «в этот раз точно нет» — и опять да.<br><br>Это может быть неосознанная лояльность к семейной системе.<br><br>В семьях есть негласные законы: «у нас не жалуются», «мужчины не показывают слабость», «хорошая жена всегда ставит мужа первым». Мы усваиваем их не словами, а воздухом — просто живя рядом. И потом воспроизводим — даже когда сознательно с этим не согласны.<br><br>Расстановки помогают увидеть эти связи. Не чтобы обвинить семью — а чтобы понять, где заканчивается «семейное» и начинается ваше собственное.<br><br><strong>Александр Бабенко</strong>, 8 лет практики расстановок.<br><br><strong>20 июня, 13:00</strong>, очно. <strong>7 900 ₽</strong> / заместитель <strong>1 500 ₽</strong>.<br><br>Записаться: <a href="https://n1686849.yclients.com" target="_blank">YClients</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a>.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(24,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(24,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(24)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta24" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn24" onclick="saveComment(24)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card25" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge25"></span>
+    <span class="date">16.06 вторник</span>
+    <span class="time">18:00</span>
+    <span class="tag">Полезный</span>
+  </div>
+  <div class="card-body" id="body25">Злишься — и сама не понимаешь на кого.<br><br>Вроде всё нормально. Но что-то внутри — готово к взрыву. Или тихое, ноющее раздражение, которое не проходит.<br><br>Злость — это не проблема. Злость — это сигнал.<br><br>Чаще всего она говорит о нарушенной границе. Кто-то сделал что-то, что не нужно. Или вы сделали то, чего не хотели, — потому что «надо», «неловко отказать», «потом скажут что эгоистка».<br><br>Проблема не в том, что злишься. Проблема в том, что злость некуда деть — и она копится, пока не выйдет в неподходящий момент.<br><br>Что помогает: не бороться со злостью, а расслышать что она говорит. «Что сейчас нарушено?» — уже хороший вопрос.<br><br>Если злость стала частой гостьей и мешает отношениям — это повод поговорить со специалистом.<br><br><strong>Диагностическая встреча 500 ₽</strong>: <a href="https://n95329.yclients.com" target="_blank">YClients</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a>.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(25,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(25,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(25)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta25" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn25" onclick="saveComment(25)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card26" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge26"></span>
+    <span class="date">17.06 среда</span>
+    <span class="time">10:00</span>
+    <span class="tag">Интерактив</span>
+  </div>
+  <div class="card-body" id="body26">Какую роль вы играли в семье?<br><br>Не должность, не «старший» или «младший». А роль — негласную, которую вам назначили или вы взяли сами.<br><br><strong>Миротворец</strong> — следил чтобы не было конфликтов, успокаивал когда становилось жарко.<br><br><strong>Отличник</strong> — хорошие оценки, правильное поведение, «гордость семьи». Нельзя подводить.<br><br><strong>Невидимка</strong> — старался не занимать места, не требовать. Будто проще если тебя мало.<br><br><strong>Клоун</strong> — разрядить напряжение шуткой, переключить, развеселить. Чтобы не было тяжело.<br><br><strong>Козёл отпущения</strong> — когда нужно было на кого-то направить напряжение семьи — оно шло к тебе.<br><br>Напишите в комментариях — какая роль ваша? Или своя, которой нет в списке?<br><br>Эти роли часто переходят во взрослую жизнь — в работу, отношения, дружбу. Иногда полезно просто увидеть это.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(26,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(26,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(26)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta26" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn26" onclick="saveComment(26)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card27" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge27"></span>
+    <span class="date">17.06 среда</span>
+    <span class="time">18:00</span>
+    <span class="tag">Т-игра 2/3</span>
+  </div>
+  <div class="card-body" id="body27">Как проходят «Ключи от кармы» — конкретно.<br><br>Собирается небольшая группа. Ирина Косьяненко ведёт процесс.<br><br>Есть карты. Есть вопросы — которые вы сами себе редко задаёте. Есть игровые ходы, которые дают разные ракурсы.<br><br>Вопросы могут быть про отношения, про работу, про «куда двигаться» — или про что-то, что давно лежит внутри и не даётся словами.<br><br>Два часа. Не лекция, не тренинг — живой процесс, где вы и думаете, и чувствуете, и иногда смеётесь. И иногда понимаете что-то важное — через ответ на вопрос, который казался игровым.<br><br>Для кого: для тех, кто хочет что-то прояснить — без занудства. Для тех, кому скучно от привычных форматов.<br><br><strong>Завтра, 19 июня в 19:00</strong> — мест осталось немного.<br><br>Записаться: <a href="https://n1686849.yclients.com" target="_blank">YClients</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a>.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(27,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(27,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(27)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta27" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn27" onclick="saveComment(27)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card28" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge28"></span>
+    <span class="date">18.06 четверг</span>
+    <span class="time">09:00</span>
+    <span class="tag">Т-игра 3/3</span>
+  </div>
+  <div class="card-body" id="body28">&gt; [ВСТАВИТЬ ОТЗЫВ: участница Т-игры «Ключи от кармы». Желательно: пришла без особых ожиданий или скептически, получила неожиданный инсайт — желательно конкретный. Живо, от первого лица, 60–100 слов.]<br><br>«Пришла за развлечением. Ушла с ответом на вопрос, который не решался год» — примерно так говорят после каждой игры.<br><br>Сегодня последний шанс попасть: <strong>завтра, 19 июня в 19:00</strong>. Стоимость: <strong>3 000 ₽</strong>.<br><br>Осталось несколько мест.<br><br>Написать в <a href="https://t.me/VREMYA_DMD" target="_blank">службу заботы</a> — запишем.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(28,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(28,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(28)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta28" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn28" onclick="saveComment(28)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card29" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge29"></span>
+    <span class="date">18.06 четверг</span>
+    <span class="time">13:00</span>
+    <span class="tag">Расстановки 4/4</span>
+  </div>
+  <div class="card-body" id="body29">Она пришла с вопросом про работу.<br><br>«Не могу найти своё место. Меняю должности, компании — везде одно и то же: через полгода становится невыносимо».<br><br>На расстановке выяснилось кое-что другое.<br><br>Мы поставили образ рабочей системы — и вдруг возникла фигура отца. Дистанция. Непроговорённая история. Лояльность, которая выражалась в том, что «нельзя быть успешнее».<br><br>К концу сессии она сидела тихо. «Это про отца, не про работу. Я никогда так не видела».<br><br>Мы не знаем заранее, куда выведет расстановка. Но именно это и делает её нужной: она показывает то, что лежит за пределами привычного объяснения.<br><br><strong>Послезавтра, 20 июня в 13:00.</strong> Александр Бабенко. <strong>7 900 ₽</strong> / заместитель <strong>1 500 ₽</strong>. Очно.<br><br>Последние места. Записаться: <a href="https://n1686849.yclients.com" target="_blank">YClients</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a>.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(29,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(29,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(29)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta29" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn29" onclick="saveComment(29)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card30" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge30"></span>
+    <span class="date">18.06 четверг</span>
+    <span class="time">18:00</span>
+    <span class="tag">Акция</span>
+  </div>
+  <div class="card-body" id="body30">Июнь идёт — и акции ещё работают.<br><br><strong>ДЕТИ26</strong> — скидка 10% на консультации для детей и подростков. До конца июня.<br><br><strong>ВЗРОСЛЫЕ26</strong> — скидка 10% по понедельникам. Каждый понедельник июня — в силе.<br><br>Если откладывали запись — сейчас хороший момент.<br><br>Записаться: <a href="https://n95329.yclients.com" target="_blank">YClients</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a> — помогут подобрать время и специалиста.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(30,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(30,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(30)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta30" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn30" onclick="saveComment(30)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card31" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge31"></span>
+    <span class="date">19.06 пятница</span>
+    <span class="time">10:00</span>
+    <span class="tag">Пятничный обзор</span>
+  </div>
+  <div class="card-body" id="body31">Этот уикенд — про паттерны.<br><br>Два события, один нарратив: что держит нас в повторяющихся сценариях — и как это увидеть.<br><br><strong>Сегодня вечером, 19:00 — Т-игра «Ключи от кармы».</strong><br>Ирина Косьяненко. Игровой формат, живые вопросы, маленькая группа. Вечер с собой — неожиданно глубокий. <strong>3 000 ₽</strong>.<br><br><strong>Завтра, 13:00 — Расстановки с Александром Бабенко.</strong><br>Системный метод: увидеть семейные сценарии, которые влияют прямо сейчас. Очно. <strong>7 900 ₽</strong> / заместитель <strong>1 500 ₽</strong>.<br><br>Два разных формата — одна тема: почему повторяется то, что не должно повторяться.<br><br>Записаться на Т-игру или расстановки: <a href="https://n1686849.yclients.com" target="_blank">YClients</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a>.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(31,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(31,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(31)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta31" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn31" onclick="saveComment(31)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card32" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge32"></span>
+    <span class="date">20.06 суббота</span>
+    <span class="time">10:00</span>
+    <span class="tag">Закулисье</span>
+  </div>
+  <div class="card-body" id="body32">За 15 минут до того как вы входите.<br><br>Специалист проветривает кабинет. Ставит стакан воды — на ваш стол. Перечитывает записи с прошлой встречи. Иногда просто сидит — чтобы перейти из своего дня в ваш разговор.<br><br>Это не ритуал. Это профессиональная подготовка: войти в контакт с вами по-настоящему, а не с головой ещё в предыдущем клиенте.<br><br>В центре «Время» специалисты работают в расписании, которое оставляет время между сессиями. Не потому что «так принято», а потому что качество контакта зависит в том числе от этого.<br><br>Вы приходите — и мы уже готовы. Уже здесь. Уже думаем о вас.<br><br>Если хотите записаться — напишите в <a href="https://t.me/VREMYA_DMD" target="_blank">службу заботы</a>. Подберём специалиста, время и формат, который подойдёт именно вам.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(32,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(32,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(32)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta32" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn32" onclick="saveComment(32)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card33" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge33"></span>
+    <span class="date">20.06 суббота</span>
+    <span class="time">14:00</span>
+    <span class="tag">Отзыв расстановки</span>
+  </div>
+  <div class="card-body" id="body33">&gt; [ВСТАВИТЬ ОТЗЫВ: клиентка расстановок с Бабенко. Желательно: было ощущение «что-то застряло», пришла без конкретного запроса или со скептицизмом. Что увидела на расстановке — желательно конкретный образ или момент. Что изменилось после — через неделю, месяц. Живой текст, от первого лица, 80–150 слов.]<br><br>После расстановки не всегда сразу понятно, что произошло. Иногда осознание приходит через день. Иногда через неделю.<br><br>Написать в <a href="https://t.me/VREMYA_DMD" target="_blank">службу заботы</a> — расскажем о следующей группе.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(33,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(33,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(33)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta33" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn33" onclick="saveComment(33)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card34" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge34"></span>
+    <span class="date">21.06 воскресенье</span>
+    <span class="time">18:00</span>
+    <span class="tag">Полезный + анонс эфира</span>
+  </div>
+  <div class="card-body" id="body34">«Ну вот и лето» — говорят все. А вы снова не восстанавливаетесь.<br><br>Потому что лето — это не автоматический отдых. Это просто другие задачи: дети дома, дача, поездки, которые нужно организовать.<br><br>Хроническая усталость не уходит от смены сезона. Она уходит когда меняется что-то внутри — понимание, что происходит, и что с этим делать.<br><br>Завтра, <strong>22 июня в 19:00</strong> — бесплатный онлайн-эфир.<br><br>Тема: «Почему мы не восстанавливаемся — и что на самом деле помогает».<br><br>Ведут: <strong>Наталья Лукьянова</strong> и <strong>Ирина Косьяненко</strong>. Не лекция — разговор с примерами, вопросами и конкретикой.<br><br>Участие бесплатное. Ссылка — в шапке профиля.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(34,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(34,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(34)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta34" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn34" onclick="saveComment(34)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card35" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge35"></span>
+    <span class="date">22.06 понедельник</span>
+    <span class="time">10:00</span>
+    <span class="tag">Вопрос + анонс эфира</span>
+  </div>
+  <div class="card-body" id="body35">Один вопрос:<br><br><strong>Что сейчас больше всего забирает ваши силы?</strong><br><br>Напишите в комментариях — одним словом или развёрнуто.<br><br>Сегодня вечером, <strong>19:00</strong> — бесплатный эфир на эту тему.<br><br>Наталья Лукьянова и Ирина Косьяненко будут разбирать именно это: откуда берётся хроническое истощение, почему «просто отдохнуть» не работает, и что реально помогает.<br><br>Участие бесплатное. Ссылка — в шапке профиля.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(35,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(35,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(35)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta35" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn35" onclick="saveComment(35)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card36" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge36"></span>
+    <span class="date">23.06 вторник</span>
+    <span class="time">10:00</span>
+    <span class="tag">После эфира + интенсив</span>
+  </div>
+  <div class="card-body" id="body36">Спасибо всем, кто был вчера на эфире.<br><br>Вы задавали очень честные вопросы. И чаще всего они были про одно: «я понимаю что что-то не так, но не знаю с чего начать».<br><br>Для тех, кто хочет пойти дальше одного разговора — мы открываем запись.<br><br><strong>13–14 июля — интенсив «Перезагрузка».</strong><br><br>Два дня онлайн. Ведут Наталья Лукьянова и Ирина Косьяненко — вместе, в живом формате.<br><br>Это не набор лекций. Это работа: с состоянием, с тем что мешает восстанавливаться, с тем куда двигаться дальше.<br><br>Подробности — в следующих постах. Если уже хотите записаться — напишите «Перезагрузка» в <a href="https://t.me/VREMYA_DMD" target="_blank">службу заботы</a>.<br><br>Стоимость: <strong>4 500–5 500 ₽</strong>. Онлайн.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(36,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(36,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(36)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta36" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn36" onclick="saveComment(36)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card37" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge37"></span>
+    <span class="date">23.06 вторник</span>
+    <span class="time">18:00</span>
+    <span class="tag">Полезный</span>
+  </div>
+  <div class="card-body" id="body37">Отпуск был. Две недели. А вернулась — и через три дня как не было.<br><br>Это не потому что вы неправильно отдыхали. Это потому что накопленная усталость не лечится отдыхом.<br><br>Звучит парадоксально — но это именно так. Когда человек долго работает на износ, система переходит в хроническое состояние. И неделя у моря снимает поверхностное напряжение, но не достаёт до корня.<br><br>Корень — в том, как устроено ваше «включение» и «выключение». В установках про труд и отдых. В том, умеете ли вы вообще разрешить себе не делать ничего — и не чувствовать при этом вину.<br><br>Это работа не «над отдыхом», а над отношением к себе.<br><br>Если это резонирует — хороший разговор со специалистом часто даёт больше, чем ещё один отпуск.<br><br><strong>Диагностическая встреча 500 ₽</strong>: <a href="https://n95329.yclients.com" target="_blank">YClients</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a>.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(37,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(37,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(37)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta37" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn37" onclick="saveComment(37)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card38" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge38"></span>
+    <span class="date">24.06 среда</span>
+    <span class="time">10:00</span>
+    <span class="tag">Скачкова 1/2</span>
+  </div>
+  <div class="card-body" id="body38">Мария Скачкова ведёт встречи про женское — и это не значит «как всё успевать».<br><br>Скорее наоборот.<br><br>Она работает с тем, что часто остаётся за скобками: усталость от собственных ожиданий, напряжение в паре, ощущение «я живу чужую жизнь», потеря себя в роли мамы, жены, сотрудника.<br><br>Мария не читает лекций. На встречах — пространство для честного разговора: о том, что происходит прямо сейчас, и о том, что с этим делать.<br><br><strong>«Время для женщин»</strong> — встреча, которую она ведёт <strong>26 июня в 18:00</strong>.<br><br>Формат: небольшая группа, очно. Приходят за разным — уходят с чем-то своим.<br><br>Стоимость: <strong>2 000 ₽</strong> / <strong>1 500 ₽</strong> по абонементу.<br><br>Записаться: <a href="https://n1686849.yclients.com" target="_blank">YClients</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a>.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(38,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(38,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(38)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta38" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn38" onclick="saveComment(38)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card39" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge39"></span>
+    <span class="date">24.06 среда</span>
+    <span class="time">18:00</span>
+    <span class="tag">Курс «Счастье»</span>
+  </div>
+  <div class="card-body" id="body39">Четвёртый месяц идёт — и люди всё ещё пишут: «Могу присоединиться?»<br><br>Нет. Курс «Счастье начинается с меня» уже в процессе. Войти в середину — не то что нужно.<br><br>Но если вы давно думаете об этом — следующий набор будет осенью.<br><br>Курс ведёт Наталья Лукьянова вместе с командой центра. Это не про «думай позитивно». Это работа с тем, откуда берётся ощущение удовлетворения от жизни — и почему у многих его нет, даже когда «всё есть».<br><br>Если хотите попасть в осенний поток — напишите «Счастье» в <a href="https://t.me/VREMYA_DMD" target="_blank">службу заботы</a>. Внесём в список ожидания — будете первыми.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(39,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(39,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(39)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta39" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn39" onclick="saveComment(39)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card40" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge40"></span>
+    <span class="date">25.06 четверг</span>
+    <span class="time">10:00</span>
+    <span class="tag">Диагностика</span>
+  </div>
+  <div class="card-body" id="body40">«Не знаю, нужна ли мне психология. Не знаю, с чего начать. Не знаю, к кому идти».<br><br>Для этого и существует диагностическая встреча.<br><br><strong>20 минут. 500 ₽. Один на один со специалистом.</strong><br><br>Вы рассказываете что происходит — в свободной форме, без подготовки. Специалист слушает, задаёт несколько вопросов, и в конце говорит: есть ли здесь запрос для работы, какой формат подойдёт, к кому из команды лучше обратиться.<br><br>Это не продажа. Это ориентация. После встречи вы сами решаете — идти дальше или нет.<br><br>Многие, кто пришёл «просто посмотреть» — остаются. Потому что оказывается: говорить об этом можно, и это помогает.<br><br>Записаться: <a href="https://n95329.yclients.com" target="_blank">YClients</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a>.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(40,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(40,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(40)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta40" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn40" onclick="saveComment(40)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card41" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge41"></span>
+    <span class="date">25.06 четверг</span>
+    <span class="time">18:00</span>
+    <span class="tag">Скачкова 2/2</span>
+  </div>
+  <div class="card-body" id="body41">«Жизнь как дом» — вот образ, с которым работает Мария на этой встрече.<br><br>Есть комнаты, в которые мы заходим каждый день. Есть те, которые закрыты давно. Есть те, которые мы называем «своими» — хотя там неуютно.<br><br>Какая комната сейчас требует внимания? Где вы давно не были? Откуда хочется уйти — но остаётесь?<br><br>Это не метафора ради метафоры. Это способ поговорить о том, что трудно назвать прямо: где в жизни нет воздуха, и что могло бы измениться.<br><br><strong>Завтра, 26 июня в 18:00.</strong> Мария Скачкова. Небольшая группа, очно.<br><strong>2 000 ₽</strong> / <strong>1 500 ₽</strong> по абонементу.<br><br>Записаться сегодня: <a href="https://n1686849.yclients.com" target="_blank">YClients</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a>.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(41,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(41,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(41)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta41" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn41" onclick="saveComment(41)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card42" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge42"></span>
+    <span class="date">26.06 пятница</span>
+    <span class="time">10:00</span>
+    <span class="tag">Пятничный обзор</span>
+  </div>
+  <div class="card-body" id="body42">Этот уикенд — для женщин. И для всех, кто рядом с ними.<br><br><strong>Сегодня, 18:00 — «Время для женщин» с Марией Скачковой.</strong><br>Встреча про то, где не хватает воздуха — и что с этим делать. Небольшая группа, очно. <strong>2 000 ₽</strong> / <strong>1 500 ₽</strong> по абонементу.<br><br>Записаться: <a href="https://n1686849.yclients.com" target="_blank">YClients</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a>.<br><br>Если ваши дети дома всё лето и вы ищете поддержку — напишите в службу заботы, подберём специалиста по подростковой теме.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(42,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(42,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(42)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta42" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn42" onclick="saveComment(42)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card43" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge43"></span>
+    <span class="date">27.06 суббота</span>
+    <span class="time">11:00</span>
+    <span class="tag">Перезагрузка — программа</span>
+  </div>
+  <div class="card-body" id="body43">Что будет на интенсиве «Перезагрузка» 13–14 июля.<br><br><strong>День первый:</strong><br>Почему мы не восстанавливаемся — и где на самом деле «дыры». Работа с текущим состоянием: что происходит в теле, в мышлении, в отношениях с собой. Не диагностика — живая работа.<br><br><strong>День второй:</strong><br>Как перезагрузиться — не на неделю, а надолго. Инструменты, которые работают именно для вас. Завершающая практика и конкретный план на ближайшие месяцы.<br><br>Два дня. Онлайн. <strong>Наталья Лукьянова</strong> и <strong>Ирина Косьяненко</strong> — вместе, в живом формате.<br><br>Это не лекции. Это работа в группе — с вашим запросом, вашим состоянием, вашим ритмом.<br><br>Стоимость: <strong>4 500–5 500 ₽</strong>.<br><br>Место ограничено — небольшая группа, чтобы была возможность работать с каждым.<br><br>Написать «Перезагрузка» → <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a>.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(43,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(43,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(43)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta43" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn43" onclick="saveComment(43)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card44" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge44"></span>
+    <span class="date">27.06 суббота</span>
+    <span class="time">18:00</span>
+    <span class="tag">Интерактив</span>
+  </div>
+  <div class="card-body" id="body44">Как вы на самом деле восстанавливаетесь?<br><br>Не «правильный ответ». Честный.<br><br>А — сплю. Просто сплю столько, сколько хочу.<br>Б — ем что хочу и смотрю сериалы без чувства вины.<br>В — иду гулять — в одиночестве, без телефона.<br>Г — встречаюсь с людьми, которые заряжают.<br>Д — никак. Пока не восстановилась — не поняла как.<br><br>Напишите букву в комментариях. Или своё.<br><br>Интересно посмотреть — у всех нас разные способы. И часто мы не знаем, что «правильного» нет — есть только то, что работает для вас.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(44,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(44,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(44)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta44" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn44" onclick="saveComment(44)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card45" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge45"></span>
+    <span class="date">28.06 воскресенье</span>
+    <span class="time">10:00</span>
+    <span class="tag">Мужская аудитория</span>
+  </div>
+  <div class="card-body" id="body45">«Справляюсь» — это не всегда правда.<br><br>Иногда это просто привычный ответ. Тот, который не требует продолжения.<br><br>Мужчины обращаются за помощью реже — не потому что меньше нуждаются. А потому что с детства слышали: сам справляйся, не жалуйся, держись.<br><br>Это не слабость — это усвоенная программа. И она дорого стоит: хроническое напряжение, сложности в отношениях, физические симптомы, которые «непонятно откуда».<br><br>Психолог — это не про «разложить всё на диване». Это про то, чтобы разобраться что происходит и найти выход, который работает именно для вас. Без лишних слов, без давления, конфиденциально.<br><br>В центре «Время» работают специалисты с опытом работы с мужскими темами: тревога, карьерные кризисы, отношения, ПТСР.<br><br>Первый шаг — просто написать.<br><br><a href="https://t.me/VREMYA_DMD" target="_blank">Служба заботы</a> — конфиденциально, ответят на вопросы и подберут время.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(45,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(45,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(45)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta45" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn45" onclick="saveComment(45)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card46" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge46"></span>
+    <span class="date">28.06 воскресенье</span>
+    <span class="time">18:00</span>
+    <span class="tag">Полезный</span>
+  </div>
+  <div class="card-body" id="body46">Он нормальный. Я нормальная. Но вместе — невыносимо.<br><br>Знакомо?<br><br>Это не значит что что-то сломалось. Это значит что в паре сложились паттерны, которые воспроизводятся по кругу. Одни и те же ссоры — другими словами. Одно и то же ощущение после — обида, дистанция, «опять».<br><br>Иногда проблема не в партнёре и не в вас — а в том, что два хороших человека столкнулись своими незажившими историями. Это можно распутать.<br><br>Семейная психология работает именно с этим: не «кто прав», а «что здесь происходит на самом деле» и «как это изменить».<br><br>Если узнали себя — напишите в <a href="https://t.me/VREMYA_DMD" target="_blank">службу заботы</a>. Расскажут о форматах работы с парами и семьями, подберут специалиста.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(46,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(46,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(46)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta46" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn46" onclick="saveComment(46)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card47" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge47"></span>
+    <span class="date">29.06 понедельник</span>
+    <span class="time">10:00</span>
+    <span class="tag">Финал акции</span>
+  </div>
+  <div class="card-body" id="body47">Осталось два дня.<br><br><strong>30 июня</strong> — последний день действия промокодов ДЕТИ26 и ВЗРОСЛЫЕ26.<br><br>Скидка 10% на консультации:<br>— <strong>ДЕТИ26</strong> — на детей и подростков, до конца июня<br>— <strong>ВЗРОСЛЫЕ26</strong> — по понедельникам, сегодня последний понедельник<br><br>Если откладывали — сегодня хороший день.<br><br>Записаться: <a href="https://n95329.yclients.com" target="_blank">YClients</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a> — там помогут применить промокод.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(47,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(47,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(47)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta47" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn47" onclick="saveComment(47)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card48" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge48"></span>
+    <span class="date">29.06 понедельник</span>
+    <span class="time">18:00</span>
+    <span class="tag">Полезный</span>
+  </div>
+  <div class="card-body" id="body48">Море, солнце, коктейль — а мысли всё равно дома.<br><br>«Надо же сделать то-то», «как там без меня», «вернусь — и опять всё навалится».<br><br>Это не потому что вы не умеете отдыхать. Это потому что тревожный мозг едет в отпуск вместе с вами.<br><br>Тревога — это не характер. Это состояние нервной системы, которое не переключается от смены обстановки. Ему нужна другая работа: не «отвлечься», а разобраться что запускает этот фоновый режим.<br><br>Хороший отпуск — это когда голова тоже отдыхает. Это достижимо. Просто иногда нужна помощь.<br><br>Если фоновая тревога — ваш постоянный спутник — поговорите со специалистом.<br><br><strong>Диагностическая встреча 500 ₽</strong>: <a href="https://n95329.yclients.com" target="_blank">YClients</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a>.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(48,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(48,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(48)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta48" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn48" onclick="saveComment(48)">💾 Сохранить</button>
+  </div>
+</div>
+<div class="card " id="card49" data-status="">
+  <div class="card-head">
+    <span class="status-badge" id="badge49"></span>
+    <span class="date">30.06 вторник</span>
+    <span class="time">12:00</span>
+    <span class="tag">FOMO Перезагрузка</span>
+  </div>
+  <div class="card-body" id="body49">Если вы были на эфире 22 июня — вы знаете о чём это.<br><br>Если не были — вот суть:<br><br>Усталость, которая не проходит от отдыха. Ощущение что крутишься — но никуда не движешься. Хочется перезапустить что-то — но непонятно что и как.<br><br><strong>Интенсив «Перезагрузка» — 13–14 июля.</strong> Онлайн, два дня, Наталья Лукьянова и Ирина Косьяненко.<br><br>Это не курс, не вебинар, не лекции. Это живая работа в небольшой группе — с вашим состоянием, вашим запросом, вашим ритмом.<br><br>Стоимость: <strong>4 500–5 500 ₽</strong>.<br><br>Мест немного. Если думали — сейчас хороший момент решить.<br><br>Написать «Перезагрузка» → <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a>.</div>
+  <div class="card-actions">
+    <button class="btn-ok" onclick="setStatus(49,'ok')">✅ Всё ок</button>
+    <button class="btn-fix" onclick="setStatus(49,'fix')">✏️ Нужны правки</button>
+    <button class="btn-copy" onclick="copyPost(49)">📋 Копировать</button>
+  </div>
+  <div class="comment-wrap">
+    <textarea id="ta49" placeholder="Напиши комментарий — что изменить..."></textarea>
+    <button class="save-btn" id="savebtn49" onclick="saveComment(49)">💾 Сохранить</button>
+  </div>
+</div></div>
+<div class="empty-msg" id="empty-msg">Нет постов с таким статусом</div>
+
+<script>
+var KEY = 'posts_june_v1';
+var posts = [{"date": "01.06 понедельник", "time": "10:00", "tag": "Акция", "body": "Июнь — хороший повод наконец начать.\n\nВ этом месяце у нас две акции, которые делают первый шаг чуть легче.\n\n**Для родителей: промокод ДЕТИ26**\nСкидка 10% на консультации для детей и подростков. Действует весь июнь — можно записаться сейчас на любое удобное время.\n\n**Для взрослых: промокод ВЗРОСЛЫЕ26**\nСкидка 10% по понедельникам. Каждый понедельник июня — ваш день для первого шага.\n\nКак использовать: при записи через [YClients](https://n95329.yclients.com) введите промокод в поле комментария. Или напишите в [службу заботы](https://t.me/VREMYA_DMD) — там помогут применить скидку и подберут удобное время.\n\nФорматы: очно в Домодедово и Москве, онлайн — для всей России и зарубежья.\n\nАкции работают весь июнь. Потом — обычные цены.", "status": "", "comment": ""}, {"date": "01.06 понедельник", "time": "18:00", "tag": "МАК 1/5", "body": "Наталья пришла к МАК-картам не потому что «надо было попробовать».\n\nБыл клиент, который приходил уже восемь месяцев. Говорил много — умно, складно, структурно. И ничего не менялось.\n\nОна предложила карту. Просто так: «Посмотри, что зацепит». Клиент взял, посмотрел — и впервые за восемь месяцев замолчал. А потом сказал что-то такое, чего не говорил ни разу.\n\nЭто был не ответ. Это был вход в совсем другой разговор.\n\nПосле этого Наталья начала изучать метод серьёзно. Прошла обучение, потом ещё одно. Собрала собственную колоду. Сейчас — **8 лет работы с МАК** и подготовка специалистов по всей России.\n\nНе потому что МАК — «волшебный инструмент». А потому что иногда слова защищают нас от самих себя. А образ — обходит.\n\n**10 июня** вместе с Татьяной Даниленко они начинают новый поток обучения.\n\nДля психологов, педагогов, коучей — и для тех, кто хочет лучше понимать себя.\n\nПодробности — в следующих постах. Если уже хотите записаться — напишите в [службу заботы](https://t.me/VREMYA_DMD).", "status": "", "comment": ""}, {"date": "02.06 вторник", "time": "10:00", "tag": "Полезный", "body": "«Ты меня не слышишь», «оставь меня в покое» — и дверь.\n\nЕсли это звучит знакомо, вот что, возможно, происходит на самом деле.\n\nПодросток, который хамит, замыкается, огрызается — чаще всего не злится именно на вас. Он **отделяется**. Это называется сепарация — и это нормальный этап развития. Без него вырастают взрослые, которые не умеют быть собой отдельно от мамы или папы.\n\nНо для родителей это больно. Ещё вчера он рассказывал всё. А сегодня смотрит в телефон и отвечает односложно.\n\nЧто разрушает контакт в этот период:\n— требование «рассказывай всё как раньше»\n— сравнение с другими детьми\n— вопросы подряд без паузы\n— вход в комнату без стука\n— фраза «пока ты живёшь в моём доме»\n\nЧто помогает сохранить связь:\n— быть рядом, не требуя разговора\n— реагировать на то, что он всё-таки говорит — без оценки\n— спрашивать один вопрос, не серию\n— признавать его право на настроение\n\nСепарация — не конец близости. Это её новая форма.\n\nХотите разобраться в ситуации с вашим подростком — **диагностическая встреча 500 ₽**, 20 минут с психологом. Записаться: [YClients](https://n95329.yclients.com) или в [службу заботы](https://t.me/VREMYA_DMD).", "status": "", "comment": ""}, {"date": "03.06 среда", "time": "10:00", "tag": "МАК 2/5", "body": "«Это же как гадание на картах?»\n\nНет. Совсем не то. Давайте разберём три самых частых мифа о МАК — спокойно и честно.\n\n**Миф 1: МАК — это гадание или эзотерика.**\nМАК-карты работают через проективный механизм: человек смотрит на образ — и видит в нём то, что уже есть у него внутри. Это не предсказание. Это способ добраться до своего, обходя привычную защиту. Используется в психологии, коучинге, образовании.\n\n**Миф 2: Нужна интуиция или художественный вкус.**\nНет. Карты работают не потому что вы «чувствительный» человек. Они работают потому что так устроено образное мышление — у всех нас. Никаких специальных способностей не нужно.\n\n**Миф 3: МАК только для психологов.**\nНа обучении мы видим разных людей: педагоги, HR, нутрициологи, стилисты, просто те, кто хочет лучше понимать себя. Инструмент применим везде, где есть работа с людьми — или с собой.\n\nЧто правда: МАК — это навык, которому нужно учиться. Важно понимать, как задавать вопросы, как работать с реакцией, как не навредить.\n\nИменно этому учит обучение, которое **10 июня** начинают Наталья Лукьянова и Татьяна Даниленко.\n\nЗапись открыта: [служба заботы](https://t.me/VREMYA_DMD).", "status": "", "comment": ""}, {"date": "03.06 среда", "time": "18:00", "tag": "Квиз", "body": "Хочу понять, с чем чаще всего приходят люди в июне.\n\nОдин вопрос — ответьте в комментариях:\n\n**Что сейчас больше всего забирает энергию?**\n\nА — работа и ответственность (всё держится на мне)\nБ — отношения и близкие (устала от конфликтов, непонимания)\nВ — тревога и голова (мысли, которые не останавливаются)\nГ — просто устала — и даже не знаю от чего\n\nНапишите букву в комментарии. По самому частому ответу — напишу отдельный разбор.\n\nИ да, это не тест с «правильным ответом». Любой вариант — это про реальную жизнь, не про слабость.", "status": "", "comment": ""}, {"date": "04.06 четверг", "time": "10:00", "tag": "Полезный", "body": "Вы можете не чувствовать себя усталым — и при этом быть истощены.\n\nВот три признака, которые говорят: «устала сильнее, чем кажется».\n\n**1. То, что раньше восстанавливало — больше не помогает.**\nЛюбимый сериал раздражает. Прогулка не приносит облегчения. Встреча с подругой ощущается как обязанность. Это не скука — это сигнал, что ресурс на восстановление тоже исчерпан.\n\n**2. Тело начинает говорить за вас.**\nУчастившиеся простуды, головные боли «ниоткуда», ощущение тяжести с утра. Тело не драматизирует. Оно просто включает сигнализацию.\n\n**3. Вы перестали хотеть.**\nНе грустно, не плохо — просто пусто. Планы не вдохновляют. Ничего особо не хочется. Это состояние часто принимают за лень или депрессию, но чаще это — истощение, которое слишком долго игнорировали.\n\nУзнали себя хотя бы в одном?\n\nЭто не повод паниковать — но повод обратить внимание. Иногда достаточно одного разговора, чтобы понять что происходит.\n\n**Диагностическая встреча — 500 ₽**, 20 минут с психологом. Записаться: [YClients](https://n95329.yclients.com) или [служба заботы](https://t.me/VREMYA_DMD).", "status": "", "comment": ""}, {"date": "04.06 четверг", "time": "18:00", "tag": "Эксперт", "body": "«Скорая говорит: всё в норме. А мне плохо».\n\nЭто не выдуманная проблема. Это паническая атака — и она случается с людьми, у которых «ничего не нашли».\n\nСергей Тиунов — психотерапевт, кандидат медицинских наук, **30+ лет** работы с тревожными расстройствами. Он объясняет так:\n\nТревога — это нормальная реакция нервной системы. Но иногда она «застревает» в режиме угрозы, даже когда угрозы нет. Тело готовится к опасности — сердце, дыхание, мышцы. Это и есть паническая атака. Не сумасшествие. Не слабость. Физиология.\n\nХорошая новость: это лечится. Не «само пройдёт», а именно лечится — с правильным специалистом.\n\nЕсли у вас бывает:\n— резкий страх или ужас без видимой причины\n— сердцебиение, нехватка воздуха, головокружение\n— ощущение «сейчас умру» или «теряю контроль»\n— и всё это при нормальных анализах\n\nЭто повод прийти к Сергею Михайловичу.\n\nЗаписаться: [диагностика 500 ₽](https://n95329.yclients.com) или [служба заботы](https://t.me/VREMYA_DMD).", "status": "", "comment": ""}, {"date": "05.06 пятница", "time": "12:00", "tag": "МАК 3/5", "body": "Она выбрала карту — и засмеялась.\n\nМы все немного удивились: карта была тихая, пейзажная. Озеро. Туман. Лодка у берега.\n\n«Это смешно? Расскажи».\n\n«Нет, просто... я сразу поняла. Это я. Стою у лодки и не сажусь. Боюсь, что течение унесёт не туда».\n\nПауза. И потом — тихо, уже не смеясь:\n\n«Я так уже три года».\n\nЭто произошло за пять минут. Не потому что карта «показала ответ». А потому что образ помог ей сказать то, что словами не шло.\n\nТакие моменты случаются на обучении МАК регулярно. Не как цель — как побочный эффект того, что инструмент работает.\n\nЕсли вы психолог, педагог, коуч или просто хотите лучше понимать себя — **10 июня** начинается обучение.\n\nВедут: **Наталья Лукьянова** (МАК-супервизор, 8 лет) и **Татьяна Даниленко** (МАК-супервизор, ЭОТ, преподаёт в Академии психологии). Онлайн, 4 занятия, сертификат, **15 000 ₽**.\n\nЗаписаться: [служба заботы](https://t.me/VREMYA_DMD).", "status": "", "comment": ""}, {"date": "06.06 суббота", "time": "11:00", "tag": "Доверие", "body": "11 лет. 4 000+ клиентов. 12 специалистов.\n\nЦентр психологии «Время» открылся в 2014 году в Домодедово — и с тех пор никуда не переехал. Просто вырос.\n\nСейчас у нас:\n— **очный приём** в Домодедово и Москве\n— **онлайн** для тех, кто в других городах и странах\n— **12 специалистов**: клиническая психология, семейная терапия, расстановки, телесная работа, детско-подростковое, МАК, женские темы, коучинг\n— **4 000+ клиентов** прошли через центр за эти годы\n— **12 000+ консультаций** проведено\n\nЦентр основан **Натальей Лукьяновой** — психологом-супервизором, автором программ «Время для счастья» и «Время для стройности». Рядом с ней — **Сергей Тиунов**, психотерапевт, к.м.н., ректор Академии психологии.\n\nМы не обещаем «изменений за сессию». Мы просто работаем — давно, честно, с людьми, которые решили что-то поменять.\n\nЕсли вы давно думаете прийти — **диагностическая встреча 500 ₽** — хорошая точка входа. 20 минут, чтобы понять: ваш запрос, ваш специалист, ваш формат.\n\nЗаписаться: [YClients](https://n95329.yclients.com) или [служба заботы](https://t.me/VREMYA_DMD).", "status": "", "comment": ""}, {"date": "07.06 воскресенье", "time": "10:00", "tag": "Развлекательный", "body": "5 признаков человека с хорошими психологическими границами.\n\nИ нет — это не «умеет говорить нет с каменным лицом».\n\n**1. Может попросить о помощи, не чувствуя себя должником.**\nПопросил — значит доверяет. Не значит — теперь обязан отработать.\n\n**2. Не объясняет, почему не хочет.**\n«Нет, я не смогу» — и это полное предложение. Без истории болезни.\n\n**3. Злится — и не считает это катастрофой.**\nЗлость есть у всех. Человек с границами её замечает, называет, иногда говорит об этом. Не взрывается, не копит — просто реагирует.\n\n**4. Не берёт чужую проблему как свою.**\nВыслушает. Поддержит. Но не ляжет спать с чужой тревогой.\n\n**5. Не читает мысли — и не ожидает, что читают его.**\nГоворит прямо. Уточняет, если непонятно. Не обижается молча.\n\nВсему этому можно научиться. Это не характер, с которым рождаются. Это навыки — иногда самостоятельно, иногда в работе с психологом.\n\nСохраните, если что-то откликнулось. Или поделитесь с тем, кому нужно.", "status": "", "comment": ""}, {"date": "07.06 воскресенье", "time": "18:00", "tag": "Полезный", "body": "12 специалистов — и нужно выбрать одного. Как?\n\nЭто реальный вопрос, с которым приходят многие. Посмотрел профили — у всех написано хорошее. Непонятно.\n\nВот как думать об этом:\n\n**По запросу.** Что болит? Тревога, отношения, подростковый кризис, рабочее выгорание — у каждой темы есть специалист, который работает именно с ней.\n\n**По методу.** Системные расстановки, МАК, телесная работа, классическая психология — методы разные. Если что-то откликается или наоборот пугает — это тоже информация.\n\n**По формату.** Очно или онлайн? Раз в неделю или по запросу? Важно, чтобы это вписывалось в жизнь.\n\nЕсли после первой встречи чувствуете «что-то не то» — это нормально. Совместимость важна.\n\nУ нас есть правило: если первый специалист не подошёл — **скидка 50% на первую встречу со вторым**. Чтобы вы нашли своего, а не ушли ни с чем.\n\nНаписать в [службу заботы](https://t.me/VREMYA_DMD) — помогут сориентироваться и подберут подходящего.", "status": "", "comment": ""}, {"date": "08.06 понедельник", "time": "10:00", "tag": "Снятие барьера", "body": "«Ходила к психологу — не помогло. Значит, это не для меня».\n\nНет. Значит, тот специалист был не ваш.\n\nЭто бывает — и это не повод уходить из терапии навсегда. Психолог — это не врач, которого выбирают по специальности. Это человек, с которым должно быть безопасно. Совместимость имеет значение.\n\nИногда первый специалист помогает быстро. Иногда — нужно попробовать другого или третьего. Это не ваша вина и не провал. Так работает поиск.\n\nИменно поэтому у нас есть правило: если после первой встречи не ваш — **скидка 50% на первую сессию со вторым специалистом**. Просто напишите в [службу заботы](https://t.me/VREMYA_DMD) — расскажите что случилось, и там подберут другого.\n\nМы не хотим, чтобы один неудачный опыт закрыл вам путь к чему-то важному.\n\n12 специалистов, разные методы и подходы. Кто-то из них — точно ваш.", "status": "", "comment": ""}, {"date": "08.06 понедельник", "time": "18:00", "tag": "МАК отзыв", "body": "> [ВСТАВИТЬ ОТЗЫВ: участница предыдущего потока МАК-обучения. Желательно: была скептиком или не понимала зачем идёт. Что оказалось неожиданным на обучении. Как применяет МАК сейчас — в работе или для себя. Текст живой, от первого лица, 80–150 слов.]\n\nТакие отзывы приходят после каждого потока. Не «всё понравилось», а что-то конкретное, что изменилось.\n\nЕсли вы думаете об обучении — **завтра последний день записи** в этот поток. Старт **10 июня**.\n\nВедут: Наталья Лукьянова и Татьяна Даниленко. Онлайн, 4 занятия, сертификат, **15 000 ₽**.\n\nНаписать в [службу заботы](https://t.me/VREMYA_DMD).", "status": "", "comment": ""}, {"date": "09.06 вторник", "time": "10:00", "tag": "МАК 4/5", "body": "«У меня нет интуиции» — и три другие причины, по которым МАК якобы не для вас.\n\n**«У меня нет интуиции, я не чувствующий человек»**\nМАК работает не через интуицию. Он работает через образное мышление — а оно есть у всех. Вам не нужно «чувствовать карту». Достаточно посмотреть и заметить, что зацепило.\n\n**«Я не художник, мне трудно с образами»**\nНа обучении не рисуют. Колода уже есть. Ваша задача — смотреть и говорить о том, что видите. Это доступно каждому.\n\n**«Это несерьёзно — карточки какие-то»**\nМАК применяют в образовании, HR, клинической психологии, коучинге. Это не детская игра. Это проективный метод с понятным механизмом работы.\n\n**«Я не буду работать с клиентами, зачем мне это»**\nМногие приходят не как специалисты, а для личной работы. МАК помогает разбираться в себе — в отношениях, в решениях, в состояниях.\n\nЕсли хотя бы одно из этих возражений было вашим — теперь знаете ответ.\n\nСтарт **завтра, 10 июня**. Записаться: [служба заботы](https://t.me/VREMYA_DMD).", "status": "", "comment": ""}, {"date": "09.06 вторник", "time": "18:00", "tag": "МАК 5/5 FOMO", "body": "Завтра, 10 июня в 18:00 — первая встреча.\n\nЕсли вы читаете эту неделю и всё ещё думаете — сегодня последний день записи.\n\nЧто входит:\n— **4 занятия** по 3 часа, онлайн\n— ведут **Наталья Лукьянова** (МАК-супервизор, 8 лет) и **Татьяна Даниленко** (МАК-супервизор, ЭОТ, преподаёт в Академии психологии)\n— живая практика с картами на каждой встрече\n— разбор как работать бережно и профессионально\n— **сертификат**\n— стоимость: **15 000 ₽**\n\nДля кого: психологи, педагоги, коучи, HR — и все, кто хочет освоить инструмент глубже.\n\nМест осталось несколько.\n\nНаписать «МАК» → [служба заботы](https://t.me/VREMYA_DMD).", "status": "", "comment": ""}, {"date": "10.06 среда", "time": "10:00", "tag": "Старт МАК", "body": "Сегодня начинается.\n\nЧерез несколько часов — первая встреча МАК-обучения. Немного волнуемся и немного радуемся. Наталья готовит материалы, Татьяна — первые практические упражнения.\n\nЭто хорошее чувство — когда начинается что-то, к чему долго шли.\n\nТем, кто записался — увидимся сегодня в 18:00. Если нужна ссылка — пишите в [службу заботы](https://t.me/VREMYA_DMD).\n\nЕсли смотрели на это обучение и не успели — мы откроем следующий поток. Напишите «список» в службу заботы — внесём в лист ожидания.\n\nА пока идёт МАК — следующая большая тема уже близко. **20 июня** — расстановки с Александром Бабенко. Расскажем подробнее на этой неделе.", "status": "", "comment": ""}, {"date": "10.06 среда", "time": "18:00", "tag": "Расстановки 1/4", "body": "Что такое системные расстановки — за пять строк, без эзотерики.\n\nРасстановки — это метод работы с семейной и родовой системой. Идея в том, что мы несём в себе не только своё — но и паттерны, лояльности, незавершённые истории из семьи. Иногда это влияет на наши решения, отношения и состояния — даже если мы об этом не знаем.\n\nНа сессии специалист помогает увидеть эти связи. Не через долгий рассказ о прошлом, а через живой образ — с заместителями или фигурами. Это даёт другой уровень понимания, который словами часто не достигается.\n\nДля кого: для тех, у кого повторяются одни и те же ситуации в отношениях или работе. Или есть ощущение, что «что-то идёт не так» — но слова не дают ответа.\n\n**Александр Бабенко** — специалист по расстановкам, 8 лет практики.\n**20 июня, суббота, 13:00**, очно. Стоимость: **7 900 ₽** / заместитель — **1 500 ₽**.\n\nЗаписаться: [YClients](https://n1686849.yclients.com) или [служба заботы](https://t.me/VREMYA_DMD).", "status": "", "comment": ""}, {"date": "11.06 четверг", "time": "10:00", "tag": "Полезный", "body": "«Ты просто устала — ляг отдохни».\n\nПонятно. Только вот ложишься — и в голове список. Встаёшь — как не ложилась.\n\nМамы часто не умеют отдыхать — и это не потому что «не хотят». Это потому что отдых для многих из них стал запрещённым.\n\nГде-то внутри сидит убеждение: если я лежу — значит ленюсь. Если трачу время на себя — значит, что-то не доделала. Правильная мама всегда занята. Всегда успевает. Всегда думает о детях.\n\nЭто не слабость характера. Это усвоенная установка — часто мамина, бабушкина, из поколения, где «себе» не было места.\n\nРезультат: хроническое выгорание, которое не проходит от отпуска. Потому что отпуск тоже превращается в задачи.\n\nПервый шаг — заметить. Не осудить себя, а именно заметить: «вот оно». Это уже что-то меняет.\n\nЕсли хотите разобраться с этим глубже — **диагностическая встреча 500 ₽**, 20 минут с психологом. Записаться: [YClients](https://n95329.yclients.com) или [служба заботы](https://t.me/VREMYA_DMD).", "status": "", "comment": ""}, {"date": "11.06 четверг", "time": "18:00", "tag": "Интерактив", "body": "Поставьте **+** в комментариях, если узнаёте себя:\n\n— просыпаешься уставшей ещё до того как что-то случилось\n— раздражаешься на детей — и потом чувствуешь вину за само раздражение\n— не можешь вспомнить, когда последний раз делала что-то только для себя\n— когда все уснули — не отдыхаешь, а залипаешь в телефон, потому что больше нет сил ни на что\n— на вопрос «как ты?» отвечаешь «нормально» — потому что объяснять долго\n\nЭто не нытьё. Это маркеры выгорания, которые часто игнорируют, потому что «у других хуже».\n\nЕсли набрали три и больше — стоит поговорить. Не «взять себя в руки», а именно поговорить с кем-то, кто понимает.\n\nНапишите в [службу заботы](https://t.me/VREMYA_DMD) — там ответят и помогут разобраться что делать дальше.", "status": "", "comment": ""}, {"date": "12.06 пятница", "time": "10:00", "tag": "Расстановки 2/4", "body": "«Это же эзотерика» — три мифа о расстановках.\n\n**Миф 1: Расстановки — это про духов и энергии.**\nНет. Метод основан на системной психологии — идее о том, что семья работает как система со своими законами. Ничего мистического. Просто другой угол зрения на то, почему мы делаем то, что делаем.\n\n**Миф 2: Чтобы делать расстановку, нужно привести всю семью.**\nНет. На сессии работает один клиент. Заместители — это другие участники или фигуры, которые помогают создать образ системы. Реальное присутствие родственников не требуется.\n\n**Миф 3: Результат непредсказуем — можно навредить.**\nРасстановки проводит специалист с подготовкой. Александр Бабенко — **8 лет практики**. Процесс управляемый. Цель — не встряска, а понимание.\n\nРасстановки помогают там, где разговорная психология «упирается в стену»: повторяющиеся паттерны, ощущение что «что-то передалось по роду», застрявшие отношения.\n\n**20 июня, 13:00**, очно. **7 900 ₽** / заместитель **1 500 ₽**.\n\nЗаписаться: [YClients](https://n1686849.yclients.com) или [служба заботы](https://t.me/VREMYA_DMD).", "status": "", "comment": ""}, {"date": "12.06 пятница", "time": "18:00", "tag": "Т-игра 1/3", "body": "«Ключи от кармы» — это не настолка про карму.\n\nХотя название интригующее — и это правда.\n\nТ-игра (терапевтическая игра) — это формат, где вы играете в группе, отвечаете на вопросы, вытаскиваете карты — и вдруг понимаете что-то про свою жизнь, что словами и в лоб не давалось.\n\nНе потому что это «магия карт». А потому что игровой формат снижает защиту. Вопросы задаются легко. И именно поэтому ответы получаются настоящими.\n\n«Ключи от кармы» ведёт **Ирина Косьяненко** — психолог центра «Время», которая работает с подростками и взрослыми. Это не лекция и не тренинг. Это вечер с собой — в хорошей компании.\n\nДля кого: для тех, кому скучно от обычных форматов. Для тех, кто хочет попробовать что-то живое.\n\n**19 июня, пятница, 19:00.** Стоимость: **3 000 ₽**.\n\nЗаписаться: [YClients](https://n1686849.yclients.com) или [служба заботы](https://t.me/VREMYA_DMD).", "status": "", "comment": ""}, {"date": "13.06 суббота", "time": "10:00", "tag": "Прогрев ВДР", "body": "Три месяца дома. С подростком.\n\nЕсли вы прочитали это и уже немного напряглись — понимаем.\n\nЛето — это время, когда дома становится больше всего: больше присутствия, больше столкновений, больше «почему ты снова за компьютером», больше хлопнутых дверей.\n\nИ больше тревоги: правильно ли мы общаемся? Не теряем ли контакт? Почему он такой отстранённый?\n\nЗавтра, **14 июня в 12:00** — онлайн-встреча для родителей подростков.\n\n«Подросток дома всё лето» — встреча с **Ириной Косьяненко**, психологом, которая специализируется на подростковой теме.\n\nЧто будет: разбор реальных ситуаций, ответы на вопросы, конкретные подходы — не «потерпите», а что именно делать.\n\nСтоимость: **500 ₽**. Онлайн.\n\nЗаписаться: [YClients](https://n1686849.yclients.com) или [служба заботы](https://t.me/VREMYA_DMD).", "status": "", "comment": ""}, {"date": "14.06 воскресенье", "time": "10:00", "tag": "Отзыв клиента", "body": "Она пришла с «я не понимаю, что со мной не так».\n\nВсё вроде нормально: работа есть, семья есть, жаловаться не на что. Но — пусто. И тяжело. И каждое утро начинается с усилия.\n\n> [ВСТАВИТЬ ОТЗЫВ: клиент(ка), который пришёл с размытым запросом «не знаю что не так», прошёл несколько сессий и смог сформулировать, что изменилось. Желательно конкретно: что было до, что произошло в процессе, что изменилось после. Живой текст, от первого лица, 80–150 слов.]\n\nИногда самое трудное — первый шаг, когда непонятно даже, зачем идти.\n\n**Диагностическая встреча 500 ₽** — 20 минут, чтобы просто поговорить и понять, есть ли смысл идти глубже.\n\nЗаписаться: [YClients](https://n95329.yclients.com) или [служба заботы](https://t.me/VREMYA_DMD).", "status": "", "comment": ""}, {"date": "15.06 понедельник", "time": "10:00", "tag": "Полезный", "body": "«Всё нормально» — говорит голова. А тело — совсем другое.\n\nТревога может жить в теле даже тогда, когда разум убеждён, что всё под контролем.\n\nНапряжение в плечах, которое не проходит. Дыхание, которое стало поверхностным — и вы этого не замечаете. Сложно уснуть, хотя устали. Раздражение — непонятно на что.\n\nЭто не слабость и не «надо взять себя в руки». Это нервная система, которая давно работает в режиме «готовность к угрозе» — даже если никакой угрозы нет.\n\nТревожные расстройства, панические атаки, фоновая тревога — это медицинские состояния. Они поддаются лечению. Не силой воли, а работой со специалистом.\n\n**Сергей Тиунов** — психотерапевт, к.м.н., **30+ лет** работы с тревогой, ПА, депрессией, ПТСР.\n\nЕсли это про вас — не ждите пока «само пройдёт».\n\nЗаписаться: [диагностика 500 ₽](https://n95329.yclients.com) или [служба заботы](https://t.me/VREMYA_DMD).", "status": "", "comment": ""}, {"date": "16.06 вторник", "time": "10:00", "tag": "Расстановки 3/4", "body": "Почему вы снова делаете то, чего не хотите?\n\nВыбираете похожих людей. Попадаете в одни и те же ситуации. Говорите себе «в этот раз точно нет» — и опять да.\n\nЭто может быть неосознанная лояльность к семейной системе.\n\nВ семьях есть негласные законы: «у нас не жалуются», «мужчины не показывают слабость», «хорошая жена всегда ставит мужа первым». Мы усваиваем их не словами, а воздухом — просто живя рядом. И потом воспроизводим — даже когда сознательно с этим не согласны.\n\nРасстановки помогают увидеть эти связи. Не чтобы обвинить семью — а чтобы понять, где заканчивается «семейное» и начинается ваше собственное.\n\n**Александр Бабенко**, 8 лет практики расстановок.\n\n**20 июня, 13:00**, очно. **7 900 ₽** / заместитель **1 500 ₽**.\n\nЗаписаться: [YClients](https://n1686849.yclients.com) или [служба заботы](https://t.me/VREMYA_DMD).", "status": "", "comment": ""}, {"date": "16.06 вторник", "time": "18:00", "tag": "Полезный", "body": "Злишься — и сама не понимаешь на кого.\n\nВроде всё нормально. Но что-то внутри — готово к взрыву. Или тихое, ноющее раздражение, которое не проходит.\n\nЗлость — это не проблема. Злость — это сигнал.\n\nЧаще всего она говорит о нарушенной границе. Кто-то сделал что-то, что не нужно. Или вы сделали то, чего не хотели, — потому что «надо», «неловко отказать», «потом скажут что эгоистка».\n\nПроблема не в том, что злишься. Проблема в том, что злость некуда деть — и она копится, пока не выйдет в неподходящий момент.\n\nЧто помогает: не бороться со злостью, а расслышать что она говорит. «Что сейчас нарушено?» — уже хороший вопрос.\n\nЕсли злость стала частой гостьей и мешает отношениям — это повод поговорить со специалистом.\n\n**Диагностическая встреча 500 ₽**: [YClients](https://n95329.yclients.com) или [служба заботы](https://t.me/VREMYA_DMD).", "status": "", "comment": ""}, {"date": "17.06 среда", "time": "10:00", "tag": "Интерактив", "body": "Какую роль вы играли в семье?\n\nНе должность, не «старший» или «младший». А роль — негласную, которую вам назначили или вы взяли сами.\n\n**Миротворец** — следил чтобы не было конфликтов, успокаивал когда становилось жарко.\n\n**Отличник** — хорошие оценки, правильное поведение, «гордость семьи». Нельзя подводить.\n\n**Невидимка** — старался не занимать места, не требовать. Будто проще если тебя мало.\n\n**Клоун** — разрядить напряжение шуткой, переключить, развеселить. Чтобы не было тяжело.\n\n**Козёл отпущения** — когда нужно было на кого-то направить напряжение семьи — оно шло к тебе.\n\nНапишите в комментариях — какая роль ваша? Или своя, которой нет в списке?\n\nЭти роли часто переходят во взрослую жизнь — в работу, отношения, дружбу. Иногда полезно просто увидеть это.", "status": "", "comment": ""}, {"date": "17.06 среда", "time": "18:00", "tag": "Т-игра 2/3", "body": "Как проходят «Ключи от кармы» — конкретно.\n\nСобирается небольшая группа. Ирина Косьяненко ведёт процесс.\n\nЕсть карты. Есть вопросы — которые вы сами себе редко задаёте. Есть игровые ходы, которые дают разные ракурсы.\n\nВопросы могут быть про отношения, про работу, про «куда двигаться» — или про что-то, что давно лежит внутри и не даётся словами.\n\nДва часа. Не лекция, не тренинг — живой процесс, где вы и думаете, и чувствуете, и иногда смеётесь. И иногда понимаете что-то важное — через ответ на вопрос, который казался игровым.\n\nДля кого: для тех, кто хочет что-то прояснить — без занудства. Для тех, кому скучно от привычных форматов.\n\n**Завтра, 19 июня в 19:00** — мест осталось немного.\n\nЗаписаться: [YClients](https://n1686849.yclients.com) или [служба заботы](https://t.me/VREMYA_DMD).", "status": "", "comment": ""}, {"date": "18.06 четверг", "time": "09:00", "tag": "Т-игра 3/3", "body": "> [ВСТАВИТЬ ОТЗЫВ: участница Т-игры «Ключи от кармы». Желательно: пришла без особых ожиданий или скептически, получила неожиданный инсайт — желательно конкретный. Живо, от первого лица, 60–100 слов.]\n\n«Пришла за развлечением. Ушла с ответом на вопрос, который не решался год» — примерно так говорят после каждой игры.\n\nСегодня последний шанс попасть: **завтра, 19 июня в 19:00**. Стоимость: **3 000 ₽**.\n\nОсталось несколько мест.\n\nНаписать в [службу заботы](https://t.me/VREMYA_DMD) — запишем.", "status": "", "comment": ""}, {"date": "18.06 четверг", "time": "13:00", "tag": "Расстановки 4/4", "body": "Она пришла с вопросом про работу.\n\n«Не могу найти своё место. Меняю должности, компании — везде одно и то же: через полгода становится невыносимо».\n\nНа расстановке выяснилось кое-что другое.\n\nМы поставили образ рабочей системы — и вдруг возникла фигура отца. Дистанция. Непроговорённая история. Лояльность, которая выражалась в том, что «нельзя быть успешнее».\n\nК концу сессии она сидела тихо. «Это про отца, не про работу. Я никогда так не видела».\n\nМы не знаем заранее, куда выведет расстановка. Но именно это и делает её нужной: она показывает то, что лежит за пределами привычного объяснения.\n\n**Послезавтра, 20 июня в 13:00.** Александр Бабенко. **7 900 ₽** / заместитель **1 500 ₽**. Очно.\n\nПоследние места. Записаться: [YClients](https://n1686849.yclients.com) или [служба заботы](https://t.me/VREMYA_DMD).", "status": "", "comment": ""}, {"date": "18.06 четверг", "time": "18:00", "tag": "Акция", "body": "Июнь идёт — и акции ещё работают.\n\n**ДЕТИ26** — скидка 10% на консультации для детей и подростков. До конца июня.\n\n**ВЗРОСЛЫЕ26** — скидка 10% по понедельникам. Каждый понедельник июня — в силе.\n\nЕсли откладывали запись — сейчас хороший момент.\n\nЗаписаться: [YClients](https://n95329.yclients.com) или [служба заботы](https://t.me/VREMYA_DMD) — помогут подобрать время и специалиста.", "status": "", "comment": ""}, {"date": "19.06 пятница", "time": "10:00", "tag": "Пятничный обзор", "body": "Этот уикенд — про паттерны.\n\nДва события, один нарратив: что держит нас в повторяющихся сценариях — и как это увидеть.\n\n**Сегодня вечером, 19:00 — Т-игра «Ключи от кармы».**\nИрина Косьяненко. Игровой формат, живые вопросы, маленькая группа. Вечер с собой — неожиданно глубокий. **3 000 ₽**.\n\n**Завтра, 13:00 — Расстановки с Александром Бабенко.**\nСистемный метод: увидеть семейные сценарии, которые влияют прямо сейчас. Очно. **7 900 ₽** / заместитель **1 500 ₽**.\n\nДва разных формата — одна тема: почему повторяется то, что не должно повторяться.\n\nЗаписаться на Т-игру или расстановки: [YClients](https://n1686849.yclients.com) или [служба заботы](https://t.me/VREMYA_DMD).", "status": "", "comment": ""}, {"date": "20.06 суббота", "time": "10:00", "tag": "Закулисье", "body": "За 15 минут до того как вы входите.\n\nСпециалист проветривает кабинет. Ставит стакан воды — на ваш стол. Перечитывает записи с прошлой встречи. Иногда просто сидит — чтобы перейти из своего дня в ваш разговор.\n\nЭто не ритуал. Это профессиональная подготовка: войти в контакт с вами по-настоящему, а не с головой ещё в предыдущем клиенте.\n\nВ центре «Время» специалисты работают в расписании, которое оставляет время между сессиями. Не потому что «так принято», а потому что качество контакта зависит в том числе от этого.\n\nВы приходите — и мы уже готовы. Уже здесь. Уже думаем о вас.\n\nЕсли хотите записаться — напишите в [службу заботы](https://t.me/VREMYA_DMD). Подберём специалиста, время и формат, который подойдёт именно вам.", "status": "", "comment": ""}, {"date": "20.06 суббота", "time": "14:00", "tag": "Отзыв расстановки", "body": "> [ВСТАВИТЬ ОТЗЫВ: клиентка расстановок с Бабенко. Желательно: было ощущение «что-то застряло», пришла без конкретного запроса или со скептицизмом. Что увидела на расстановке — желательно конкретный образ или момент. Что изменилось после — через неделю, месяц. Живой текст, от первого лица, 80–150 слов.]\n\nПосле расстановки не всегда сразу понятно, что произошло. Иногда осознание приходит через день. Иногда через неделю.\n\nНаписать в [службу заботы](https://t.me/VREMYA_DMD) — расскажем о следующей группе.", "status": "", "comment": ""}, {"date": "21.06 воскресенье", "time": "18:00", "tag": "Полезный + анонс эфира", "body": "«Ну вот и лето» — говорят все. А вы снова не восстанавливаетесь.\n\nПотому что лето — это не автоматический отдых. Это просто другие задачи: дети дома, дача, поездки, которые нужно организовать.\n\nХроническая усталость не уходит от смены сезона. Она уходит когда меняется что-то внутри — понимание, что происходит, и что с этим делать.\n\nЗавтра, **22 июня в 19:00** — бесплатный онлайн-эфир.\n\nТема: «Почему мы не восстанавливаемся — и что на самом деле помогает».\n\nВедут: **Наталья Лукьянова** и **Ирина Косьяненко**. Не лекция — разговор с примерами, вопросами и конкретикой.\n\nУчастие бесплатное. Ссылка — в шапке профиля.", "status": "", "comment": ""}, {"date": "22.06 понедельник", "time": "10:00", "tag": "Вопрос + анонс эфира", "body": "Один вопрос:\n\n**Что сейчас больше всего забирает ваши силы?**\n\nНапишите в комментариях — одним словом или развёрнуто.\n\nСегодня вечером, **19:00** — бесплатный эфир на эту тему.\n\nНаталья Лукьянова и Ирина Косьяненко будут разбирать именно это: откуда берётся хроническое истощение, почему «просто отдохнуть» не работает, и что реально помогает.\n\nУчастие бесплатное. Ссылка — в шапке профиля.", "status": "", "comment": ""}, {"date": "23.06 вторник", "time": "10:00", "tag": "После эфира + интенсив", "body": "Спасибо всем, кто был вчера на эфире.\n\nВы задавали очень честные вопросы. И чаще всего они были про одно: «я понимаю что что-то не так, но не знаю с чего начать».\n\nДля тех, кто хочет пойти дальше одного разговора — мы открываем запись.\n\n**13–14 июля — интенсив «Перезагрузка».**\n\nДва дня онлайн. Ведут Наталья Лукьянова и Ирина Косьяненко — вместе, в живом формате.\n\nЭто не набор лекций. Это работа: с состоянием, с тем что мешает восстанавливаться, с тем куда двигаться дальше.\n\nПодробности — в следующих постах. Если уже хотите записаться — напишите «Перезагрузка» в [службу заботы](https://t.me/VREMYA_DMD).\n\nСтоимость: **4 500–5 500 ₽**. Онлайн.", "status": "", "comment": ""}, {"date": "23.06 вторник", "time": "18:00", "tag": "Полезный", "body": "Отпуск был. Две недели. А вернулась — и через три дня как не было.\n\nЭто не потому что вы неправильно отдыхали. Это потому что накопленная усталость не лечится отдыхом.\n\nЗвучит парадоксально — но это именно так. Когда человек долго работает на износ, система переходит в хроническое состояние. И неделя у моря снимает поверхностное напряжение, но не достаёт до корня.\n\nКорень — в том, как устроено ваше «включение» и «выключение». В установках про труд и отдых. В том, умеете ли вы вообще разрешить себе не делать ничего — и не чувствовать при этом вину.\n\nЭто работа не «над отдыхом», а над отношением к себе.\n\nЕсли это резонирует — хороший разговор со специалистом часто даёт больше, чем ещё один отпуск.\n\n**Диагностическая встреча 500 ₽**: [YClients](https://n95329.yclients.com) или [служба заботы](https://t.me/VREMYA_DMD).", "status": "", "comment": ""}, {"date": "24.06 среда", "time": "10:00", "tag": "Скачкова 1/2", "body": "Мария Скачкова ведёт встречи про женское — и это не значит «как всё успевать».\n\nСкорее наоборот.\n\nОна работает с тем, что часто остаётся за скобками: усталость от собственных ожиданий, напряжение в паре, ощущение «я живу чужую жизнь», потеря себя в роли мамы, жены, сотрудника.\n\nМария не читает лекций. На встречах — пространство для честного разговора: о том, что происходит прямо сейчас, и о том, что с этим делать.\n\n**«Время для женщин»** — встреча, которую она ведёт **26 июня в 18:00**.\n\nФормат: небольшая группа, очно. Приходят за разным — уходят с чем-то своим.\n\nСтоимость: **2 000 ₽** / **1 500 ₽** по абонементу.\n\nЗаписаться: [YClients](https://n1686849.yclients.com) или [служба заботы](https://t.me/VREMYA_DMD).", "status": "", "comment": ""}, {"date": "24.06 среда", "time": "18:00", "tag": "Курс «Счастье»", "body": "Четвёртый месяц идёт — и люди всё ещё пишут: «Могу присоединиться?»\n\nНет. Курс «Счастье начинается с меня» уже в процессе. Войти в середину — не то что нужно.\n\nНо если вы давно думаете об этом — следующий набор будет осенью.\n\nКурс ведёт Наталья Лукьянова вместе с командой центра. Это не про «думай позитивно». Это работа с тем, откуда берётся ощущение удовлетворения от жизни — и почему у многих его нет, даже когда «всё есть».\n\nЕсли хотите попасть в осенний поток — напишите «Счастье» в [службу заботы](https://t.me/VREMYA_DMD). Внесём в список ожидания — будете первыми.", "status": "", "comment": ""}, {"date": "25.06 четверг", "time": "10:00", "tag": "Диагностика", "body": "«Не знаю, нужна ли мне психология. Не знаю, с чего начать. Не знаю, к кому идти».\n\nДля этого и существует диагностическая встреча.\n\n**20 минут. 500 ₽. Один на один со специалистом.**\n\nВы рассказываете что происходит — в свободной форме, без подготовки. Специалист слушает, задаёт несколько вопросов, и в конце говорит: есть ли здесь запрос для работы, какой формат подойдёт, к кому из команды лучше обратиться.\n\nЭто не продажа. Это ориентация. После встречи вы сами решаете — идти дальше или нет.\n\nМногие, кто пришёл «просто посмотреть» — остаются. Потому что оказывается: говорить об этом можно, и это помогает.\n\nЗаписаться: [YClients](https://n95329.yclients.com) или [служба заботы](https://t.me/VREMYA_DMD).", "status": "", "comment": ""}, {"date": "25.06 четверг", "time": "18:00", "tag": "Скачкова 2/2", "body": "«Жизнь как дом» — вот образ, с которым работает Мария на этой встрече.\n\nЕсть комнаты, в которые мы заходим каждый день. Есть те, которые закрыты давно. Есть те, которые мы называем «своими» — хотя там неуютно.\n\nКакая комната сейчас требует внимания? Где вы давно не были? Откуда хочется уйти — но остаётесь?\n\nЭто не метафора ради метафоры. Это способ поговорить о том, что трудно назвать прямо: где в жизни нет воздуха, и что могло бы измениться.\n\n**Завтра, 26 июня в 18:00.** Мария Скачкова. Небольшая группа, очно.\n**2 000 ₽** / **1 500 ₽** по абонементу.\n\nЗаписаться сегодня: [YClients](https://n1686849.yclients.com) или [служба заботы](https://t.me/VREMYA_DMD).", "status": "", "comment": ""}, {"date": "26.06 пятница", "time": "10:00", "tag": "Пятничный обзор", "body": "Этот уикенд — для женщин. И для всех, кто рядом с ними.\n\n**Сегодня, 18:00 — «Время для женщин» с Марией Скачковой.**\nВстреча про то, где не хватает воздуха — и что с этим делать. Небольшая группа, очно. **2 000 ₽** / **1 500 ₽** по абонементу.\n\nЗаписаться: [YClients](https://n1686849.yclients.com) или [служба заботы](https://t.me/VREMYA_DMD).\n\nЕсли ваши дети дома всё лето и вы ищете поддержку — напишите в службу заботы, подберём специалиста по подростковой теме.", "status": "", "comment": ""}, {"date": "27.06 суббота", "time": "11:00", "tag": "Перезагрузка — программа", "body": "Что будет на интенсиве «Перезагрузка» 13–14 июля.\n\n**День первый:**\nПочему мы не восстанавливаемся — и где на самом деле «дыры». Работа с текущим состоянием: что происходит в теле, в мышлении, в отношениях с собой. Не диагностика — живая работа.\n\n**День второй:**\nКак перезагрузиться — не на неделю, а надолго. Инструменты, которые работают именно для вас. Завершающая практика и конкретный план на ближайшие месяцы.\n\nДва дня. Онлайн. **Наталья Лукьянова** и **Ирина Косьяненко** — вместе, в живом формате.\n\nЭто не лекции. Это работа в группе — с вашим запросом, вашим состоянием, вашим ритмом.\n\nСтоимость: **4 500–5 500 ₽**.\n\nМесто ограничено — небольшая группа, чтобы была возможность работать с каждым.\n\nНаписать «Перезагрузка» → [служба заботы](https://t.me/VREMYA_DMD).", "status": "", "comment": ""}, {"date": "27.06 суббота", "time": "18:00", "tag": "Интерактив", "body": "Как вы на самом деле восстанавливаетесь?\n\nНе «правильный ответ». Честный.\n\nА — сплю. Просто сплю столько, сколько хочу.\nБ — ем что хочу и смотрю сериалы без чувства вины.\nВ — иду гулять — в одиночестве, без телефона.\nГ — встречаюсь с людьми, которые заряжают.\nД — никак. Пока не восстановилась — не поняла как.\n\nНапишите букву в комментариях. Или своё.\n\nИнтересно посмотреть — у всех нас разные способы. И часто мы не знаем, что «правильного» нет — есть только то, что работает для вас.", "status": "", "comment": ""}, {"date": "28.06 воскресенье", "time": "10:00", "tag": "Мужская аудитория", "body": "«Справляюсь» — это не всегда правда.\n\nИногда это просто привычный ответ. Тот, который не требует продолжения.\n\nМужчины обращаются за помощью реже — не потому что меньше нуждаются. А потому что с детства слышали: сам справляйся, не жалуйся, держись.\n\nЭто не слабость — это усвоенная программа. И она дорого стоит: хроническое напряжение, сложности в отношениях, физические симптомы, которые «непонятно откуда».\n\nПсихолог — это не про «разложить всё на диване». Это про то, чтобы разобраться что происходит и найти выход, который работает именно для вас. Без лишних слов, без давления, конфиденциально.\n\nВ центре «Время» работают специалисты с опытом работы с мужскими темами: тревога, карьерные кризисы, отношения, ПТСР.\n\nПервый шаг — просто написать.\n\n[Служба заботы](https://t.me/VREMYA_DMD) — конфиденциально, ответят на вопросы и подберут время.", "status": "", "comment": ""}, {"date": "28.06 воскресенье", "time": "18:00", "tag": "Полезный", "body": "Он нормальный. Я нормальная. Но вместе — невыносимо.\n\nЗнакомо?\n\nЭто не значит что что-то сломалось. Это значит что в паре сложились паттерны, которые воспроизводятся по кругу. Одни и те же ссоры — другими словами. Одно и то же ощущение после — обида, дистанция, «опять».\n\nИногда проблема не в партнёре и не в вас — а в том, что два хороших человека столкнулись своими незажившими историями. Это можно распутать.\n\nСемейная психология работает именно с этим: не «кто прав», а «что здесь происходит на самом деле» и «как это изменить».\n\nЕсли узнали себя — напишите в [службу заботы](https://t.me/VREMYA_DMD). Расскажут о форматах работы с парами и семьями, подберут специалиста.", "status": "", "comment": ""}, {"date": "29.06 понедельник", "time": "10:00", "tag": "Финал акции", "body": "Осталось два дня.\n\n**30 июня** — последний день действия промокодов ДЕТИ26 и ВЗРОСЛЫЕ26.\n\nСкидка 10% на консультации:\n— **ДЕТИ26** — на детей и подростков, до конца июня\n— **ВЗРОСЛЫЕ26** — по понедельникам, сегодня последний понедельник\n\nЕсли откладывали — сегодня хороший день.\n\nЗаписаться: [YClients](https://n95329.yclients.com) или [служба заботы](https://t.me/VREMYA_DMD) — там помогут применить промокод.", "status": "", "comment": ""}, {"date": "29.06 понедельник", "time": "18:00", "tag": "Полезный", "body": "Море, солнце, коктейль — а мысли всё равно дома.\n\n«Надо же сделать то-то», «как там без меня», «вернусь — и опять всё навалится».\n\nЭто не потому что вы не умеете отдыхать. Это потому что тревожный мозг едет в отпуск вместе с вами.\n\nТревога — это не характер. Это состояние нервной системы, которое не переключается от смены обстановки. Ему нужна другая работа: не «отвлечься», а разобраться что запускает этот фоновый режим.\n\nХороший отпуск — это когда голова тоже отдыхает. Это достижимо. Просто иногда нужна помощь.\n\nЕсли фоновая тревога — ваш постоянный спутник — поговорите со специалистом.\n\n**Диагностическая встреча 500 ₽**: [YClients](https://n95329.yclients.com) или [служба заботы](https://t.me/VREMYA_DMD).", "status": "", "comment": ""}, {"date": "30.06 вторник", "time": "12:00", "tag": "FOMO Перезагрузка", "body": "Если вы были на эфире 22 июня — вы знаете о чём это.\n\nЕсли не были — вот суть:\n\nУсталость, которая не проходит от отдыха. Ощущение что крутишься — но никуда не движешься. Хочется перезапустить что-то — но непонятно что и как.\n\n**Интенсив «Перезагрузка» — 13–14 июля.** Онлайн, два дня, Наталья Лукьянова и Ирина Косьяненко.\n\nЭто не курс, не вебинар, не лекции. Это живая работа в небольшой группе — с вашим состоянием, вашим запросом, вашим ритмом.\n\nСтоимость: **4 500–5 500 ₽**.\n\nМест немного. Если думали — сейчас хороший момент решить.\n\nНаписать «Перезагрузка» → [служба заботы](https://t.me/VREMYA_DMD).", "status": "", "comment": ""}];
+var currentFilter = 'all';
+
+function persist() {
+  var sv = posts.map(function(p) { return {status: p.status, comment: p.comment}; });
+  localStorage.setItem(KEY, JSON.stringify(sv));
+}
+
+function applyUI(i) {
+  var p = posts[i];
+  var card = document.getElementById('card'+i);
+  card.className = 'card ' + (p.status || '');
+  card.setAttribute('data-status', p.status || '');
+  document.getElementById('badge'+i).textContent = p.status==='ok' ? '✅' : p.status==='fix' ? '✏️' : '';
+  document.getElementById('ta'+i).value = p.comment || '';
+}
+
+function isHidden(i) {
+  if (currentFilter === 'all') return false;
+  var s = posts[i].status || '';
+  if (currentFilter === 'none') return s !== '';
+  return s !== currentFilter;
+}
+
+function setFilter(f) {
+  currentFilter = f;
+  ['all','ok','fix','none'].forEach(function(b) {
+    document.getElementById('f-'+b).classList.toggle('active', b === f);
+  });
+  document.getElementById('stat-ok').classList.toggle('active-filter', f==='ok');
+  document.getElementById('stat-fix').classList.toggle('active-filter', f==='fix');
+  document.getElementById('stat-left').classList.toggle('active-filter', f==='none');
+  var visible = 0;
+  posts.forEach(function(p, i) {
+    var hide = isHidden(i);
+    document.getElementById('card'+i).classList.toggle('hidden', hide);
+    if (!hide) visible++;
+  });
+  document.getElementById('empty-msg').style.display = visible === 0 ? 'block' : 'none';
+}
+
+function updateStats() {
+  var ok=0, fix=0, left=0;
+  posts.forEach(function(p) {
+    if(p.status==='ok') ok++;
+    else if(p.status==='fix') fix++;
+    else left++;
+  });
+  document.getElementById('cnt-ok').textContent = ok;
+  document.getElementById('cnt-fix').textContent = fix;
+  document.getElementById('cnt-left').textContent = left;
+  document.getElementById('copy-all-btn').style.display = fix > 0 ? 'block' : 'none';
+}
+
+window.addEventListener('DOMContentLoaded', function() {
+  var raw = localStorage.getItem(KEY);
+  if (raw) {
+    try {
+      var sv = JSON.parse(raw);
+      posts.forEach(function(p, i) {
+        if (sv[i] !== undefined) {
+          p.status  = sv[i].status  !== undefined ? sv[i].status  : p.status;
+          p.comment = sv[i].comment !== undefined ? sv[i].comment : p.comment;
+          applyUI(i);
+        }
+      });
+    } catch(e) {}
+  } else {
+    persist();
+    posts.forEach(function(p, i) { applyUI(i); });
+  }
+  updateStats();
+});
+
+function setStatus(i, status) {
+  posts[i].status = status;
+  applyUI(i);
+  persist();
+  updateStats();
+  var btn = document.querySelector('#card'+i+' .btn-'+status);
+  if (btn) {
+    var orig = btn.textContent;
+    btn.textContent = '✔ Сохранено';
+    setTimeout(function() { btn.textContent = orig; }, 1200);
+  }
+}
+
+function saveComment(i) {
+  posts[i].comment = document.getElementById('ta'+i).value;
+  persist();
+  var btn = document.getElementById('savebtn'+i);
+  btn.textContent = '✅ Сохранено';
+  btn.classList.add('saved');
+  setTimeout(function() {
+    btn.textContent = '💾 Сохранить';
+    btn.classList.remove('saved');
+  }, 2000);
+}
+
+async function copyPost(i) {
+  var p = posts[i];
+  var header = [p.date, p.time, p.tag].filter(Boolean).join('  |  ');
+  var bodyEl = document.getElementById('body'+i);
+  var plainText = header + '\n\n' + bodyEl.innerText;
+  var bodyHtml = bodyEl.innerHTML;
+  var htmlContent = '<b>' + header + '</b><br><br>' + bodyHtml;
+  try {
+    await navigator.clipboard.write([
+      new ClipboardItem({
+        'text/plain': new Blob([plainText], {type:'text/plain'}),
+        'text/html': new Blob([htmlContent], {type:'text/html'})
+      })
+    ]);
+  } catch(e) {
+    await navigator.clipboard.writeText(plainText);
+  }
+  var btns = document.querySelectorAll('.btn-copy');
+  btns[i].textContent = '✅ Скопировано';
+  setTimeout(function() { btns[i].textContent = '📋 Копировать'; }, 2000);
+}
+
+async function copyAllFixes() {
+  var lines = [];
+  posts.forEach(function(p, i) {
+    if (p.status === 'fix') {
+      var header = [p.date, p.time, p.tag].filter(Boolean).join('  |  ');
+      lines.push('✏️ ' + header);
+      if (p.comment) lines.push('💬 ' + p.comment);
+      lines.push('');
+    }
+  });
+  try { await navigator.clipboard.writeText(lines.join('\n')); } catch(e) {}
+  var btn = document.getElementById('copy-all-btn');
+  btn.textContent = '✅ Скопировано!';
+  setTimeout(function() { btn.textContent = '📋 Скопировать все правки'; }, 2000);
+}
+</script>
+</body>
+</html>
