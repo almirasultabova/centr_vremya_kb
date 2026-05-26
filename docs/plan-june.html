@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Контент-план июнь 2026 — Центр «Время»</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f9f6f2; color: #2d2d2d; }
+
+  .header { background: #740298; color: white; padding: 28px 32px; }
+  .header h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+  .header p { font-size: 14px; opacity: 0.8; }
+
+  .stats { display: flex; gap: 32px; padding: 18px 32px; background: white; border-bottom: 1px solid #e8e0f0; flex-wrap: wrap; align-items: center; }
+  .stat { text-align: center; }
+  .stat-num { font-size: 24px; font-weight: 700; color: #740298; }
+  .stat-label { font-size: 11px; color: #888; margin-top: 2px; }
+
+  .filters { padding: 14px 32px; background: white; border-bottom: 1px solid #e8e0f0; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .filters-label { font-size: 12px; color: #888; margin-right: 2px; }
+  .filter-btn { padding: 5px 12px; border-radius: 20px; border: 1.5px solid #e0d0f0; background: white; color: #555; font-size: 12px; cursor: pointer; transition: all 0.15s; }
+  .filter-btn:hover { border-color: #740298; color: #740298; }
+  .filter-btn.active { background: #740298; color: white; border-color: #740298; }
+  .filter-sep { color: #ddd; font-size: 16px; }
+
+  .week-block { margin: 24px 32px; }
+  .week-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+  .week-title { font-size: 16px; font-weight: 700; color: #740298; }
+  .week-theme { font-size: 13px; color: #888; }
+
+  table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,0.06); }
+  th { background: #f3eaf9; color: #740298; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 14px; text-align: left; }
+  td { padding: 12px 14px; border-bottom: 1px solid #f0e8f8; font-size: 13px; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #fdf8ff; }
+  tr.new-row td { background: #f0fff4; }
+  tr.new-row:hover td { background: #e6ffe8; }
+  .new-tag { display: inline-block; background: #22c55e; color: white; font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 4px; margin-left: 6px; vertical-align: middle; }
+
+  .date-cell { white-space: nowrap; }
+  .date-main { font-weight: 600; font-size: 13px; }
+  .date-day { font-size: 11px; color: #999; margin-top: 1px; }
+
+  .badge { display: inline-block; padding: 3px 9px; border-radius: 10px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+  .badge-useful    { background: #e8f4e8; color: #2d7a2d; }
+  .badge-mak       { background: #f0e0ff; color: #6600aa; }
+  .badge-rass      { background: #fff0e0; color: #cc6600; }
+  .badge-tgame     { background: #e0f0ff; color: #0066cc; }
+  .badge-women     { background: #ffe0f0; color: #cc0066; }
+  .badge-friday    { background: #740298; color: white; }
+  .badge-interact  { background: #e0fff0; color: #006644; }
+  .badge-review    { background: #f5f5f5; color: #555; }
+  .badge-promo     { background: #ffe8e8; color: #cc2200; }
+  .badge-warm      { background: #e8eeff; color: #2244cc; }
+  .badge-diag      { background: #f9e8ff; color: #880099; }
+  .badge-trust     { background: #fff8e0; color: #886600; }
+  .badge-announce  { background: #ffeedd; color: #aa4400; }
+  .badge-entertain { background: #fff3cd; color: #856404; }
+  .badge-expert    { background: #e8f0fe; color: #1a56cc; }
+  .badge-backstage { background: #fce8d8; color: #994400; }
+  .badge-male      { background: #e8eef8; color: #1e3a6e; }
+
+  .topic { font-size: 13px; line-height: 1.5; }
+  .topic strong { font-weight: 600; }
+  .hook { font-style: italic; color: #740298; font-size: 12px; margin-top: 4px; display: block; }
+  .cta-text { font-size: 12px; color: #555; line-height: 1.6; }
+  .cta-text a { color: #740298; text-decoration: none; font-weight: 600; border-bottom: 1px solid #c084e0; white-space: nowrap; }
+  .cta-text a:hover { background: #f3e8ff; border-radius: 3px; }
+  .hant-badge { display: inline-block; background: #f0f0f0; color: #555; border-radius: 4px; padding: 2px 6px; font-size: 11px; }
+  .trigger-text { font-size: 12px; color: #740298; line-height: 1.4; }
+  .friday-row td { background: #fdf5ff !important; }
+  .friday-row:hover td { background: #f8edff !important; }
+  .hidden { display: none; }
+
+  .legend { padding: 16px 32px 32px; display: flex; gap: 10px; flex-wrap: wrap; font-size: 12px; align-items: center; }
+  .legend-title { color: #888; margin-right: 4px; }
+
+  @media (max-width: 900px) {
+    .week-block { margin: 16px 10px; }
+    .filters, .stats, .header, .legend { padding-left: 14px; padding-right: 14px; }
+    th, td { padding: 8px 10px; font-size: 12px; }
+    .col-trigger, .col-hant { display: none; }
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .header p { font-size: 12px; line-height: 1.6; }
+    .cta-text a { white-space: normal; }
+  }
+  @media print {
+    .filters { display: none; }
+    body { background: white; }
+    table { box-shadow: none; border: 1px solid #e0d0f0; }
+    print-color-adjust: exact; -webkit-print-color-adjust: exact;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Контент-план — Центр «Время» — Июнь 2026</h1>
+  <p>Telegram / Instagram / ВКонтакте &nbsp;·&nbsp; Ленточные посты &nbsp;·&nbsp; v3 &nbsp;·&nbsp;
+    <span style="opacity:0.7">Запись (инд.):</span> <a href="https://n95329.yclients.com" target="_blank" style="color:white;opacity:0.9">n95329.yclients.com</a> &nbsp;·&nbsp;
+    <span style="opacity:0.7">Запись (групп.):</span> <a href="https://n1686849.yclients.com" target="_blank" style="color:white;opacity:0.9">n1686849.yclients.com</a> &nbsp;·&nbsp;
+    <span style="opacity:0.7">Служба заботы:</span> <a href="https://t.me/VREMYA_DMD" target="_blank" style="color:white;opacity:0.9">t.me/VREMYA_DMD</a>
+  </p>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="stat-num">53</div><div class="stat-label">постов</div></div>
+  <div class="stat"><div class="stat-num">4</div><div class="stat-label">прогрева</div></div>
+  <div class="stat"><div class="stat-num">2</div><div class="stat-label">пятничных обзора</div></div>
+  <div class="stat"><div class="stat-num">12</div><div class="stat-label">полезных</div></div>
+  <div class="stat"><div class="stat-num">5</div><div class="stat-label">отзывов</div></div>
+  <div class="stat"><div class="stat-num">5</div><div class="stat-label">интерактивов</div></div>
+  <div class="stat"><div class="stat-num">1</div><div class="stat-label">развлекательный</div></div>
+  <div class="stat"><div class="stat-num">1</div><div class="stat-label">закулисье</div></div>
+</div>
+
+<div class="filters">
+  <span class="filters-label">Тип:</span>
+  <button class="filter-btn active" onclick="filterType('all',this)">Все</button>
+  <button class="filter-btn" onclick="filterType('useful',this)">Полезный</button>
+  <button class="filter-btn" onclick="filterType('mak',this)">Прогрев МАК</button>
+  <button class="filter-btn" onclick="filterType('rass',this)">Расстановки</button>
+  <button class="filter-btn" onclick="filterType('tgame',this)">Т-игра</button>
+  <button class="filter-btn" onclick="filterType('women',this)">Вр. для женщин</button>
+  <button class="filter-btn" onclick="filterType('friday',this)">Пятничный обзор</button>
+  <button class="filter-btn" onclick="filterType('interact',this)">Интерактив</button>
+  <button class="filter-btn" onclick="filterType('review',this)">Отзыв</button>
+  <button class="filter-btn" onclick="filterType('trust',this)">Доверие</button>
+  <button class="filter-btn" onclick="filterType('diag',this)">Диагностика</button>
+  <button class="filter-btn" onclick="filterType('entertain',this)">Развлекательный</button>
+  <button class="filter-btn" onclick="filterType('expert',this)">Экспертный</button>
+  <button class="filter-btn" onclick="filterType('backstage',this)">Закулисье</button>
+  <span class="filter-sep">|</span>
+  <span class="filters-label">Неделя:</span>
+  <button class="filter-btn" onclick="filterWeek('w1',this)">1–7 июня</button>
+  <button class="filter-btn" onclick="filterWeek('w2',this)">8–14 июня</button>
+  <button class="filter-btn" onclick="filterWeek('w3',this)">15–21 июня</button>
+  <button class="filter-btn" onclick="filterWeek('w4',this)">22–30 июня</button>
+</div>
+
+<!-- НЕДЕЛЯ 1 -->
+<div class="week-block" data-week="w1">
+  <div class="week-header">
+    <span class="week-title">Неделя 1 / 1–7 июня</span>
+    <span class="week-theme">Тема: «МАК — что это и зачем» · 10 постов</span>
+  </div>
+  <table>
+    <thead><tr>
+      <th style="width:85px">Дата</th>
+      <th style="width:150px">Тип</th>
+      <th>Тема / ТЗ поста</th>
+      <th class="col-hant" style="width:75px">Хант</th>
+      <th class="col-trigger" style="width:120px">Триггер</th>
+      <th style="width:210px">CTA / Ссылка</th>
+    </tr></thead>
+    <tbody>
+
+      <tr data-type="promo announce">
+        <td class="date-cell"><div class="date-main">1 июня</div><div class="date-day">пн</div></td>
+        <td><span class="badge badge-promo">Акция</span></td>
+        <td class="topic"><strong>Акции июня: ДЕТИ26 + ВЗРОСЛЫЕ26</strong><span class="hook">«Июнь — месяц детей и самозаботы. Держите промокоды»</span>10% на детские консультации весь июнь (ДЕТИ26). 10% по понедельникам для взрослых (ВЗРОСЛЫЕ26). Как применить, что входит.</td>
+        <td class="col-hant"><span class="hant-badge">4→5</span></td>
+        <td class="col-trigger"><span class="trigger-text">Дефицит, Срочность</span></td>
+        <td class="cta-text">Запишитесь — акция действует весь июнь → <a href="https://n95329.yclients.com" target="_blank">n95329.yclients.com</a></td>
+      </tr>
+
+      <tr data-type="mak">
+        <td class="date-cell"><div class="date-main">1 июня</div><div class="date-day">пн</div></td>
+        <td><span class="badge badge-mak">Прогрев МАК 1/5</span></td>
+        <td class="topic"><strong>Путь героя Натальи Лукьяновой</strong><span class="hook">«Она не планировала учить других работе с картами»</span>Личная история Натальи. Как пришла к МАК, что изменилось в её работе, почему считает этот метод одним из самых честных. Не резюме — живая история.</td>
+        <td class="col-hant"><span class="hant-badge">1→2</span></td>
+        <td class="col-trigger"><span class="trigger-text">Симпатия, Любопытство</span></td>
+        <td class="cta-text">Старт 10 июня — записывайтесь заранее → <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a></td>
+      </tr>
+
+      <tr data-type="useful">
+        <td class="date-cell"><div class="date-main">2 июня</div><div class="date-day">вт</div></td>
+        <td><span class="badge badge-useful">Полезный</span></td>
+        <td class="topic"><strong>«Подросток не хамит — он отделяется»</strong><span class="hook">«Если ваш подросток закрылся — это не про вас. Это про него»</span>Что на самом деле происходит когда подросток замолкает. Как не разрушить контакт, пытаясь его восстановить. Прогрев к ВДР 14 июня.</td>
+        <td class="col-hant"><span class="hant-badge">0→1</span></td>
+        <td class="col-trigger"><span class="trigger-text">Узнавание</span></td>
+        <td class="cta-text">Сохраните — пригодится. Если хотите разобраться — <a href="https://n95329.yclients.com" target="_blank">диагностика 500 ₽</a>, 20 мин онлайн</td>
+      </tr>
+
+      <tr data-type="mak">
+        <td class="date-cell"><div class="date-main">3 июня</div><div class="date-day">ср</div></td>
+        <td><span class="badge badge-mak">Прогрев МАК 2/5</span></td>
+        <td class="topic"><strong>Мифы о МАК-картах — развеять страхи</strong><span class="hook">«"Это же как гадание?" — нет. Объясняем честно»</span>5 заблуждений: про эзотерику, «вдруг увижу плохое», «нужно верить», «только для психологов». Без пафоса, живым языком.</td>
+        <td class="col-hant"><span class="hant-badge">2→3</span></td>
+        <td class="col-trigger"><span class="trigger-text">Разоблачение, Авторитет</span></td>
+        <td class="cta-text">Запись на обучение открыта. Старт 10 июня → <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a></td>
+      </tr>
+
+      <tr data-type="interact">
+        <td class="date-cell"><div class="date-main">3 июня</div><div class="date-day">ср</div></td>
+        <td><span class="badge badge-interact">Интерактив</span></td>
+        <td class="topic"><strong>Квиз: «Какой у вас тип усталости?»</strong><span class="hook">«Не "просто устала". Усталость бывает разной — и лечится по-разному»</span>3 вопроса в комментариях: как вы восстанавливаетесь / что помогает / что точно не помогает. По итогам — пост под самый частый ответ. Формат: задаём вопросы по одному, читатели отвечают в комментариях.</td>
+        <td class="col-hant"><span class="hant-badge">0</span></td>
+        <td class="col-trigger"><span class="trigger-text">Вовлечение, Специфика</span></td>
+        <td class="cta-text">Напишите в комментариях — ответим каждому</td>
+      </tr>
+
+      <tr data-type="useful">
+        <td class="date-cell"><div class="date-main">4 июня</div><div class="date-day">чт</div></td>
+        <td><span class="badge badge-useful">Полезный</span></td>
+        <td class="topic"><strong>«3 признака, что вы устали сильнее, чем думаете»</strong><span class="hook">«Не "просто устала". Три сигнала которые мы обычно игнорируем»</span>Конкретные признаки хронической усталости — не теория, а ситуации из жизни. Прогрев к эфиру 22 июня.</td>
+        <td class="col-hant"><span class="hant-badge">0→1</span></td>
+        <td class="col-trigger"><span class="trigger-text">Узнавание, Специфика</span></td>
+        <td class="cta-text">Сохраните — перешлите. Если накрывает — <a href="https://n95329.yclients.com" target="_blank">диагностика 500 ₽</a>, 20 мин онлайн</td>
+      </tr>
+
+      <tr data-type="expert useful" class="new-row">
+        <td class="date-cell"><div class="date-main">4 июня</div><div class="date-day">чт</div></td>
+        <td><span class="badge badge-expert">Эксперт: Тиунов</span><span class="new-tag">NEW</span></td>
+        <td class="topic"><strong>«Тревога без причины — это не выдуманная проблема»</strong><span class="hook">«Вы знаете что опасности нет. Тело — не знает»</span>Экспертный пост от Сергея Тиунова (психотерапевт, к.м.н., 30+ лет практики). Про механизм тревоги и ПА простым языком: почему тело реагирует на угрозу которой нет, и это не слабость — это физиология. Широкая аудитория, высокий охват. Воронка → к Тиунову или диагностика.</td>
+        <td class="col-hant"><span class="hant-badge">0→1</span></td>
+        <td class="col-trigger"><span class="trigger-text">Авторитет, Узнавание</span></td>
+        <td class="cta-text">С этим работают — <a href="https://n95329.yclients.com" target="_blank">диагностика 500 ₽</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a></td>
+      </tr>
+
+      <tr data-type="mak">
+        <td class="date-cell"><div class="date-main">5 июня</div><div class="date-day">пт</div></td>
+        <td><span class="badge badge-mak">Прогрев МАК 3/5</span></td>
+        <td class="topic"><strong>«Она выбрала карту — и засмеялась. Потом заплакала»</strong><span class="hook">«Вот что произошло на занятии МАК — и почему это не странно»</span>Живой момент с обучения: неожиданная реакция участницы на карту — смех, потом слёзы, потом ясность. Не объяснение метода, а человеческий момент. Показать что на МАК бывает по-настоящему, не по учебнику.</td>
+        <td class="col-hant"><span class="hant-badge">3→4</span></td>
+        <td class="col-trigger"><span class="trigger-text">Трансформация, Тайна</span></td>
+        <td class="cta-text">Старт 10 июня — ещё можно записаться</td>
+      </tr>
+
+      <tr data-type="trust" class="new-row">
+        <td class="date-cell"><div class="date-main">6 июня</div><div class="date-day">сб</div></td>
+        <td><span class="badge badge-trust">Доверие</span><span class="new-tag">NEW</span></td>
+        <td class="topic"><strong>«11 лет. 4 000+ клиентов. 12 специалистов. Вот кто мы»</strong><span class="hook">«Центр психологии — это не "один психолог у себя дома". Вот что за нами стоит»</span>Якорный пост доверия для новых подписчиков. История центра, цифры, форматы (очно/онлайн — по всей России), специализации команды. Почему приходят именно сюда. Губернаторская премия — упомянуть.</td>
+        <td class="col-hant"><span class="hant-badge">2→3</span></td>
+        <td class="col-trigger"><span class="trigger-text">Авторитет, Соцдоказательство</span></td>
+        <td class="cta-text">Работаем очно и онлайн — по всей России</td>
+      </tr>
+
+      <tr data-type="entertain" class="new-row">
+        <td class="date-cell"><div class="date-main">7 июня</div><div class="date-day">вс</div></td>
+        <td><span class="badge badge-entertain">Развлекательный</span><span class="new-tag">NEW</span></td>
+        <td class="topic"><strong>«5 признаков человека с хорошими границами — и нет, это не жёсткость»</strong><span class="hook">«Думали, что границы — это говорить "нет" всем подряд? Читайте дальше»</span>Лёгкий, узнаваемый пост с неожиданным углом: границы = слышать себя, не отгораживаться. 5 конкретных признаков которые удивят. Формат: список с юмором и теплом. Высокий репост-потенциал — люди пересылают тем, кто "всё тянет на себе".</td>
+        <td class="col-hant"><span class="hant-badge">0</span></td>
+        <td class="col-trigger"><span class="trigger-text">Узнавание, Удивление</span></td>
+        <td class="cta-text">Сохраните — перешлите тому, кто думает что у него «нет границ»</td>
+      </tr>
+
+      <tr data-type="useful trust" class="new-row">
+        <td class="date-cell"><div class="date-main">7 июня</div><div class="date-day">вс</div></td>
+        <td><span class="badge badge-useful">Полезный</span><span class="new-tag">NEW</span></td>
+        <td class="topic"><strong>«Как выбрать своего психолога из 12 — и не ошибиться»</strong><span class="hook">«Слишком много специалистов? Расскажем как выбрать именно своего»</span>Снять главный барьер входа. Простая логика: по запросу, по методу, по формату (очно/онлайн). Плюс: «Если первый не подошёл — второй со скидкой 50%. Мы хотим чтобы вам было хорошо, а не чтобы вы бросили».</td>
+        <td class="col-hant"><span class="hant-badge">2→3</span></td>
+        <td class="col-trigger"><span class="trigger-text">Взаимность, Обязательство</span></td>
+        <td class="cta-text">Напишите в <a href="https://t.me/VREMYA_DMD" target="_blank">службу заботы</a> — поможем подобрать</td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+
+<!-- НЕДЕЛЯ 2 -->
+<div class="week-block" data-week="w2">
+  <div class="week-header">
+    <span class="week-title">Неделя 2 / 8–14 июня</span>
+    <span class="week-theme">Тема: «Когда стоит обратиться» · 11 постов</span>
+  </div>
+  <table>
+    <thead><tr>
+      <th style="width:85px">Дата</th>
+      <th style="width:150px">Тип</th>
+      <th>Тема / ТЗ поста</th>
+      <th class="col-hant" style="width:75px">Хант</th>
+      <th class="col-trigger" style="width:120px">Триггер</th>
+      <th style="width:210px">CTA / Ссылка</th>
+    </tr></thead>
+    <tbody>
+
+      <tr data-type="trust diag" class="new-row">
+        <td class="date-cell"><div class="date-main">8 июня</div><div class="date-day">пн</div></td>
+        <td><span class="badge badge-diag">Снятие барьера</span><span class="new-tag">↗ перенос</span></td>
+        <td class="topic"><strong>«Если первый психолог не подошёл — это не значит что психология не для вас»</strong><span class="hook">«Бывает. Важно найти своего. Поэтому у нас: второй специалист со скидкой 50%»</span>Закрыть страх ошибиться при выборе — один из главных барьеров входа. Объяснить механику: попробовал — не то — помогаем найти другого со скидкой. Без осуждения, с теплом. Логично после отзыва — читатель уже думает "а вдруг мне не подойдёт".</td>
+        <td class="col-hant"><span class="hant-badge">3→4</span></td>
+        <td class="col-trigger"><span class="trigger-text">Взаимность, Дефицит</span></td>
+        <td class="cta-text">Напишите в <a href="https://t.me/VREMYA_DMD" target="_blank">службу заботы</a> — поможем подобрать специалиста</td>
+      </tr>
+
+      <tr data-type="review mak" class="new-row">
+        <td class="date-cell"><div class="date-main">8 июня</div><div class="date-day">вс</div></td>
+        <td><span class="badge badge-review">Отзыв МАК</span><span class="new-tag">NEW</span></td>
+        <td class="topic"><strong>Отзыв ученика предыдущего потока МАК</strong><span class="hook">«Она пришла как клиент. Ушла как специалист с новым инструментом»</span>История участника прошлого обучения — почему пошла, что было неожиданным, как применяет сейчас. Без имён. Поставлен перед финальным FOMO (9.06) — работает как соцдоказательство в нужный момент.</td>
+        <td class="col-hant"><span class="hant-badge">4</span></td>
+        <td class="col-trigger"><span class="trigger-text">Трансформация, Соцдоказательство</span></td>
+        <td class="cta-text">Запись закрываем 9 июня → <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a></td>
+      </tr>
+
+      <tr data-type="mak">
+        <td class="date-cell"><div class="date-main">9 июня</div><div class="date-day">пн</div></td>
+        <td><span class="badge badge-mak">Прогрев МАК 4/5</span></td>
+        <td class="topic"><strong>Закрываем возражения: «у меня нет интуиции / я не художник / это не серьёзно»</strong><span class="hook">«Три причины, по которым люди не идут на МАК. Разбираем каждую»</span>Честное закрытие 3 главных страхов. Конкретно и без давления.</td>
+        <td class="col-hant"><span class="hant-badge">4</span></td>
+        <td class="col-trigger"><span class="trigger-text">Разоблачение, Авторитет</span></td>
+        <td class="cta-text">Старт завтра — напишите «МАК» → <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a></td>
+      </tr>
+
+      <tr data-type="mak">
+        <td class="date-cell"><div class="date-main">9 июня</div><div class="date-day">пн</div></td>
+        <td><span class="badge badge-mak">Прогрев МАК 5/5</span></td>
+        <td class="topic"><strong>FOMO: «Старт завтра. Осталось несколько мест»</strong><span class="hook">«10 июня — первая встреча. Следующий поток пока не объявлен»</span>Финальный FOMO: что входит, 15 000 ₽, формат 4 × 3 часа онлайн, сертификат. Как записаться прямо сейчас. Дефицит — конкретно.</td>
+        <td class="col-hant"><span class="hant-badge">4→5</span></td>
+        <td class="col-trigger"><span class="trigger-text">Дефицит, Срочность, FOMO</span></td>
+        <td class="cta-text">Написать «МАК» → <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a> — запишем сегодня</td>
+      </tr>
+
+      <tr data-type="useful mak">
+        <td class="date-cell"><div class="date-main">10 июня</div><div class="date-day">вт</div></td>
+        <td><span class="badge badge-mak">Тёплый старт МАК</span></td>
+        <td class="topic"><strong>«Сегодня стартует МАК-обучение»</strong><span class="hook">«Сегодня в 18:00 — первая встреча. Мы волнуемся и радуемся»</span>Лёгкий живой пост. Не продающий. Создаёт ощущение события — те кто не купил, видят что это реально и происходит.</td>
+        <td class="col-hant"><span class="hant-badge">5</span></td>
+        <td class="col-trigger"><span class="trigger-text">Гуманность, Симпатия</span></td>
+        <td class="cta-text">Следите — расскажем как прошло. А 20 июня — расстановки с Бабенко</td>
+      </tr>
+
+      <tr data-type="rass">
+        <td class="date-cell"><div class="date-main">10 июня</div><div class="date-day">вт</div></td>
+        <td><span class="badge badge-rass">Прогрев расстановки 1/4</span></td>
+        <td class="topic"><strong>«Что такое расстановки — за 5 строк, без эзотерики»</strong><span class="hook">«Системные расстановки — метод который работает с тем что передалось по наследству»</span>Не биография Бабенко, а суть метода простым языком. Что происходит на сессии, зачем это нужно, кому подходит. Конкретно и коротко — без «пути героя».</td>
+        <td class="col-hant"><span class="hant-badge">1→2</span></td>
+        <td class="col-trigger"><span class="trigger-text">Любопытство, Специфика</span></td>
+        <td class="cta-text">Расстановки с Бабенко — 20 июня → <a href="https://n1686849.yclients.com" target="_blank">записаться</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a></td>
+      </tr>
+
+      <tr data-type="useful">
+        <td class="date-cell"><div class="date-main">11 июня</div><div class="date-day">ср</div></td>
+        <td><span class="badge badge-useful">Полезный</span></td>
+        <td class="topic"><strong>«Почему мамы не умеют отдыхать — и это не лень»</strong><span class="hook">«Лежать без дела — и думать про неглаженное бельё. Знакомо?»</span>Про материнское выгорание и запрет на отдых. Почему «просто отдохни» не работает. Прогрев к эфиру 22 июня.</td>
+        <td class="col-hant"><span class="hant-badge">0→1</span></td>
+        <td class="col-trigger"><span class="trigger-text">Узнавание, Взаимность</span></td>
+        <td class="cta-text">Сохраните — перешлите. Если узнали себя — <a href="https://n95329.yclients.com" target="_blank">диагностика 500 ₽</a>, поговорим</td>
+      </tr>
+
+      <tr data-type="interact">
+        <td class="date-cell"><div class="date-main">11 июня</div><div class="date-day">ср</div></td>
+        <td><span class="badge badge-interact">Интерактив</span></td>
+        <td class="topic"><strong>«5 признаков маминого выгорания — поставьте + если узнали себя»</strong><span class="hook">«Не тест. Просто список. Посмотрите сколько совпадёт»</span>Короткий пост-перечисление с конкретными ситуациями. Высокая вовлечённость, хорошо репостится мамами.</td>
+        <td class="col-hant"><span class="hant-badge">1</span></td>
+        <td class="col-trigger"><span class="trigger-text">Вовлечение, Специфика</span></td>
+        <td class="cta-text">Напишите в <a href="https://t.me/VREMYA_DMD" target="_blank">службу заботы</a> — поддержим и запишем</td>
+      </tr>
+
+      <tr data-type="rass tgame">
+        <td class="date-cell"><div class="date-main">12 июня</div><div class="date-day">чт</div></td>
+        <td><span class="badge badge-rass">Прогрев расстановки 2/4</span></td>
+        <td class="topic"><strong>Мифы о расстановках: «это эзотерика / нужна вся семья / результат — случайность»</strong><span class="hook">«"Это что-то шаманское?" — нет. Объясняем как работает»</span>5 заблуждений. Научная база метода. Доступным языком.</td>
+        <td class="col-hant"><span class="hant-badge">2→3</span></td>
+        <td class="col-trigger"><span class="trigger-text">Разоблачение, Авторитет</span></td>
+        <td class="cta-text">Расстановки — 20 июня → <a href="https://n1686849.yclients.com" target="_blank">записаться</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a></td>
+      </tr>
+
+      <tr data-type="tgame">
+        <td class="date-cell"><div class="date-main">12 июня</div><div class="date-day">чт</div></td>
+        <td><span class="badge badge-tgame">Прогрев Т-игра 1/3</span></td>
+        <td class="topic"><strong>«Что такое Т-игра — и почему это не настолка»</strong><span class="hook">«Вы играете — и вдруг понимаете что-то про свою жизнь»</span>Интригующий, без давления. Чем «Ключи от кармы» отличается от обычного вечера с картами. Создать любопытство.</td>
+        <td class="col-hant"><span class="hant-badge">1→2</span></td>
+        <td class="col-trigger"><span class="trigger-text">Любопытство, Тайна</span></td>
+        <td class="cta-text">19 июня, 19:00 — <a href="https://n1686849.yclients.com" target="_blank">записаться</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a></td>
+      </tr>
+
+      <tr data-type="announce useful" class="friday-row">
+        <td class="date-cell"><div class="date-main">13 июня</div><div class="date-day">пт</div></td>
+        <td><span class="badge badge-announce">Прогрев ВДР</span></td>
+        <td class="topic"><strong>«Подросток дома три месяца — это испытание для всей семьи»</strong><span class="hook">«Впереди — всё лето. Без школы, без расписания, с требованиями и хлопанием дверями»</span>Сильный прогрев через боль. Конкретные ситуации которые узнают родители. В финале: завтра в 12:00 — онлайн-встреча именно об этом. Ирина Косьяненко. 500 ₽. <em>Диагностика 500 ₽ — упоминание в хвосте.</em></td>
+        <td class="col-hant"><span class="hant-badge">1→4</span></td>
+        <td class="col-trigger"><span class="trigger-text">Узнавание, Срочность</span></td>
+        <td class="cta-text">Завтра 12:00 онлайн → <a href="https://n1686849.yclients.com" target="_blank">записаться</a></td>
+      </tr>
+
+      <tr data-type="review">
+        <td class="date-cell"><div class="date-main">14 июня</div><div class="date-day">сб</div></td>
+        <td><span class="badge badge-review">Отзыв</span></td>
+        <td class="topic"><strong>История клиента — путь в терапии</strong><span class="hook">«Она пришла с "не знаю что не так". Ушла с другим взглядом на себя»</span>История без имён. Как выглядит путь — от первого сомнения до изменений. Показать что психология это процесс, не волшебство. <em>CTA: диагностика 500 ₽ как первый шаг.</em></td>
+        <td class="col-hant"><span class="hant-badge">3</span></td>
+        <td class="col-trigger"><span class="trigger-text">Трансформация, Симпатия</span></td>
+        <td class="cta-text">Начните с <a href="https://n95329.yclients.com" target="_blank">диагностики 500 ₽</a> — 20 минут, чтобы понять с чего начать</td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+
+<!-- НЕДЕЛЯ 3 -->
+<div class="week-block" data-week="w3">
+  <div class="week-header">
+    <span class="week-title">Неделя 3 / 15–21 июня</span>
+    <span class="week-theme">Тема: «Паттерны и сценарии — откуда это» · 13 постов</span>
+  </div>
+  <table>
+    <thead><tr>
+      <th style="width:85px">Дата</th>
+      <th style="width:150px">Тип</th>
+      <th>Тема / ТЗ поста</th>
+      <th class="col-hant" style="width:75px">Хант</th>
+      <th class="col-trigger" style="width:120px">Триггер</th>
+      <th style="width:210px">CTA / Ссылка</th>
+    </tr></thead>
+    <tbody>
+
+      <tr data-type="useful" class="new-row">
+        <td class="date-cell"><div class="date-main">15 июня</div><div class="date-day">вс</div></td>
+        <td><span class="badge badge-useful">Полезный</span><span class="new-tag">NEW</span></td>
+        <td class="topic"><strong>«Когда накрывает без причины — это не слабость»</strong><span class="hook">«Сердце быстрее, дышать труднее, скорая говорит "всё в норме". Что это?»</span>Про тревогу и панические атаки — доступно, без диагнозов. Почему это происходит, что это значит, куда смотреть. Тема Тиунова — флагман центра. Широкий охват, высокий репост-потенциал.</td>
+        <td class="col-hant"><span class="hant-badge">0→1</span></td>
+        <td class="col-trigger"><span class="trigger-text">Узнавание, Авторитет</span></td>
+        <td class="cta-text">Сохраните. С этим помогают → <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a></td>
+      </tr>
+
+      <tr data-type="rass useful">
+        <td class="date-cell"><div class="date-main">16 июня</div><div class="date-day">пн</div></td>
+        <td><span class="badge badge-rass">Прогрев расстановки 3/4</span></td>
+        <td class="topic"><strong>«Почему вы продолжаете делать то, чего не хотите»</strong><span class="hook">«Не хочу — но делаю. И не могу остановить. Почему?»</span>Про неосознанную лояльность к семейной системе: человек живёт по правилам семьи, даже когда они его разрушают. Не потому что слабый — а потому что преданный. Расстановки позволяют увидеть эту связь и выйти из неё. В хвосте: подростковые группы (1-й раз).</td>
+        <td class="col-hant"><span class="hant-badge">2→3</span></td>
+        <td class="col-trigger"><span class="trigger-text">Узнавание, Разоблачение</span></td>
+        <td class="cta-text">Расстановки 20 июня — ещё можно <a href="https://n1686849.yclients.com" target="_blank">записаться</a></td>
+      </tr>
+
+      <tr data-type="useful">
+        <td class="date-cell"><div class="date-main">16 июня</div><div class="date-day">пн</div></td>
+        <td><span class="badge badge-useful">Полезный</span></td>
+        <td class="topic"><strong>«Когда злишься — и сама не понимаешь на кого»</strong><span class="hook">«Злость вспыхивает — а потом стыдно. Но злость — это не проблема. Это сигнал»</span>Про злость как сигнал нарушенной границы или неудовлетворённой потребности. Не осуждение эмоции, а разговор о том, что за ней стоит. Широкий охват, хорошо репостится. Воронка → консультация.</td>
+        <td class="col-hant"><span class="hant-badge">0→1</span></td>
+        <td class="col-trigger"><span class="trigger-text">Узнавание, Разоблачение</span></td>
+        <td class="cta-text">Сохраните — перешлите. Если хотите разобраться — <a href="https://n95329.yclients.com" target="_blank">диагностика 500 ₽</a></td>
+      </tr>
+
+      <tr data-type="interact">
+        <td class="date-cell"><div class="date-main">17 июня</div><div class="date-day">вт</div></td>
+        <td><span class="badge badge-interact">Интерактив</span></td>
+        <td class="topic"><strong>«Какую роль в семье вы играли?»</strong><span class="hook">«Миротворец? Отличник? Невидимка? Напишите в комментариях»</span>Цитата + вопрос про роли. Высокая вероятность комментариев — люди охотно отвечают на такие вопросы. Поддерживает тему недели.</td>
+        <td class="col-hant"><span class="hant-badge">1</span></td>
+        <td class="col-trigger"><span class="trigger-text">Вовлечение, Любопытство</span></td>
+        <td class="cta-text">Напишите в комментариях</td>
+      </tr>
+
+      <tr data-type="tgame">
+        <td class="date-cell"><div class="date-main">17 июня</div><div class="date-day">вт</div></td>
+        <td><span class="badge badge-tgame">Прогрев Т-игра 2/3</span></td>
+        <td class="topic"><strong>Как проходит «Ключи от кармы» — что вы унесёте</strong><span class="hook">«2 часа. Ирина, карты, вопросы которых вы себе не задавали»</span>Формат, механика, атмосфера. Для кого подходит. Конкретно.</td>
+        <td class="col-hant"><span class="hant-badge">2→3</span></td>
+        <td class="col-trigger"><span class="trigger-text">Специфика, Выгода</span></td>
+        <td class="cta-text">Пятница 19 июня, 19:00 → <a href="https://n1686849.yclients.com" target="_blank">записаться</a></td>
+      </tr>
+
+      <tr data-type="tgame review" class="new-row">
+        <td class="date-cell"><div class="date-main">18 июня</div><div class="date-day">ср</div></td>
+        <td><span class="badge badge-tgame">Прогрев Т-игра 3/3</span><span class="new-tag">NEW</span></td>
+        <td class="topic"><strong>«Кто уже играл — рассказывают»</strong><span class="hook">«"Я пришла за развлечением. Ушла с ответом на вопрос который не решался год"»</span>Короткий кейс участницы прошлой Т-игры. Без пафоса, живо. Финальный прогрев перед пятничным событием — работает как соцдоказательство в нужный момент.</td>
+        <td class="col-hant"><span class="hant-badge">4</span></td>
+        <td class="col-trigger"><span class="trigger-text">Трансформация, Соцдоказательство</span></td>
+        <td class="cta-text">Завтра 19:00 — последние места → <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a></td>
+      </tr>
+
+      <tr data-type="rass">
+        <td class="date-cell"><div class="date-main">18 июня</div><div class="date-day">ср</div></td>
+        <td><span class="badge badge-rass">Прогрев расстановки 4/4</span></td>
+        <td class="topic"><strong>Кейс: «Она пришла с вопросом про работу. Оказалось — это про отца»</strong><span class="hook">«Иногда ответ на вопрос "почему не получается" живёт совсем в другом месте»</span>История без имён. Неожиданный поворот на сессии расстановок. Финал прогрева перед пятничным обзором.</td>
+        <td class="col-hant"><span class="hant-badge">4</span></td>
+        <td class="col-trigger"><span class="trigger-text">Трансформация, Тайна</span></td>
+        <td class="cta-text">Суббота 20 июня → <a href="https://n1686849.yclients.com" target="_blank">записаться</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a></td>
+      </tr>
+
+      <tr data-type="promo">
+        <td class="date-cell"><div class="date-main">18 июня</div><div class="date-day">ср</div></td>
+        <td><span class="badge badge-promo">Напоминание акции</span></td>
+        <td class="topic"><strong>«Промокоды ДЕТИ26 и ВЗРОСЛЫЕ26 — ещё работают»</strong><span class="hook">«Середина июня — самое время воспользоваться»</span>Короткое напоминание. Условия, как применить. Лёгкий, ненавязчивый.</td>
+        <td class="col-hant"><span class="hant-badge">4→5</span></td>
+        <td class="col-trigger"><span class="trigger-text">Срочность</span></td>
+        <td class="cta-text"><a href="https://n95329.yclients.com" target="_blank">Записаться</a> — пока действует</td>
+      </tr>
+
+      <tr data-type="friday tgame rass" class="friday-row">
+        <td class="date-cell"><div class="date-main">19 июня</div><div class="date-day">пт</div></td>
+        <td><span class="badge badge-friday">Пятничный обзор</span></td>
+        <td class="topic"><strong>«Этот уикенд — про паттерны и ключи»</strong><span class="hook">«Сегодня вечером и завтра утром — два события которые смотрят в одну сторону»</span>Нарративный пост: Т-игра «Ключи от кармы» (сегодня 19:00, 3 000 ₽) + расстановки с Бабенко (завтра 13:00, 7 900 ₽). Объединены общей темой — паттерны. Оба живые, записей нет.</td>
+        <td class="col-hant"><span class="hant-badge">5</span></td>
+        <td class="col-trigger"><span class="trigger-text">Дефицит, FOMO</span></td>
+        <td class="cta-text"><a href="https://n1686849.yclients.com" target="_blank">Записаться</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a></td>
+      </tr>
+
+      <tr data-type="backstage" class="new-row">
+        <td class="date-cell"><div class="date-main">20 июня</div><div class="date-day">сб</div></td>
+        <td><span class="badge badge-backstage">Закулисье</span><span class="new-tag">NEW</span></td>
+        <td class="topic"><strong>«Что происходит за 15 минут до того, как вы входите»</strong><span class="hook">«Кабинет. Тишина. Стакан воды. Специалист тоже готовится»</span>Тёплый закулисный пост: как выглядит подготовка к приёму с точки зрения специалиста. Очеловечить центр — показать что за дверью живые люди, не "профессиональная машина". Без пафоса, с конкретными деталями. Хорошо работает как пост перед первым визитом — снижает тревогу.</td>
+        <td class="col-hant"><span class="hant-badge">1→2</span></td>
+        <td class="col-trigger"><span class="trigger-text">Симпатия, Гуманность</span></td>
+        <td class="cta-text">Напишите в <a href="https://t.me/VREMYA_DMD" target="_blank">службу заботы</a> — запишем</td>
+      </tr>
+
+      <tr data-type="review rass">
+        <td class="date-cell"><div class="date-main">20 июня</div><div class="date-day">сб</div></td>
+        <td><span class="badge badge-review">Отзыв — расстановки</span></td>
+        <td class="topic"><strong>«Три месяца. Она сама не верила, что изменится что-то»</strong><span class="hook">«История клиентки расстановок — то что она написала нам спустя время»</span>Отзыв привязан к расстановкам — работает как соцдоказательство именно для тех, кто думал о записи.</td>
+        <td class="col-hant"><span class="hant-badge">3</span></td>
+        <td class="col-trigger"><span class="trigger-text">Трансформация, Симпатия</span></td>
+        <td class="cta-text">Написать в <a href="https://t.me/VREMYA_DMD" target="_blank">службу заботы</a> — подберём специалиста</td>
+      </tr>
+
+      <tr data-type="women" class="new-row">
+        <td class="date-cell"><div class="date-main">20 июня</div><div class="date-day">сб</div></td>
+        <td><span class="badge badge-women">Тизер Вр. для женщин</span><span class="new-tag">NEW</span></td>
+        <td class="topic"><strong>«Скоро — особый вечер для женщин»</strong><span class="hook">«Не лекция. Не тренинг. Просто круг — и карты, которые говорят за тебя»</span>Лёгкий тизер без давления. Интрига: формат который сложно описать словами, но легко почувствовать. Не называем дату и детали — только «уже в следующую пятницу». Цель: любопытство и сохранение поста. Ведёт Мария Скачкова — имя упомянуть.</td>
+        <td class="col-hant"><span class="hant-badge">0→1</span></td>
+        <td class="col-trigger"><span class="trigger-text">Любопытство, Тайна</span></td>
+        <td class="cta-text">Подробности — в ближайшие дни. Следите за страницей</td>
+      </tr>
+
+      <tr data-type="useful announce">
+        <td class="date-cell"><div class="date-main">21 июня</div><div class="date-day">вс</div></td>
+        <td><span class="badge badge-useful">Полезный + анонс</span></td>
+        <td class="topic"><strong>«Лето — не значит отдых»</strong><span class="hook">«Июнь. Все говорят "ну вот и лето". А вы снова не отдыхаете»</span>Летняя широкая тема — почему в сезон отпусков люди не восстанавливаются. Хорошо репостится. В финале: завтра в 19:00 — бесплатный эфир на эту тему.</td>
+        <td class="col-hant"><span class="hant-badge">0→1</span></td>
+        <td class="col-trigger"><span class="trigger-text">Узнавание, Любопытство</span></td>
+        <td class="cta-text">Завтра в 19:00 разберём — бесплатно</td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+
+<!-- НЕДЕЛЯ 4 -->
+<div class="week-block" data-week="w4">
+  <div class="week-header">
+    <span class="week-title">Неделя 4 / 22–30 июня</span>
+    <span class="week-theme">Тема: «Усталость — откуда и что делать» · 13 постов</span>
+  </div>
+  <table>
+    <thead><tr>
+      <th style="width:85px">Дата</th>
+      <th style="width:150px">Тип</th>
+      <th>Тема / ТЗ поста</th>
+      <th class="col-hant" style="width:75px">Хант</th>
+      <th class="col-trigger" style="width:120px">Триггер</th>
+      <th style="width:210px">CTA / Ссылка</th>
+    </tr></thead>
+    <tbody>
+
+      <tr data-type="interact announce">
+        <td class="date-cell"><div class="date-main">22 июня</div><div class="date-day">пн</div></td>
+        <td><span class="badge badge-interact">Вопрос + анонс эфира</span></td>
+        <td class="topic"><strong>«Один вопрос: что сейчас больше всего забирает ваши силы?»</strong><span class="hook">«Не для статистики. Для разговора — сегодня в 19:00»</span>Короткий вопрос к аудитории + приглашение на эфир. Подписчик чувствует что его слышат — не просто зовут купить. Лукьянова + Косьяненко. Бесплатно.</td>
+        <td class="col-hant"><span class="hant-badge">4→5</span></td>
+        <td class="col-trigger"><span class="trigger-text">Взаимность, Вовлечение</span></td>
+        <td class="cta-text">Ссылка на эфир — в шапке профиля</td>
+      </tr>
+
+      <tr data-type="women" class="new-row">
+        <td class="date-cell"><div class="date-main">22 июня</div><div class="date-day">пн</div></td>
+        <td><span class="badge badge-women">Прогрев Вр. для женщин</span><span class="new-tag">NEW</span></td>
+        <td class="topic"><strong>«Что такое женский МАК-круг — и зачем туда идти»</strong><span class="hook">«Это не группа терапии. Это вечер, где можно выдохнуть — и при этом что-то понять про себя»</span>Объясняем формат через ощущения, не через описание. Безопасно — не нужно говорить если не хочешь. Каждая приходит со своим запросом, уходит с чем-то своим. Снимаем страх «непонятно что будет» и «придётся рассказывать о себе». 4–7 человек, 2 часа, очно. Мария Скачкова. 26 июня, 18:00.</td>
+        <td class="col-hant"><span class="hant-badge">1→2</span></td>
+        <td class="col-trigger"><span class="trigger-text">Узнавание, Безопасность</span></td>
+        <td class="cta-text">26 июня, 18:00 · 2 000 ₽ / 1 500 ₽ по абонементу → <a href="https://n1686849.yclients.com" target="_blank">записаться</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a></td>
+      </tr>
+
+      <tr data-type="warm announce">
+        <td class="date-cell"><div class="date-main">23 июня</div><div class="date-day">вт</div></td>
+        <td><span class="badge badge-warm">После эфира + анонс</span></td>
+        <td class="topic"><strong>«Спасибо за эфир. И вот следующий шаг»</strong><span class="hook">«Вчера вы назвали причины. Теперь — что с этим делать»</span>Тёплые итоги + открываем запись на интенсив «Перезагрузка» 13–14 июля. Лукьянова + Косьяненко. Онлайн. 4 500–5 500 ₽.</td>
+        <td class="col-hant"><span class="hant-badge">4→5</span></td>
+        <td class="col-trigger"><span class="trigger-text">Взаимность, Трансформация</span></td>
+        <td class="cta-text">Написать «Перезагрузка» → <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a></td>
+      </tr>
+
+      <tr data-type="useful">
+        <td class="date-cell"><div class="date-main">23 июня</div><div class="date-day">вт</div></td>
+        <td><span class="badge badge-useful">Полезный</span></td>
+        <td class="topic"><strong>«Почему отдых не восстанавливает»</strong><span class="hook">«Отпуск был. Вернулась — и уже снова устала. Почему?»</span>Про хроническое выгорание. Почему «просто отдохни» не работает на глубоком уровне. Закрепляет тему, прогревает к интенсиву.</td>
+        <td class="col-hant"><span class="hant-badge">1→2</span></td>
+        <td class="col-trigger"><span class="trigger-text">Узнавание, Специфика</span></td>
+        <td class="cta-text">Сохраните — перешлите. Если не восстанавливаетесь — <a href="https://n95329.yclients.com" target="_blank">диагностика 500 ₽</a>, 20 мин</td>
+      </tr>
+
+      <tr data-type="women">
+        <td class="date-cell"><div class="date-main">24 июня</div><div class="date-day">ср</div></td>
+        <td><span class="badge badge-women">Прогрев Вр. для женщин 1/2</span></td>
+        <td class="topic"><strong>Знакомство: кто такая Мария Скачкова</strong><span class="hook">«Она знает как говорить с женщинами о том, о чём не говорят вслух»</span>Кто Скачкова — коротко и тепло. С чем работает, почему ведёт именно женские форматы, какой создаёт круг. В конце — анонс встречи 26 июня. Цель: читательница хочет попасть именно к ней.</td>
+        <td class="col-hant"><span class="hant-badge">1→2</span></td>
+        <td class="col-trigger"><span class="trigger-text">Симпатия</span></td>
+        <td class="cta-text">26 июня, 18:00 · 2 000 ₽ / 1 500 ₽ по абонементу → <a href="https://n1686849.yclients.com" target="_blank">записаться</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a></td>
+      </tr>
+
+      <tr data-type="announce">
+        <td class="date-cell"><div class="date-main">24 июня</div><div class="date-day">ср</div></td>
+        <td><span class="badge badge-announce">Курс «Счастье» FOMO</span></td>
+        <td class="topic"><strong>«Курс "Счастье начинается с меня" — 4-й месяц. Следующий поток — осенью»</strong><span class="hook">«Если думали — но откладывали. Осенью открываем новый набор»</span>FOMO: курс идёт, мест нет, следующий старт осенью. Что такое курс, для кого, кто ведёт. Собрать заявки на осенний поток.</td>
+        <td class="col-hant"><span class="hant-badge">4→5</span></td>
+        <td class="col-trigger"><span class="trigger-text">Дефицит, FOMO</span></td>
+        <td class="cta-text">Написать «Счастье» → <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a> — внесём в лист ожидания</td>
+      </tr>
+
+      <tr data-type="diag">
+        <td class="date-cell"><div class="date-main">25 июня</div><div class="date-day">чт</div></td>
+        <td><span class="badge badge-diag">Диагностика 500 ₽</span></td>
+        <td class="topic"><strong>«Не знаете с чего начать — начните с диагностики»</strong><span class="hook">«20 минут. 500 ₽. Специалист уже понимает, чем помочь»</span>Про диагностическую встречу — что это, зачем, как проходит. Снять страх «вдруг меня не поймут». Главная точка входа в воронку — отдельный пост.</td>
+        <td class="col-hant"><span class="hant-badge">2→3</span></td>
+        <td class="col-trigger"><span class="trigger-text">Обязательство, Взаимность</span></td>
+        <td class="cta-text"><a href="https://n95329.yclients.com" target="_blank">Записаться на диагностику 500 ₽</a> — 20 минут онлайн</td>
+      </tr>
+
+      <tr data-type="women">
+        <td class="date-cell"><div class="date-main">25 июня</div><div class="date-day">чт</div></td>
+        <td><span class="badge badge-women">Прогрев Вр. для женщин 2/2</span></td>
+        <td class="topic"><strong>«Одна сфера, три вопроса и карта-ресурс» — анонс встречи</strong><span class="hook">«Мы не разбираем всю жизнь. Выбираем одну сферу — и работаем с ней через МАК»</span>Полноценный анонс встречи (текст Марии Скачковой, адаптированный). Формат: одна сфера жизни → три вопроса → карта-образ → ресурсная карта в финале. Для кого: женщины, которым хочется выдохнуть и получить не пустой разговор, а что-то настоящее. 4–7 человек, 2 часа, Домодедово очно. Цена в тексте. ГОТОВЫЙ ТЕКСТ ПОСТА: «26 июня, 18:00 — женская встреча "Одна сфера, три вопроса и карта-ресурс" / Мы не разбираем всю жизнь. Выбираем одну сферу — ту, что сегодня откликается — и работаем с ней через метафорические карты. / Три вопроса. Три карты. Никто не анализирует твой выбор. Только ты, образ и то, что он тебе скажет. / В конце — ресурсная карта и ощущение: не каша в голове, а что-то одно, но ясное. / Для кого: женщины, которым хочется выдохнуть и при этом получить не пустой разговор, а что-то настоящее. / 📍 Центр «Время», Домодедово · 🗓 26 июня, 18:00 · 👥 4–7 человек · Ведёт: Мария Скачкова / 💰 2 000 ₽ / 1 500 ₽ по абонементу / Записаться → ссылка»</td>
+        <td class="col-hant"><span class="hant-badge">2→3</span></td>
+        <td class="col-trigger"><span class="trigger-text">Любопытство, Тайна</span></td>
+        <td class="cta-text">Пятница 26 июня, 18:00 · 2 000 ₽ / 1 500 ₽ по абонементу → <a href="https://n1686849.yclients.com" target="_blank">записаться</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a></td>
+      </tr>
+
+      <tr data-type="friday women" class="friday-row">
+        <td class="date-cell"><div class="date-main">26 июня</div><div class="date-day">пт</div></td>
+        <td><span class="badge badge-friday">Пятничный обзор</span></td>
+        <td class="topic"><strong>«Этот уикенд — для женщин и подростков»</strong><span class="hook">«Сегодня — круг для женщин с Марией Скачковой. Завтра — суббота с подростковыми группами»</span>Нарративный пост-напоминание: сегодня 18:00 встреча «Одна сфера, три вопроса и карта-ресурс» (Скачкова, 2 000 ₽ / 1 500 ₽ по абонементу) + подростковые группы завтра. Общий нарратив — забота о себе и о детях. FOMO: места ограничены (4–7 человек в круге).</td>
+        <td class="col-hant"><span class="hant-badge">5</span></td>
+        <td class="col-trigger"><span class="trigger-text">FOMO, Срочность</span></td>
+        <td class="cta-text">Сегодня 18:00 · 2 000 ₽ / 1 500 ₽ по абонементу → <a href="https://n1686849.yclients.com" target="_blank">записаться</a> или <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a></td>
+      </tr>
+
+      <tr data-type="warm announce" class="new-row">
+        <td class="date-cell"><div class="date-main">27 июня</div><div class="date-day">сб</div></td>
+        <td><span class="badge badge-warm">Анонс интенсива</span><span class="new-tag">NEW</span></td>
+        <td class="topic"><strong>«"Перезагрузка" — вот что будет 13–14 июля»</strong><span class="hook">«Два дня. Онлайн. Лукьянова + Косьяненко. Вот программа»</span>Разворачиваем программу двух дней: День 1 — диагностика состояния, ресурсы и почему привычный отдых не работает. День 2 — инструменты перезагрузки, индивидуальный план. Формат, цена 4 500–5 500 ₽, для кого. Мягкое первое приглашение — не FOMO, а интерес.</td>
+        <td class="col-hant"><span class="hant-badge">3→4</span></td>
+        <td class="col-trigger"><span class="trigger-text">Специфика, Любопытство</span></td>
+        <td class="cta-text">Написать «Перезагрузка» → <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a></td>
+      </tr>
+
+      <tr data-type="interact">
+        <td class="date-cell"><div class="date-main">27 июня</div><div class="date-day">сб</div></td>
+        <td><span class="badge badge-interact">Интерактив</span></td>
+        <td class="topic"><strong>«Как вы восстанавливаетесь? Честно»</strong><span class="hook">«Не "медитирую и пью чай". А правда — как?»</span>Вопрос с вариантами: сплю / ем что хочу / гуляю / смотрю сериалы / не восстанавливаюсь вообще. Хорошо репостится, комментируется.</td>
+        <td class="col-hant"><span class="hant-badge">1</span></td>
+        <td class="col-trigger"><span class="trigger-text">Вовлечение, Гуманность</span></td>
+        <td class="cta-text">Напишите в комментариях</td>
+      </tr>
+
+      <tr data-type="male useful" class="new-row">
+        <td class="date-cell"><div class="date-main">28 июня</div><div class="date-day">вс</div></td>
+        <td><span class="badge badge-male">Мужская аудитория</span><span class="new-tag">NEW</span></td>
+        <td class="topic"><strong>«Когда "справляюсь" — это не всегда правда»</strong><span class="hook">«Не жалуешься. Не просишь помощи. Тянешь. Звучит знакомо?»</span>Пост для мужчин и для женщин которые видят это в партнёре. Про стыд обратиться за помощью — рациональным языком, без психологического давления. "Разобраться что происходит" вместо "лечиться". Тиунов как специалист в хвосте. Конфиденциально, без имени — можно прийти анонимно.</td>
+        <td class="col-hant"><span class="hant-badge">0→1</span></td>
+        <td class="col-trigger"><span class="trigger-text">Узнавание, Симпатия</span></td>
+        <td class="cta-text">Написать в <a href="https://t.me/VREMYA_DMD" target="_blank">службу заботы</a> — без имени, конфиденциально</td>
+      </tr>
+
+      <tr data-type="useful" class="new-row">
+        <td class="date-cell"><div class="date-main">28 июня</div><div class="date-day">вс</div></td>
+        <td><span class="badge badge-useful">Полезный</span><span class="new-tag">NEW</span></td>
+        <td class="topic"><strong>«Когда в отношениях хорошо — а вместе невыносимо»</strong><span class="hook">«Он нормальный. Я нормальная. Но вместе нам плохо. Почему?»</span>Пост про пары — сегмент который в плане не был закрыт совсем. Про паттерны в паре, «эмоциональные качели», почему одна и та же ссора повторяется. Высокий репост-потенциал. Воронка → семейная терапия.</td>
+        <td class="col-hant"><span class="hant-badge">0→1</span></td>
+        <td class="col-trigger"><span class="trigger-text">Узнавание, Разоблачение</span></td>
+        <td class="cta-text">Сохраните. Семейный психолог — онлайн и очно → <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a></td>
+      </tr>
+
+      <tr data-type="promo">
+        <td class="date-cell"><div class="date-main">29 июня</div><div class="date-day">пн</div></td>
+        <td><span class="badge badge-promo">Финал акции</span></td>
+        <td class="topic"><strong>«Последние 2 дня: ДЕТИ26 и ВЗРОСЛЫЕ26 закрываются 30 июня»</strong><span class="hook">«Промокоды работают ещё сегодня и завтра — потом нет»</span>Финальное напоминание. Срочность максимальная. Коротко и чётко.</td>
+        <td class="col-hant"><span class="hant-badge">4→5</span></td>
+        <td class="col-trigger"><span class="trigger-text">Срочность, Дефицит</span></td>
+        <td class="cta-text"><a href="https://n95329.yclients.com" target="_blank">Записаться</a> — акция закрывается завтра</td>
+      </tr>
+
+      <tr data-type="useful">
+        <td class="date-cell"><div class="date-main">29 июня</div><div class="date-day">пн</div></td>
+        <td><span class="badge badge-useful">Полезный — лето</span></td>
+        <td class="topic"><strong>«Почему в отпуске не отпускает»</strong><span class="hook">«Море, солнце, коктейль — а мысли всё равно дома»</span>Летняя широкая тема — тревожный мозг который не умеет переключаться. Высокий репост-потенциал в июне-июле.</td>
+        <td class="col-hant"><span class="hant-badge">0→1</span></td>
+        <td class="col-trigger"><span class="trigger-text">Узнавание, Специфика</span></td>
+        <td class="cta-text">Сохраните — перешлите. Если «голова не отключается» — <a href="https://n95329.yclients.com" target="_blank">диагностика 500 ₽</a></td>
+      </tr>
+
+      <tr data-type="announce warm">
+        <td class="date-cell"><div class="date-main">30 июня</div><div class="date-day">вт</div></td>
+        <td><span class="badge badge-warm">FOMO июль</span></td>
+        <td class="topic"><strong>«Интенсив "Перезагрузка" — 13–14 июля. Осталось N мест»</strong><span class="hook">«Если вы были на эфире и думаете — это для вас. Вот что будет»</span>Конкретный продающий пост под интенсив. Программа двух дней, ведущие Лукьянова + Косьяненко, цена 4 500–5 500 ₽, формат онлайн. FOMO: места ограничены. Последний пост месяца — не итоги, а вход в июль.</td>
+        <td class="col-hant"><span class="hant-badge">4→5</span></td>
+        <td class="col-trigger"><span class="trigger-text">Дефицит, Срочность, FOMO</span></td>
+        <td class="cta-text">Написать «Перезагрузка» → <a href="https://t.me/VREMYA_DMD" target="_blank">служба заботы</a></td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+
+<div class="legend">
+  <span class="legend-title">Типы постов:</span>
+  <span class="badge badge-useful">Полезный</span>
+  <span class="badge badge-mak">Прогрев МАК</span>
+  <span class="badge badge-rass">Расстановки</span>
+  <span class="badge badge-tgame">Т-игра</span>
+  <span class="badge badge-women">Вр. для женщин</span>
+  <span class="badge badge-friday">Пятничный обзор</span>
+  <span class="badge badge-interact">Интерактив</span>
+  <span class="badge badge-review">Отзыв</span>
+  <span class="badge badge-announce">Анонс</span>
+  <span class="badge badge-promo">Акция</span>
+  <span class="badge badge-diag">Диагностика</span>
+  <span class="badge badge-trust">Доверие</span>
+  <span class="badge badge-warm">После события</span>
+  <span class="badge badge-entertain">Развлекательный</span>
+  <span class="badge badge-expert">Экспертный</span>
+  <span class="badge badge-backstage">Закулисье</span>
+  <span class="badge badge-male">Мужская аудитория</span>
+  &nbsp;&nbsp;<span class="new-tag" style="font-size:11px; padding: 3px 7px;">NEW</span> — новый пост добавлен по итогам анализа
+</div>
+
+<script>
+function filterType(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.week-block').forEach(b => b.classList.remove('hidden'));
+  document.querySelectorAll('tbody tr').forEach(row => {
+    if (type === 'all') { row.classList.remove('hidden'); return; }
+    const types = row.getAttribute('data-type') || '';
+    row.classList.toggle('hidden', !types.includes(type));
+  });
+}
+function filterWeek(week, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('tbody tr').forEach(r => r.classList.remove('hidden'));
+  document.querySelectorAll('.week-block').forEach(block => {
+    block.classList.toggle('hidden', block.getAttribute('data-week') !== week);
+  });
+}
+</script>
+</body>
+</html>
